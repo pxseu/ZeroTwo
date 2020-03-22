@@ -34,7 +34,7 @@ client.on('message', async message => {
       return 0;
 
     case "owner":
-      message.channel.send({embed: {color: 10181046, title:"My owner is pxseu#6944", description: "[OWNERS WEBSITE](https://discordapp.com)" }});
+      message.channel.send({embed: {color: 10181046, title:"My owner is pxseu#6944", description: "[OWNERS WEBSITE](https://modman276.github.io)" }});
       return 0;
 /////////////////// GIF //////////////////////////////////////////
 
