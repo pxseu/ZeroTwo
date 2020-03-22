@@ -1,16 +1,18 @@
-const Discord = require("discord.js");
-const config = require('./config.json');   //config.prefix = prefix bota
+const Discord = require("discord.js"); 
 const ytdl = require("ytdl-core");
 var search = require('youtube-search');
 const prompter = require('discordjs-prompter');
 const ytlist = require('youtube-playlist');
 
+
 const client = new Discord.Client();
 var queue = new Map();
 
-var opts = {maxResults: 5, key: config.ytapi};
-const prefix = config.prefix;
-var giphy = require('giphy-api')(config.gifapi);
+
+var opts = {maxResults: 5, key: process.env.YTAPI_TOKEN};
+const prefix = "zt!";
+var giphy = require('giphy-api')(process.env.GIFAPI_TOKEN);
+
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -241,4 +243,4 @@ function play(guild, song) {
 }
 
 
-client.login(config.token);
+client.login(process.env.BOT_TOKEN);
