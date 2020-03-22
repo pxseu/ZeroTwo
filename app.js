@@ -9,8 +9,7 @@ const client = new Discord.Client();
 var queue = new Map();
 
 // usun przed uploadem //////////////////////////////////////////////////////////////////////////////
-
-var opts = {maxResults: 5, key: process.env.YTAPI_TOKEN}; //process.env.YTAPI_TOKEN
+var opts = {'maxResults': 5, 'key': process.env.YTAPI_TOKEN}; //process.env.YTAPI_TOKEN
 const prefix = "zt!";
 
 // usun przed uploadem //////////////////////////////////////////////////////////////////////////////
@@ -34,6 +33,9 @@ client.on('message', async message => {
       message.reply("pong");
       return 0;
 
+    case "owner":
+      message.channel.send({embed: {color: 10181046, title:"My owner is pxseu#6944", description: "[OWNERS WEBSITE](https://discordapp.com)" }});
+      return 0;
 /////////////////// GIF //////////////////////////////////////////
 
     case "hug":
