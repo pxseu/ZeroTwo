@@ -8,11 +8,12 @@ const ytlist = require('youtube-playlist');
 const client = new Discord.Client();
 var queue = new Map();
 
+// usun przed uploadem //////////////////////////////////////////////////////////////////////////////
 
-var opts = {maxResults: 5, key: process.env.YTAPI_TOKEN};
+var opts = {maxResults: 5, key: process.env.YTAPI_TOKEN}; //process.env.YTAPI_TOKEN
 const prefix = "zt!";
-var giphy = require('giphy-api')(process.env.GIFAPI_TOKEN);
 
+// usun przed uploadem //////////////////////////////////////////////////////////////////////////////
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -243,4 +244,4 @@ function play(guild, song) {
 }
 
 
-client.login(process.env.BOT_TOKEN);
+client.login(process.env.BOT_TOKEN);   //process.env.BOT_TOKEN
