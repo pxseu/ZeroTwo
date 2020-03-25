@@ -59,6 +59,12 @@ client.on('message', async message => {
 	      });
       return 0;
 */
+
+    case "kawal":
+	message.channel.send("puk puk");
+        message.channel.send("Kto tam?");
+        message.channel.send("Jebać disa.");
+ 
 ///////////////// MUSIC //////////////////////////////////////////
 
     case "play":
@@ -150,7 +156,7 @@ client.on('message', async message => {
       if (message.member.voiceChannel) {
         message.member.voiceChannel.join()
          .then(connection => {
-	   const dispatcher = connection.playFile('./darling.mp3');
+	   const dispatcher = connection.playFile('./mp3/darling.mp3');
            dispatcher.on("end", end => {message.member.voiceChannel.leave();});
       }).catch(console.log);
       } else {
@@ -163,7 +169,7 @@ client.on('message', async message => {
       if (message.member.voiceChannel) {
         message.member.voiceChannel.join()
          .then(connection => {
-	   const dispatcher = connection.playFile('./czesio.mp3');
+	   const dispatcher = connection.playFile('./mp3/czesio.mp3');
            dispatcher.on("end", end => {message.member.voiceChannel.leave();});
       }).catch(console.log);
       } else {
@@ -176,7 +182,20 @@ client.on('message', async message => {
       if (message.member.voiceChannel) {
         message.member.voiceChannel.join()
          .then(connection => {
-	   const dispatcher = connection.playFile('./jd.mp3');
+	   const dispatcher = connection.playFile('./mp3/jd.mp3');
+           dispatcher.on("end", end => {message.member.voiceChannel.leave();});
+      }).catch(console.log);
+      } else {
+        message.reply('You need to join a voice channel first!');
+      }
+      
+      return 0;
+
+    case "szmaciura":
+      if (message.member.voiceChannel) {
+        message.member.voiceChannel.join()
+         .then(connection => {
+	   const dispatcher = connection.playFile('./mp3/szmaciura.mp3');
            dispatcher.on("end", end => {message.member.voiceChannel.leave();});
       }).catch(console.log);
       } else {
