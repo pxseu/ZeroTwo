@@ -34,7 +34,7 @@ client.on('message', async message => {
       return 0;
 
     case "owner":
-      message.channel.send({embed: {color: 10181046, title:"My owner is pxseu#6944", description: "[OWNERS WEBSITE](https://modman276.github.io)" }});
+      message.channel.send({embed: {color: 10181046, title:"My owner is pxseu#6944", description: "[OWNERS WEBSITE](https://pxseu.cc)" }});
       return 0;
 /////////////////// GIF //////////////////////////////////////////
 
@@ -43,8 +43,21 @@ client.on('message', async message => {
       return 0;
 
     case "ricardo":
-      message.channel.send({embed: {color: 10181046, title:"Ricardo has been summoned by "+message.author.username, image:  {url: "https://media.giphy.com/media/UtcBRO8cxulRzkrVLc/giphy.gif"}}});
+      message.channel.send({embed: {color: 10181046, title:"Ricardo has been summoned by "+message.author.username+".", image:  {url: "https://media.giphy.com/media/UtcBRO8cxulRzkrVLc/giphy.gif"}}});
       return 0;
+
+    case "pat":
+      message.channel.send({embed: {color: 10181046, title:"Neko has been patted by "+message.author.username+".", image:  {url: "https://i.imgur.com/UWbKpx8.gif"}}});
+      return 0;
+    
+    case "yuno":
+      message.channel.send({embed: {color: 10181046, title:"Yuno will protect "+message.author.username+".", image:  {url: "https://media.giphy.com/media/a6wJ2bJ0127K0/source.gif"}}});
+      return 0;
+
+    case "vibe":
+      message.channel.send({embed: {color: 10181046, title:"Zero Two vibes with "+message.author.username+".", image:  {url: "https://image.myanimelist.net/ui/G-Sm6d0qIwQxUGHIp-m2WE4r0RSD61OQcp0zIes03ZCYoKjsVsjXKaeievJ3JFbIPWVFdDFNffxoioO0_wZFCqs4E0_YgZYsXqmLfTNB-IZA-B-IvlYVs7FcQAbSVU5Z"}}});
+      return 0;
+
 /*
     case "gif":
       if (typeof args[0] === "undefined") { return console.log("err");}
