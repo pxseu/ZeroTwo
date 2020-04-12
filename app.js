@@ -16,7 +16,7 @@ const prefix = "zt!";
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  client.user.setActivity("with "+client.guilds.size+"users");
+  client.user.setActivity("with "+client.guilds.size+" users");
 });
 
 client.on('message', async message => {
