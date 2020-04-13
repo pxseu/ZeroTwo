@@ -20,7 +20,7 @@ client.on('ready', () => {
 });
 
 client.on('message', async message => {
-  if(message.content.indexOf(prefix) !== 0) return;
+  if(message.content.indexOf(prefix) !== 0) return;  //   || message.isMentioned(client.user) !== 0)
   const args = message.content.slice(prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
   const serverQueue = queue.get(message.guild.id);
