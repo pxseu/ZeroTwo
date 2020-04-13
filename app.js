@@ -4,7 +4,6 @@ var search = require('youtube-search');
 const prompter = require('discordjs-prompter');
 const ytlist = require('youtube-playlist');
 
-
 const client = new Discord.Client();
 var queue = new Map();
 
@@ -74,7 +73,7 @@ client.on('message', async message => {
 */
 
     case "kawal":
-	message.channel.send("puk puk");
+        message.channel.send("puk puk");
         message.channel.send("Kto tam?");
         message.channel.send("Jebać disa.");
  
@@ -322,5 +321,46 @@ function play(guild, song) {
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 }
 
+
+
+//verification lol
+
+const completemsg = `Thank you for agreeing to the rules and code of conduct! You are now a verified member of the guild! \nFeel free to choose what roles you’d like, introduce yourself or check out a our other channels. \n\n**Your unique token is your signature that you have read and understood our rules.**\n`
+
+const shortcode = (n) => {
+    const possible = 'ABCDEFGHIJKLMNPQRSTUVWXYZabcdefghjklmnopqrstuvwxyz0123456789'
+    let text = ''
+    for (var i = 0; i < n + 1; i++) text += possible.charAt(Math.floor(Math.random() * possible.length))
+    return text;
+}
+
+client.on('guildMemberAdd', (member) => {
+    if (member.user.bot || member.guild.id !== "694925259672911963") return
+    const token = shortcode(8)
+    const welcomemsg = `Welcome to the guild! We hope you find a home here! Check out the \`#general\` channel to make sure that we jive, and as long as our goals are similar, then there’s a place at the table waiting for you. \n\n If you accept the code of conduct, please verify your agreement by replying to **this DM** with the verification phrase: \n\n\`I agree to abide by all rules. My token is ${token}.\`\n\n **This message is case-sensitive, and please include the period at the end! ** \n\nQuestions? Get at a staff member in the server or via DM.`
+    console.log(`${member.user.username}#${member.user.discriminator} joined! CODE: "${token}"`)
+    member.send(welcomemsg)
+    member.user.token = token
+})
+
+const verifymsg = 'I agree to abide by all rules. My token is {token}.'
+
+client.on('message', (message) => {
+    if (message.author.bot || !message.author.token || message.channel.type !== `dm`) return
+    if (message.content !== (verifymsg.replace('{token}', message.author.token))) return
+    message.channel.send({
+        embed: {
+            color: Math.floor(Math.random() * (0xFFFFFF + 1)),
+            description: completemsg,
+            timestamp: new Date(),
+            footer: {
+                text: `Verification Success`
+            }
+        }
+    })
+    client.guilds.get("694925259672911963").member(message.author).roles.add("694925479513161819") // ensure this is a string in the config ("")
+        .then(console.log(`TOKEN: ${message.author.token} :: Role ${"694925479513161819"} added to member ${message.author.id}`))
+        .catch(console.error)
+})
 
 client.login(process.env.BOT_TOKEN);   //process.env.BOT_TOKEN
