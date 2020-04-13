@@ -1,4 +1,4 @@
-const Discord = require("discord.js"); 
+const Discord = require("discord.js");
 const ytdl = require("ytdl-core");
 var search = require('youtube-search');
 const prompter = require('discordjs-prompter');
@@ -48,7 +48,7 @@ client.on('message', async message => {
     case "pat":
       message.channel.send({embed: {color: 10181046, title:"Neko has been patted by "+message.author.username+".", image:  {url: "https://i.imgur.com/UWbKpx8.gif"}}});
       return 0;
-    
+
     case "yuno":
       message.channel.send({embed: {color: 10181046, title:"Yuno will protect "+message.author.username+".", image:  {url: "https://media.giphy.com/media/a6wJ2bJ0127K0/source.gif"}}});
       return 0;
@@ -76,7 +76,7 @@ client.on('message', async message => {
         message.channel.send("puk puk");
         message.channel.send("Kto tam?");
         message.channel.send("Jebać disa.");
- 
+
 ///////////////// MUSIC //////////////////////////////////////////
 
     case "play":
@@ -161,9 +161,9 @@ client.on('message', async message => {
       });
       return 0;
 */
-       
+
 //////////////////MISC////////////////////////////////////////////
-      
+
     case "darling":
       if (message.member.voiceChannel) {
         message.member.voiceChannel.join()
@@ -174,7 +174,7 @@ client.on('message', async message => {
       } else {
         message.reply('You need to join a voice channel first!');
       }
-      
+
       return 0;
 
     case "czesio":
@@ -187,7 +187,7 @@ client.on('message', async message => {
       } else {
         message.reply('You need to join a voice channel first!');
       }
-      
+
       return 0;
 
     case "jd":
@@ -200,7 +200,7 @@ client.on('message', async message => {
       } else {
         message.reply('You need to join a voice channel first!');
       }
-      
+
       return 0;
 
     case "szmaciura":
@@ -213,9 +213,9 @@ client.on('message', async message => {
       } else {
         message.reply('You need to join a voice channel first!');
       }
-      
+
       return 0;
-                                                                 
+
 //////////////////MISC////////////////////////////////////////////
 
     case "vct":
@@ -223,17 +223,17 @@ client.on('message', async message => {
       return 0;
 
     case "clear":
-      const args = message.content.split(' ').slice(1);
-      const amount = args.join(' ');
+      const bruh = message.content.split(' ').slice(1);
+      const amount = bruh.join(' ');
 
       if (!amount) return message.reply('You haven\'t given an amount of messages which should be deleted!');
       if (isNaN(amount)) return message.reply('The amount parameter isn`t a number!');
 
-      if (amount > 100) return msg.reply('You can`t delete more than 100 messages at once!');
-      if (amount < 1) return msg.reply('You have to delete at least 1 message!');
+      if (amount > 200) return message.reply('You can`t delete more than 100 messages at once!');
+      if (amount < 1) return message.reply('You have to delete at least 1 message!');
 
       await message.channel.fetchMessages({ limit: amount }).then(messages => {
-        message.channel.bulkDelete(messages 
+        message.channel.bulkDelete(messages
       )});
       return 0;
 
