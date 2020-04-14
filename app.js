@@ -399,7 +399,7 @@ client.on('message', async message => {
       message.channel.send(`The following are the server's current configuration: \`\`\`${configProps}\`\`\``);
       return 0;
     case "setconf":
-      const adminRole = message.guild.roles.find("name", guildConf.adminRole);
+      const adminRole = message.guild.roles.find(adminrole => adminrole.name === guildConf.adminRole);
        if(!adminRole) return message.reply("Administrator Role Not Found");
        if(!message.member.roles.has(adminRole.id)) {
          return message.reply("You're not an admin, sorry!");
