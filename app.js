@@ -550,7 +550,6 @@ client.on('guildMemberAdd', (member) => {
 const verifymsg = 'I agree to abide by all rules. My token is {token}.'
 
 client.on('message', (message) => {
-    const loaderrr = client.settings.ensure(message.guild.id, defaultSettings);
     if (message.author.bot || !message.author.token || message.channel.type !== `dm`) return
     if (message.content !== (verifymsg.replace('{token}', message.author.token))) return
     message.channel.send({
@@ -563,8 +562,8 @@ client.on('message', (message) => {
             }
         }
     })
-    client.guilds.get(loaderr.logchannel).member(message.author).addRole(loaderrr.roleafterver) // ensure this is a string in the config ("")
-        .then(client.channels.get(loaderrr.logchannel).send({embed: {color: 10181046, description:`TOKEN: ${message.author.token} :: Role ${loaderrr.roleafterver} added to member ${message.author.id}`}}))
+    client.guilds.get(loaderr.logchannel).member(message.author).addRole(loaderr.roleafterver) // ensure this is a string in the config ("")
+        .then(client.channels.get(loaderr.logchannel).send({embed: {color: 10181046, description:`TOKEN: ${message.author.token} :: Role ${loaderrr.roleafterver} added to member ${message.author.id}`}}))
         .catch(console.error)
 })
 
