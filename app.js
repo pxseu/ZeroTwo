@@ -223,19 +223,82 @@ client.on('message', async message => {
       return 0;
 
     case "clear":
-      const bruh = message.content.split(' ').slice(1);
-      const amount = bruh.join(' ');
+      if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => rname === "Mod") || message.member.roles.find(r => rname === "OWNERS")){
+       const bruh = message.content.split(' ').slice(1);
+       const amount = bruh.join(' ');
 
-      if (!amount) return message.reply('You haven\'t given an amount of messages which should be deleted!');
-      if (isNaN(amount)) return message.reply('The amount parameter isn`t a number!');
+       if (!amount) return message.reply('You haven\'t given an amount of messages which should be deleted!');
+       if (isNaN(amount)) return message.reply('The amount parameter isn`t a number!');
 
-      if (amount > 200) return message.reply('You can`t delete more than 100 messages at once!');
-      if (amount < 1) return message.reply('You have to delete at least 1 message!');
+       if (amount > 200) return message.reply('You can`t delete more than 100 messages at once!');
+       if (amount < 1) return message.reply('You have to delete at least 1 message!');
 
-      await message.channel.fetchMessages({ limit: amount }).then(messages => {
-        message.channel.bulkDelete(messages
-      )});
+       await message.channel.fetchMessages({ limit: amount }).then(messages => {
+         message.channel.bulkDelete(messages
+       )});
       return 0;
+      } else {
+      message.reply('You don't have the permision to use this command.')
+      return 0;
+
+     case "help":
+      const helptxt = {
+       "title": "Command list for the bot:",
+       "url": "https://discordapp.com",
+       "color": 7340243,
+       "thumbnail": {
+         "url": "https://cdn.discordapp.com/avatars/645330135527981069/3440c4def2a42777de2ccafba45adf02.png?size=256"
+       },
+       "author": {
+         "name": "pxseu",
+         "url": "https://pxseu.cc",
+         "icon_url": "https://cdn.discordapp.com/avatars/338718840873811979/29ce2cfd0dae9a8720b9f3894dea41cb.png?size=256"
+       },
+       "fields": [
+         {
+           "name": "zt!hug",
+           "value": "Zero Two hugs you!"
+         },
+         {
+           "name": "zt!vibe",
+           "value": "Just vibing with Zero Two."
+         },
+         {
+           "name": "zt!owner",
+           "value": "Show the owners website."
+         },
+         {
+           "name": "zt!ricardo",
+           "value": "Summon riacrdo."
+         },
+         {
+           "name": "------------------------------",
+           "value": "Music commands:"
+         },
+         {
+           "name": "zt!search <search term>",
+           "value": "Searches for a song on youtube, upon selection add's it to the queue."
+         },
+         {
+           "name": "zt!skip",
+           "value": "Skips current song."
+         },
+         {
+           "name": "zt!stop",
+           "value": "Stops all music and disconnects."
+         },
+         {
+           "name": "zt!nextsong",
+           "value": "Shows next song in queue (if exists)"
+         },
+         {
+           "name": "zt!darling",
+           "value": "Zero Two joins voice channel and says 'Darling'"
+         }
+       ]
+      };
+      message.channel.send({ helptxt });
+      return  0;
 
     default:
       message.reply('You need to enter a valid command!')
