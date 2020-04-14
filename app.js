@@ -238,9 +238,9 @@ client.on('message', async message => {
        )});
       return 0;
       } else {
-      message.reply("You don't have the permision to use this command.")
-      return 0;
-     }
+       message.reply("You don't have the permision to use this command.")
+       return 0;
+      }
 
      case "help":
       const embed = {
@@ -304,16 +304,25 @@ client.on('message', async message => {
 ////////////////// EMBED /////////////////////////////////////////
 
      case "embedimg":
+      if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS")){
        imgurl = args.join(' ');
-       message.channel.send(imgurl);
-       //message.channel.send({embed: {color: 10181046, image: {url: imgurl}}});
+       message.channel.send({embed: {color: 10181046, image: {url: imgurl}}});
        return 0;
+     } else {
+      message.reply("You don't have the permision to use this command.")
+      return 0;
+     }
+
 
      case "embedtxt":
-      txt = args.join(' ');
-      message.channel.send({embed: {color: 10181046, description: txt}});
-      return  0;
-
+      if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS")){
+       txt = args.join(' ');
+       message.channel.send({embed: {color: 10181046, description: txt}});
+       return  0;
+      } else {
+       message.reply("You don't have the permision to use this command.")
+       return 0;
+      }
 ////////////////// EMBED /////////////////////////////////////////
     default:
       message.reply('You need to enter a valid command!')
