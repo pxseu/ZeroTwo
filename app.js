@@ -291,7 +291,7 @@ client.on('message', async message => {
            "value": "Summon riacrdo."
          },
          {
-           "name": "------------------------------",
+           "name": "---------------------------------------",
            "value": "Music commands:"
          },
          {
@@ -308,11 +308,23 @@ client.on('message', async message => {
          },
          {
            "name": "zt!nextsong",
-           "value": "Shows next song in queue (if exists)"
+           "value": "Shows next song in queue (if exists)."
          },
          {
            "name": "zt!darling",
-           "value": "Zero Two joins voice channel and says 'Darling'"
+           "value": "Zero Two joins voice channel and says 'Darling.'"
+         },
+         {
+           "name": "---------------------------------------",
+           "value": "Setup commands."
+         },
+         {
+           "name": "zt!showconf",
+           "value": "Shows current config of the bot."
+         },
+         {
+           "name": "zt!setconf <name> <value>",
+           "value": "Change the config.\n <name> = name of the config setting \n <value> = value of the config setting"
          }
        ]
       };
