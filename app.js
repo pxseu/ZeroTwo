@@ -223,7 +223,7 @@ client.on('message', async message => {
       return 0;
 
     case "clear":
-      if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => rname === "Mod") || message.member.roles.find(r => rname === "OWNERS")){
+      if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS")){
        const bruh = message.content.split(' ').slice(1);
        const amount = bruh.join(' ');
 
