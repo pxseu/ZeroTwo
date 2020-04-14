@@ -240,7 +240,8 @@ client.on('message', async message => {
       } else {
       message.reply("You don't have the permision to use this command.")
       return 0;
-
+     }
+     
      case "help":
       const helptxt = {
        "title": "Command list for the bot:",
