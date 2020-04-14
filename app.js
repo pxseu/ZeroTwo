@@ -404,6 +404,7 @@ client.on('message', async message => {
        if(!message.member.roles.has(adminRole.id)) {
          return message.reply("You're not an admin, sorry!");
        } 
+       const [prop, ...value] = args;
        if(!client.settings.has(message.guild.id, prop)) {
          return message.reply("This key is not in the configuration.");
        }
