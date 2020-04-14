@@ -342,24 +342,6 @@ client.on('message', async message => {
 	    if (!reason) return message.reply('You forgot to enter a reason for this ban!');
 	    if (!message.guild.member(user).bannable) return message.reply('You can\'t ban this user because you the bot has not sufficient permissions!');
 	    await message.guild.ban(user)
-	    const banConfirmationEmbed = new Discord.RichEmbed()
-	      .setColor('RED')
-	      .setDescription(`✅ ${user.tag} has been successfully banned!`);
-	      message.channel.send({
-	      embed: banConfirmationEmbed
-	    });
-​
-	    const banConfirmationEmbedModlog = new Discord.RichEmbed()
-	      .setAuthor(`Banned by **${msg.author.username}#${msg.author.discriminator}**`, msg.author.displayAvatarURL)
-	      .setThumbnail(user.displayAvatarURL)
-	      .setColor('RED')
-	      .setTimestamp()
-	      .setDescription(`**Action**: Ban
-	      **User**: ${user.username}#${user.discriminator} (${user.id})
-	      **Reason**: ${reason}`);
-	      client.channels.get("694925675710382090").send({
-	      embed: banConfirmationEmbedModlog
-	      });
 	    return 0;
 
 /////////////// MODERATION ///////////////////////////////////////
