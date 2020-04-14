@@ -245,7 +245,7 @@ client.on('message', async message => {
      case "help":
       const embed = {
        "title": "Command list for the bot:",
-       "url": "https://discordapp.com",
+       "url": "https://pxseu.cc",
        "color": 7340243,
        "thumbnail": {
          "url": "https://cdn.discordapp.com/avatars/645330135527981069/3440c4def2a42777de2ccafba45adf02.png?size=256"
@@ -324,6 +324,48 @@ client.on('message', async message => {
        return 0;
       }
 ////////////////// EMBED /////////////////////////////////////////
+/////////////// MODERATION ///////////////////////////////////////
+
+     case "ban":
+	const user = message.mentions.users.first();ts
+	const banReason = args.slice(1).join(' ');
+	if (!user) {
+		try {
+			if (!message.guild.members.get(args.slice(0, 1).join(' '))) throw new Error('Couldn\' get a Discord user with this userID!');
+			user = message.guild.members.get(args.slice(0, 1).join(' '));
+			user = user.user;
+		} catch (error) {
+			return message.reply('Couldn\' get a Discord user with this userID!');
+		}
+	}
+	if (user === message.author) return message.channel.send('You can\'t ban yourself'); // Check if the user mention or the entered userID is the message author himsmelf
+	if (!reason) return message.reply('You forgot to enter a reason for this ban!'); // Check if a reason has been given by the message author
+	if (!message.guild.member(user).bannable) return message.reply('You can\'t ban this user because you the bot has not sufficient permissions!'); // Check if the user is bannable with the bot's permissions
+​
+	await message.guild.ban(user) // Bans the user
+​
+	const banConfirmationEmbed = new Discord.RichEmbed()
+	.setColor('RED')
+	.setDescription(`✅ ${user.tag} has been successfully banned!`);
+	message.channel.send({
+	embed: banConfirmationEmbed
+	});
+​
+	const banConfirmationEmbedModlog = new Discord.RichEmbed()
+		.setAuthor(`Banned by **${msg.author.username}#${msg.author.discriminator}**`, msg.author.displayAvatarURL)
+		.setThumbnail(user.displayAvatarURL)
+		.setColor('RED')
+		.setTimestamp()
+		.setDescription(`**Action**: Ban
+		**User**: ${user.username}#${user.discriminator} (${user.id})
+		**Reason**: ${reason}`);
+		client.channels.get("694925675710382090").send({
+		embed: banConfirmationEmbedModlog
+	}); // Sends the RichEmbed in the modlogchannel
+	}
+
+/////////////// MODERATION ///////////////////////////////////////
+
     default:
       message.reply('You need to enter a valid command!')
       return 0;
@@ -468,6 +510,5 @@ client.on('message', (message) => {
 client.on("guildMemberRemove", function(member){
     client.channels.get("694925675710382090").send({embed: {color: 10181046, description:`a member leaves a guild, or is kicked: ${member.user.username}#${member.user.discriminator}`}});
 });
-
 
 client.login(process.env.BOT_TOKEN);   //process.env.BOT_TOKEN
