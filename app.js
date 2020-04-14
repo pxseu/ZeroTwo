@@ -363,7 +363,7 @@ client.on('message', async message => {
          }
          if (user === message.author) return message.channel.send('You can\'t kick yourself');
          if (!message.guild.member(user).bannable) return message.reply('You can\'t kick this user because you the bot has not sufficient permissions!');
-         await message.guild.kick(user)
+         await message.mentions.members.first().kick();
          message.react("☑️");
          client.channels.get("694925675710382090").send({embed: {color: 10181046, description: message.mentions.users.first()+" has been kicked"}})
          return 0;
