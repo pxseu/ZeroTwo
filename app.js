@@ -327,7 +327,7 @@ client.on('message', async message => {
 /////////////// MODERATION ///////////////////////////////////////
 
      case "ban":
-      const user = message.mentions.users.first();ts
+      const user = message.mentions.users.first();
       const banReason = args.slice(1).join(' ');
       if (!user) {
         try {
