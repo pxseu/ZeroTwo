@@ -3,17 +3,30 @@ const ytdl = require("ytdl-core");
 var search = require('youtube-search');
 const prompter = require('discordjs-prompter');
 const ytlist = require('youtube-playlist');
+const Enmap = require('enmap');
 
 const client = new Discord.Client();
 var queue = new Map();
 
-// usun przed uploadem //////////////////////////////////////////////////////////////////////////////
+client.settings = new Enmap({
+  name: "settings",
+  fetchAll: false,
+  autoFetch: true,
+  cloneLevel: 'deep'
+});
+
+const defaultSettings = {
+  prefix: "zt!",
+  logchannel: "694925675710382090",
+  roleafterver: "694925479513161819"
+  serverid : "694925259672911963"
+}
+
+client.on("guildDelete", guild => {
+  client.settings.delete(guild.id);
+});
+
 var opts = {'maxResults': 5, 'key': process.env.YTAPI_TOKEN}; //process.env.YTAPI_TOKEN
-const prefix = "zt!";
-var logchannel = "694925675710382090";
-var roleafterver = "694925479513161819";
-var serverid = "694925259672911963";
-// usun przed uploadem //////////////////////////////////////////////////////////////////////////////
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -21,8 +34,10 @@ client.on('ready', () => {
 });
 
 client.on('message', async message => {
-  if(message.content.indexOf(prefix) !== 0) return;  //   || message.isMentioned(client.user) !== 0)
-  const args = message.content.slice(prefix.length).trim().split(/ +/g);
+  const guildConf = client.settings.ensure(message.guild.id, defaultSettings);
+  if(!message.guild || message.author.bot) return;
+  if(message.content.indexOf(guildConf.prefix) !== 0) return;  
+  const args = message.content.slice(guildConf.prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
   const serverQueue = queue.get(message.guild.id);
   console.log(command);
@@ -125,19 +140,19 @@ client.on('message', async message => {
         });
         switch (response) {
           case "👈":
-            message.content = prefix+"play "+results[0].link;
+            message.content = guildConf.prefix+"play "+results[0].link;
             execute(message, serverQueue);
             return 0;
           case "👆":
-            message.content = prefix+"play "+results[1].link;
+            message.content = guildConf.prefix+"play "+results[1].link;
             execute(message, serverQueue);
             return 0;
           case "👇":
-            message.content = prefix+"play "+results[2].link;
+            message.content = guildConf.prefix+"play "+results[2].link;
             execute(message, serverQueue);
             return 0;
           case "👉":
-            message.content = prefix+"play "+results[3].link;
+            message.content = guildConf.prefix+"play "+results[3].link;
             execute(message, serverQueue);
             return 0;
           default:
@@ -158,7 +173,7 @@ client.on('message', async message => {
       const args = message.content.split(' ');
       console.log(args[1]);
       ytlist(args[1], 'url').then( async res => {
-        message.content = prefix+"play "+res.data.playlist[0];
+        message.content = guildConf.prefix+"play "+res.data.playlist[0];
         execute(message, serverQueue);
       });
       return 0;
@@ -376,8 +391,12 @@ client.on('message', async message => {
 /////////////// MODERATION ///////////////////////////////////////
 //////////////// SETUP ///////////////////////////////////////////
 
-      //case "logchannel":
-	    
+    case "showconf":
+      let configProps = Object.keys(guildConf).map(prop => {
+        return `${prop}  :  ${guildConf[prop]}\n`;
+      });
+      message.channel.send(`The following are the server's current configuration: \`\`\`${configProps}\`\`\``);
+      return 0;
 
 //////////////// SETUP ///////////////////////////////////////////
 
@@ -494,10 +513,10 @@ const shortcode = (n) => {
 }
 
 client.on('guildMemberAdd', (member) => {
-    if (member.user.bot || member.guild.id !== (serverid)) return
+    if (member.user.bot || member.guild.id !== (guildConf.serverid)) return
     const token = shortcode(8)
     const welcomemsg = `Welcome to the server! We hope you find a home here! Check out the \`#rules\` channel to make sure that we live, and as long as our goals are similar, then there’s a place at the table waiting for you. \n\n If you accept the code of conduct, please verify your agreement by replying to **this DM** with the verification phrase: \n\n\`I agree to abide by all rules. My token is ${token}.\`\n\n **This message is case-sensitive, and please include the period at the end! ** \n\nQuestions? Get at a staff member in the server or via DM.`
-    client.channels.get(logchannel).send({embed: {color: 10181046, description:`${member.user.username}#${member.user.discriminator} joined! CODE: "${token}"`}})
+    client.channels.get(guildConf.logchannel).send({embed: {color: 10181046, description:`${member.user.username}#${member.user.discriminator} joined! CODE: "${token}"`}})
     member.send(welcomemsg)
     member.user.token = token
 })
@@ -517,13 +536,13 @@ client.on('message', (message) => {
             }
         }
     })
-    client.guilds.get(logchannel).member(message.author).addRole(roleafterver) // ensure this is a string in the config ("")
-        .then(client.channels.get(logchannel).send({embed: {color: 10181046, description:`TOKEN: ${message.author.token} :: Role ${roleafterver} added to member ${message.author.id}`}}))
+    client.guilds.get(guildConf.logchannel).member(message.author).addRole(guildConf.roleafterver) // ensure this is a string in the config ("")
+        .then(client.channels.get(guildConf.logchannel).send({embed: {color: 10181046, description:`TOKEN: ${message.author.token} :: Role ${roleafterver} added to member ${message.author.id}`}}))
         .catch(console.error)
 })
 
 client.on("guildMemberRemove", function(member){
-    client.channels.get(logchannel).send({embed: {color: 10181046, description:`a member leaves a guild, or is kicked: ${member.user.username}#${member.user.discriminator}`}});
+    client.channels.get(guildConf.logchannel).send({embed: {color: 10181046, description:`a member leaves a guild, or is kicked: ${member.user.username}#${member.user.discriminator}`}});
 });
 
 client.login(process.env.BOT_TOKEN);   //process.env.BOT_TOKEN
