@@ -550,7 +550,6 @@ client.on('guildMemberAdd', (member) => {
 const verifymsg = 'I agree to abide by all rules. My token is {token}.'
 
 client.on('message', (message) => {
-    const loader = client.settings.ensure(message.guild.id, defaultSettings);
     if (message.author.bot || !message.author.token || message.channel.type !== `dm`) return
     if (message.content !== (verifymsg.replace('{token}', message.author.token))) return
     message.channel.send({
