@@ -35,8 +35,8 @@ client.on('ready', () => {
 });
 
 client.on('message', async message => {
-  const guildConf = client.settings.ensure(message.guild.id, defaultSettings);
   if(!message.guild || message.author.bot) return;
+  const guildConf = client.settings.ensure(message.guild.id, defaultSettings);
   if(message.content.indexOf(guildConf.prefix) !== 0) return;
   const args = message.content.slice(guildConf.prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
@@ -550,8 +550,8 @@ client.on('guildMemberAdd', (member) => {
 const verifymsg = 'I agree to abide by all rules. My token is {token}.'
 
 client.on('message', (message) => {
-    const loaderrr = client.settings.ensure(message.guild.id, defaultSettings);
     if (message.author.bot || !message.author.token || message.channel.type !== `dm`) return
+    const loaderrr = client.settings.ensure(message.guild.id, defaultSettings);
     if (message.content !== (verifymsg.replace('{token}', message.author.token))) return
     message.channel.send({
         embed: {
