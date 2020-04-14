@@ -540,7 +540,7 @@ const shortcode = (n) => {
 client.on('guildMemberAdd', (member) => {
     if (member.user.bot || member.guild.id !== (guildConf.serverid)) return
     const token = shortcode(8)
-    const welcomemsg = `Welcome to the server! We hope you find a home here! Check out the \`#rules\` channel to make sure that we live, and as long as our goals are similar, then there’s a place at the table waiting for you. \n\n If you accept the code of conduct, please verify your agreement by replying to **this DM** with the verification phrase: \n\n\`I agree to abide by all rules. My token is ${token}.\`\n\n **This message is case-sensitive, and please include the period at the end! ** \n\nQuestions? Get at a staff member in the server or via DM.`
+    const welcomemsg = `Welcome to ${guild.name}! We hope you find a home here! Check out the \`#rules\` channel to make sure that we live, and as long as our goals are similar, then there’s a place at the table waiting for you. \n\n If you accept the code of conduct, please verify your agreement by replying to **this DM** with the verification phrase: \n\n\`I agree to abide by all rules. My token is ${token}.\`\n\n **This message is case-sensitive, and please include the period at the end! ** \n\nQuestions? Get at a staff member in the server or via DM.`
     client.channels.get(guildConf.logchannel).send({embed: {color: 10181046, description:`${member.user.username}#${member.user.discriminator} joined! CODE: "${token}"`}})
     member.send(welcomemsg)
     member.user.token = token
@@ -570,4 +570,7 @@ client.on("guildMemberRemove", function(member){
     client.channels.get(guildConf.logchannel).send({embed: {color: 10181046, description:`a member leaves a guild, or is kicked: ${member.user.username}#${member.user.discriminator}`}});
 });
 
+client.on("guildCreate", guild => {
+   guild.owner.send('Konnichiwa ( ´ ▽ ` ) Thank you for adding me! Type zt!help for commands.')
+});
 client.login(process.env.BOT_TOKEN);   //process.env.BOT_TOKEN
