@@ -38,6 +38,7 @@ client.on('message', async message => {
   if(!message.guild || message.author.bot) return;
   const guildConf = client.settings.ensure(message.guild.id, defaultSettings);
   if(message.content.indexOf(guildConf.prefix) !== 0) return;
+  if(!message.author.hasRole(roleafterver) return;
   const args = message.content.slice(guildConf.prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
   const serverQueue = queue.get(message.guild.id);
@@ -563,7 +564,7 @@ client.on('message', (message) => {
             }
         }
     })
-    client.guilds.get(loaderrr.logchannel).member(message.author).addRole(loaderrr.roleafterver) // ensure this is a string in the config ("")
+    client.guilds.get(loaderrr.serverid).member(message.author).addRole(loaderrr.roleafterver) // ensure this is a string in the config ("")
         .then(client.channels.get(loaderrr.logchannel).send({embed: {color: 10181046, description:`TOKEN: ${message.author.token} :: Role ${loaderrr.roleafterver} added to member ${message.author.id}`}}))
         .catch(console.error)
 })
