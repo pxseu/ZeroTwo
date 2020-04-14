@@ -97,7 +97,7 @@ client.on('message', async message => {
 
 ///////////////// MUSIC //////////////////////////////////////////
 
-    case "play":
+    case "playlink":
       execute(message, serverQueue);
       return 0;
 
@@ -109,7 +109,7 @@ client.on('message', async message => {
       stop(message, serverQueue);
       return 0;
 
-    case "search":
+    case "play":
       searchterm = args.join(' ')+" (audio)";
       console.log(searchterm);
       search(searchterm, opts, async function(err, results) {
@@ -295,7 +295,7 @@ client.on('message', async message => {
            "value": "Music commands:"
          },
          {
-           "name": "zt!search <search term>",
+           "name": "zt!play <search term>",
            "value": "Searches for a song on youtube, upon selection add's it to the queue."
          },
          {
