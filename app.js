@@ -7,7 +7,6 @@ const Enmap = require('enmap');
 
 const client = new Discord.Client();
 var queue = new Map();
-const guildConf = client.settings.ensure(message.guild.id, defaultSettings);
 
 client.settings = new Enmap({
   name: "settings",
@@ -36,6 +35,7 @@ client.on('ready', () => {
 });
 
 client.on('message', async message => {
+  const guildConf = client.settings.ensure(message.guild.id, defaultSettings);
   if(!message.guild || message.author.bot) return;
   if(message.content.indexOf(guildConf.prefix) !== 0) return;  
   const args = message.content.slice(guildConf.prefix.length).trim().split(/ +/g);
@@ -538,6 +538,7 @@ const shortcode = (n) => {
 }
 
 client.on('guildMemberAdd', (member) => {
+    const guildConf = client.settings.ensure(message.guild.id, defaultSettings);
     if (member.user.bot || member.guild.id !== (guildConf.serverid)) return
     const token = shortcode(8)
     const welcomemsg = `Welcome to ${guild.name}! We hope you find a home here! Check out the \`#rules\` channel to make sure that we live, and as long as our goals are similar, then there’s a place at the table waiting for you. \n\n If you accept the code of conduct, please verify your agreement by replying to **this DM** with the verification phrase: \n\n\`I agree to abide by all rules. My token is ${token}.\`\n\n **This message is case-sensitive, and please include the period at the end! ** \n\nQuestions? Get at a staff member in the server or via DM.`
@@ -549,6 +550,7 @@ client.on('guildMemberAdd', (member) => {
 const verifymsg = 'I agree to abide by all rules. My token is {token}.'
 
 client.on('message', (message) => {
+    const guildConf = client.settings.ensure(message.guild.id, defaultSettings);
     if (message.author.bot || !message.author.token || message.channel.type !== `dm`) return
     if (message.content !== (verifymsg.replace('{token}', message.author.token))) return
     message.channel.send({
