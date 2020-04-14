@@ -551,7 +551,7 @@ client.on('guildMemberAdd', (member) => {
 
 const verifymsg = 'I agree to abide by all rules. My token is {token}.'
 
-client.on('message', (message) => {
+client.on('message', async (message) => {
     if (message.author.bot || !message.author.token || message.channel.type == `dm`) return
     const loaderrr = client.settings.ensure(message.guild.id, defaultSettings);
     if (message.content !== (verifymsg.replace('{token}', message.author.token))) return
@@ -565,6 +565,9 @@ client.on('message', (message) => {
             }
         }
     })
+    await message.channel.fetchMessages("2").then(messages => {
+      message.channel.bulkDelete(messages
+    )});
     client.guilds.get(loaderrr.serverid).member(message.author).addRole(loaderrr.roleafterver) // ensure this is a string in the config ("")
         .then(client.channels.get(loaderrr.logchannel).send({embed: {color: 10181046, description:`TOKEN: ${message.author.token} :: Role ${loaderrr.roleafterver} added to member ${message.author.id}`}}))
         .catch(console.error)
