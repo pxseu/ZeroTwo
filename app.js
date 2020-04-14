@@ -10,7 +10,9 @@ var queue = new Map();
 // usun przed uploadem //////////////////////////////////////////////////////////////////////////////
 var opts = {'maxResults': 5, 'key': process.env.YTAPI_TOKEN}; //process.env.YTAPI_TOKEN
 const prefix = "zt!";
-
+var logchannel = "694925675710382090";
+var roleafterver = "694925479513161819";
+var serverid = "694925259672911963";
 // usun przed uploadem //////////////////////////////////////////////////////////////////////////////
 
 client.on('ready', () => {
@@ -372,6 +374,12 @@ client.on('message', async message => {
         return 0;
        }
 /////////////// MODERATION ///////////////////////////////////////
+//////////////// SETUP ///////////////////////////////////////////
+
+      //case "logchannel":
+	    
+
+//////////////// SETUP ///////////////////////////////////////////
 
     default:
       message.reply('You need to enter a valid command!')
@@ -486,10 +494,10 @@ const shortcode = (n) => {
 }
 
 client.on('guildMemberAdd', (member) => {
-    if (member.user.bot || member.guild.id !== ("694925259672911963")) return
+    if (member.user.bot || member.guild.id !== (serverid) return
     const token = shortcode(8)
     const welcomemsg = `Welcome to the server! We hope you find a home here! Check out the \`#rules\` channel to make sure that we live, and as long as our goals are similar, then there’s a place at the table waiting for you. \n\n If you accept the code of conduct, please verify your agreement by replying to **this DM** with the verification phrase: \n\n\`I agree to abide by all rules. My token is ${token}.\`\n\n **This message is case-sensitive, and please include the period at the end! ** \n\nQuestions? Get at a staff member in the server or via DM.`
-    client.channels.get("694925675710382090").send({embed: {color: 10181046, description:`${member.user.username}#${member.user.discriminator} joined! CODE: "${token}"`}})
+    client.channels.get(logchannel).send({embed: {color: 10181046, description:`${member.user.username}#${member.user.discriminator} joined! CODE: "${token}"`}})
     member.send(welcomemsg)
     member.user.token = token
 })
@@ -509,13 +517,13 @@ client.on('message', (message) => {
             }
         }
     })
-    client.guilds.get("694925259672911963").member(message.author).addRole("694925479513161819") // ensure this is a string in the config ("")
-        .then(client.channels.get("694925675710382090").send({embed: {color: 10181046, description:`TOKEN: ${message.author.token} :: Role ${"694925479513161819"} added to member ${message.author.id}`}}))
+    client.guilds.get(logchannel).member(message.author).addRole(roleafterver) // ensure this is a string in the config ("")
+        .then(client.channels.get(logchannel).send({embed: {color: 10181046, description:`TOKEN: ${message.author.token} :: Role ${roleafterver} added to member ${message.author.id}`}}))
         .catch(console.error)
 })
 
 client.on("guildMemberRemove", function(member){
-    client.channels.get("694925675710382090").send({embed: {color: 10181046, description:`a member leaves a guild, or is kicked: ${member.user.username}#${member.user.discriminator}`}});
+    client.channels.get(logchannel).send({embed: {color: 10181046, description:`a member leaves a guild, or is kicked: ${member.user.username}#${member.user.discriminator}`}});
 });
 
 client.login(process.env.BOT_TOKEN);   //process.env.BOT_TOKEN
