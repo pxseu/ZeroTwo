@@ -12,15 +12,15 @@ client.settings = new Enmap({
   name: "settings",
   fetchAll: false,
   autoFetch: true,
-  cloneLevel: 'deep',
-  adminRole: "Admin"
+  cloneLevel: 'deep'
 });
 
 const defaultSettings = {
   prefix: "zt!",
   logchannel: "694925675710382090",
   roleafterver: "694925479513161819",
-  serverid: "694925259672911963"
+  serverid: "694925259672911963",
+  adminRole: "Admin"
 }
 
 client.on("guildDelete", guild => {
