@@ -311,7 +311,7 @@ client.on('message', async message => {
 
      case "embedtxt":
       txt = args.join(' ');
-      message.channel.send({embed: {color: 10181046, description: txt}}});
+      message.channel.send({embed: {color: 10181046, description: txt}});
       return  0;
 
 ////////////////// EMBED /////////////////////////////////////////
