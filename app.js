@@ -538,11 +538,11 @@ const shortcode = (n) => {
 }
 
 client.on('guildMemberAdd', (member) => {
-    const loader = client.settings.ensure(member.guild.id, defaultSettings);
-    if (member.user.bot || member.guild.id !== (loader.serverid)) return
+    const loaderr = client.settings.ensure(member.guild.id, defaultSettings);
+    if (member.user.bot || member.guild.id !== (loaderr.serverid)) return
     const token = shortcode(8)
     const welcomemsg = `Welcome to the server!! We hope you find a home here! Check out the \`#rules\` channel to make sure that we live, and as long as our goals are similar, then there’s a place at the table waiting for you. \n\n If you accept the code of conduct, please verify your agreement by replying to **this DM** with the verification phrase: \n\n\`I agree to abide by all rules. My token is ${token}.\`\n\n **This message is case-sensitive, and please include the period at the end! ** \n\nQuestions? Get at a staff member in the server or via DM.`;
-    client.channels.get(loader.logchannel).send({embed: {color: 10181046, description:`${member.user.username}#${member.user.discriminator} joined! CODE: "${token}"`}})
+    client.channels.get(loaderr.logchannel).send({embed: {color: 10181046, description:`${member.user.username}#${member.user.discriminator} joined! CODE: "${token}"`}})
     member.send(welcomemsg)
     member.user.token = token
 })
@@ -550,6 +550,7 @@ client.on('guildMemberAdd', (member) => {
 const verifymsg = 'I agree to abide by all rules. My token is {token}.'
 
 client.on('message', (message) => {
+    const loaderrr = client.settings.ensure(member.guild.id, defaultSettings);
     if (message.author.bot || !message.author.token || message.channel.type !== `dm`) return
     if (message.content !== (verifymsg.replace('{token}', message.author.token))) return
     message.channel.send({
@@ -562,8 +563,8 @@ client.on('message', (message) => {
             }
         }
     })
-    client.guilds.get(loader.logchannel).member(message.author).addRole(loader.roleafterver) // ensure this is a string in the config ("")
-        .then(client.channels.get(loader.logchannel).send({embed: {color: 10181046, description:`TOKEN: ${message.author.token} :: Role ${roleafterver} added to member ${message.author.id}`}}))
+    client.guilds.get(loaderr.logchannel).member(message.author).addRole(loaderrr.roleafterver) // ensure this is a string in the config ("")
+        .then(client.channels.get(loaderrr.logchannel).send({embed: {color: 10181046, description:`TOKEN: ${message.author.token} :: Role ${loaderrr.roleafterver} added to member ${message.author.id}`}}))
         .catch(console.error)
 })
 
