@@ -7,6 +7,7 @@ const Enmap = require('enmap');
 
 const client = new Discord.Client();
 var queue = new Map();
+const guildConf = client.settings.ensure(message.guild.id, defaultSettings);
 
 client.settings = new Enmap({
   name: "settings",
@@ -35,7 +36,6 @@ client.on('ready', () => {
 });
 
 client.on('message', async message => {
-  const guildConf = client.settings.ensure(message.guild.id, defaultSettings);
   if(!message.guild || message.author.bot) return;
   if(message.content.indexOf(guildConf.prefix) !== 0) return;  
   const args = message.content.slice(guildConf.prefix.length).trim().split(/ +/g);
