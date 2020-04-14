@@ -301,6 +301,19 @@ client.on('message', async message => {
       message.channel.send({ embed });
       return  0;
 
+////////////////// EMBED /////////////////////////////////////////
+
+     case "embedimg":
+       img = args.join(' ');
+       message.channel.send({embed: {color: 10181046, image:  {url: img}}});
+       return 0;
+
+     case "embedtxt":
+      txt = args.join(' ');
+      message.channel.send({embed: {color: 10181046, description: txt}}});
+      return  0;
+       
+////////////////// EMBED /////////////////////////////////////////
     default:
       message.reply('You need to enter a valid command!')
       return 0;
