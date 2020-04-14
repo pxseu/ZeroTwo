@@ -39,7 +39,6 @@ client.on('message', async message => {
   if(!message.guild || message.author.bot) return;
   const guildConf = client.settings.ensure(message.guild.id, defaultSettings);
   if(message.content.indexOf(guildConf.prefix) !== 0) return;
-  if(!message.member.roles.find(r => r.name === guildConf.roleaftvername)) return;
   const args = message.content.slice(guildConf.prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
   const serverQueue = queue.get(message.guild.id);
@@ -529,7 +528,7 @@ function play(guild, song) {
 
 
 //verification lol
-/*
+
 const completemsg = `Thank you for agreeing to the rules and code of conduct! You are now a verified member of the guild! \nFeel free to choose what roles you’d like, introduce yourself or check out a our other channels. \n\n**Your unique token is your signature that you have read and understood our rules.**\n`
 
 const shortcode = (n) => {
@@ -581,5 +580,5 @@ client.on("guildMemberRemove", function(member){
 client.on("guildCreate", guild => {
    guild.owner.send('Konnichiwa ( ´ ▽ ` ) Thank you for adding me! Type zt!help for commands.')
 });
-*/
+
 client.login(process.env.BOT_TOKEN);   //process.env.BOT_TOKEN
