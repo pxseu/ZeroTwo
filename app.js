@@ -340,9 +340,11 @@ client.on('message', async message => {
 		      }
 	      }
 	      if (user === message.author) return message.channel.send('You can\'t ban yourself');
-	      if (!reason) return message.reply('You forgot to enter a reason for this ban!');
+	      if (reason === "undefined") return message.reply('You forgot to enter a reason for this ban!');
 	      if (!message.guild.member(user).bannable) return message.reply('You can\'t ban this user because you the bot has not sufficient permissions!');
 	      await message.guild.ban(user)
+        message.react("☑️");
+        client.channels.get("694925675710382090").send({embed: {color: 10181046, description: message.mentions.users.first()+" has been banned"}})
 	      return 0;
       } else {
        message.reply("You don't have the permision to use this command.")
