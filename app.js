@@ -494,7 +494,7 @@ const shortcode = (n) => {
 }
 
 client.on('guildMemberAdd', (member) => {
-    if (member.user.bot || member.guild.id !== (serverid) return
+    if (member.user.bot || member.guild.id !== (serverid)) return
     const token = shortcode(8)
     const welcomemsg = `Welcome to the server! We hope you find a home here! Check out the \`#rules\` channel to make sure that we live, and as long as our goals are similar, then there’s a place at the table waiting for you. \n\n If you accept the code of conduct, please verify your agreement by replying to **this DM** with the verification phrase: \n\n\`I agree to abide by all rules. My token is ${token}.\`\n\n **This message is case-sensitive, and please include the period at the end! ** \n\nQuestions? Get at a staff member in the server or via DM.`
     client.channels.get(logchannel).send({embed: {color: 10181046, description:`${member.user.username}#${member.user.discriminator} joined! CODE: "${token}"`}})
