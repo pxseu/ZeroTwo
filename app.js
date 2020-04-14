@@ -18,7 +18,7 @@ client.settings = new Enmap({
 const defaultSettings = {
   prefix: "zt!",
   logchannel: "694925675710382090",
-  roleafterver: "694925479513161819"
+  roleafterver: "694925479513161819",
   serverid: "694925259672911963"
 }
 
