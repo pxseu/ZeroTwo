@@ -241,9 +241,9 @@ client.on('message', async message => {
       message.reply("You don't have the permision to use this command.")
       return 0;
      }
-     
+
      case "help":
-      const helptxt = {
+      const embed = {
        "title": "Command list for the bot:",
        "url": "https://discordapp.com",
        "color": 7340243,
@@ -298,7 +298,7 @@ client.on('message', async message => {
          }
        ]
       };
-      message.channel.send({ helptxt });
+      message.channel.send({ embed });
       return  0;
 
     default:
