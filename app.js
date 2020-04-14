@@ -553,7 +553,7 @@ client.on('message', (message) => {
     if (message.author.bot || !message.author.token || message.channel.type !== `dm`) return
     const loaderrr = client.settings.ensure(message.guild.id, defaultSettings);
     if (message.content !== (verifymsg.replace('{token}', message.author.token))) return
-    message.channel.send({
+    message.author.send({
         embed: {
             color: Math.floor(Math.random() * (0xFFFFFF + 1)),
             description: completemsg,
