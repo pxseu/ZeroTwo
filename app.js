@@ -12,7 +12,8 @@ client.settings = new Enmap({
   name: "settings",
   fetchAll: false,
   autoFetch: true,
-  cloneLevel: 'deep'
+  cloneLevel: 'deep',
+  adminRole: "Admin"
 });
 
 const defaultSettings = {
