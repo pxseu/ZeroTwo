@@ -337,7 +337,7 @@ client.on('message', async message => {
 ////////////////// EMBED /////////////////////////////////////////
 
      case "embedimg":
-      if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole)){
+      if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole) || message.member.roles.find(r => r.name === guildConf.modRole)){
        imgurl = args.join(' ');
        message.channel.send({embed: {color: 10181046, image: {url: imgurl}}});
        return 0;
@@ -348,8 +348,8 @@ client.on('message', async message => {
 
 
      case "embedin":
-      if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole)){
-       var channelid = args[0];
+      if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole) || message.member.roles.find(r => r.name === guildConf.modRole)){
+       const channelid = args[0];
        console.log(channelid);
        args[0] = "";
        txt = args.join(' ');
@@ -361,7 +361,7 @@ client.on('message', async message => {
        return 0;
       }
      case "embedtxt":
-       if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole)){
+       if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole) || message.member.roles.find(r => r.name === guildConf.modRole)){
         txt = args.join(' ');
         message.channel.send({embed: {color: 10181046, description: txt}});
         return  0;
