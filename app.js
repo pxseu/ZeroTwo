@@ -373,7 +373,7 @@ client.on('message', async message => {
 /////////////// MODERATION ///////////////////////////////////////
 
      case "ban":
-      if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS")){
+      if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole){
         const user = message.mentions.users.first();
         if (!user) {
           try {
@@ -396,7 +396,7 @@ client.on('message', async message => {
       }
 
       case "kick":
-       if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS")){
+       if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole)){
          const user = message.mentions.users.first();
          if (!user) {
            try {
@@ -429,17 +429,19 @@ client.on('message', async message => {
     case "setconf":
        const adminRole = message.guild.roles.find(role => role.name === guildConf.adminRole);
        const modRole = message.guild.roles.find(role => role.name === guildConf.modRole);
-       if(!adminRole || !modRole) return message.reply("Administrator Role Not Found");
-       if(!message.member.roles.has(adminRole.id) || !message.member.roles.has(modRole.id)) {
-         return message.reply("You're not an admin, sorry!");
+       if(adminRole || modRole){
+       	 if(message.member.roles.has(adminRole.id) || message.member.roles.has(modRole.id)) {
+       	   const [prop, ...value] = args;
+           if(!client.settings.has(message.guild.id, prop)) {
+             return message.reply("This key is not in the configuration."); 
+           }
+           client.settings.set(message.guild.id, value.join(" "), prop);
+           message.channel.send(`Guild configuration item ${prop} has been changed to:\n\`${value.join(" ")}\``);
+           return 0; 
+         }
+         else {return message.reply("You're not an admin, sorry!");}
        }
-       const [prop, ...value] = args;
-       if(!client.settings.has(message.guild.id, prop)) {
-         return message.reply("This key is not in the configuration.");
-       }
-       client.settings.set(message.guild.id, value.join(" "), prop);
-       message.channel.send(`Guild configuration item ${prop} has been changed to:\n\`${value.join(" ")}\``);
-       return 0;
+       else {return message.reply("Administrator Role Not Found");}
 //////////////// SETUP ///////////////////////////////////////////
 
     default:
