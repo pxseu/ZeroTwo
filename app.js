@@ -21,7 +21,7 @@ const defaultSettings = {
   roleafterver: "694925479513161819",
   serverid: "694925259672911963",
   adminRole: "Admin",
-  modRole: "MODERATOR",
+  modRole: "Moderator",
   verification: "0",
   logging: "0"
 }
