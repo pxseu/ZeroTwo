@@ -427,10 +427,7 @@ client.on('message', async message => {
       message.channel.send(`The following are the server's current configuration: \`\`\`${configProps}\`\`\``);
       return 0;
     case "setconf":
-       const adminRole = message.guild.roles.find(role => role.name === guildConf.adminRole);
-       const modRole = message.guild.roles.find(role => role.name === guildConf.modRole);
-       if(adminRole || modRole){
-       	 if(message.member.roles.has(adminRole.id) || message.member.roles.has(modRole.id)) {
+       	 if(message.member.roles.find(r => r.name === guildConf.adminRole) || || message.member.roles.find(r => r.name === guildConf.modRole)) {
        	   const [prop, ...value] = args;
            if(!client.settings.has(message.guild.id, prop)) {
              return message.reply("This key is not in the configuration."); 
@@ -440,8 +437,6 @@ client.on('message', async message => {
            return 0; 
          }
          else {return message.reply("You're not an admin, sorry!");}
-       }
-       else {return message.reply("Administrator Role Not Found");}
 //////////////// SETUP ///////////////////////////////////////////
 
     default:
