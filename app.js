@@ -336,7 +336,7 @@ client.on('message', async message => {
 ////////////////// EMBED /////////////////////////////////////////
 
      case "embedimg":
-      if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS")){
+      if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole){
        imgurl = args.join(' ');
        message.channel.send({embed: {color: 10181046, image: {url: imgurl}}});
        return 0;
@@ -347,14 +347,27 @@ client.on('message', async message => {
 
 
      case "embedtxt":
-      if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS")){
+      if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole){
+       var channelid = args[0];
+       console.log(channelid);
+       args[0] = "";
        txt = args.join(' ');
-       message.channel.send({embed: {color: 10181046, description: txt}});
+       console.log(txt);
+       //message.channel.send({embed: {color: 10181046, description: txt}});
        return  0;
       } else {
        message.reply("You don't have the permision to use this command.")
        return 0;
       }
+     case "embedin":
+       if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole){
+        txt = args.join(' ');
+        message.channel.send({embed: {color: 10181046, description: txt}});
+        return  0;
+       } else {
+        message.reply("You don't have the permision to use this command.")
+        return 0;
+       }
 ////////////////// EMBED /////////////////////////////////////////
 /////////////// MODERATION ///////////////////////////////////////
 
