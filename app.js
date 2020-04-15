@@ -21,6 +21,7 @@ const defaultSettings = {
   roleafterver: "694925479513161819",
   serverid: "694925259672911963",
   adminRole: "Admin",
+  modRole: "MODERATOR",
   verification: "0",
   logging: "0"
 }
@@ -426,9 +427,10 @@ client.on('message', async message => {
       message.channel.send(`The following are the server's current configuration: \`\`\`${configProps}\`\`\``);
       return 0;
     case "setconf":
-      const adminRole = message.guild.roles.find(role => role.name === guildConf.adminRole);
-       if(!adminRole) return message.reply("Administrator Role Not Found");
-       if(!message.member.roles.has(adminRole.id)) {
+       const adminRole = message.guild.roles.find(role => role.name === guildConf.adminRole);
+       const modRole = message.guild.roles.find(role => role.name === guildConf.modRole);
+       if(!adminRole || !modRole) return message.reply("Administrator Role Not Found");
+       if(!message.member.roles.has(adminRole.id) || !message.member.roles.has(modRole.id)) {
          return message.reply("You're not an admin, sorry!");
        }
        const [prop, ...value] = args;
