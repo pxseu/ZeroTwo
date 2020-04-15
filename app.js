@@ -346,20 +346,20 @@ client.on('message', async message => {
      }
 
 
-     case "embedtxt":
+     case "embedin":
       if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole)){
        var channelid = args[0];
        console.log(channelid);
        args[0] = "";
        txt = args.join(' ');
        console.log(txt);
-       //message.channel.get(channelid).send({embed: {color: 10181046, description: txt}});
+       message.channel.get(channelid).send({embed: {color: 10181046, description: txt}});
        return  0;
       } else {
        message.reply("You don't have the permision to use this command.")
        return 0;
       }
-     case "embedin":
+     case "embedtxt":
        if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole)){
         txt = args.join(' ');
         message.channel.send({embed: {color: 10181046, description: txt}});
