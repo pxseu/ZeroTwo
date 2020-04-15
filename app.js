@@ -373,7 +373,7 @@ client.on('message', async message => {
 /////////////// MODERATION ///////////////////////////////////////
 
      case "ban":
-      if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole){
+      if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole)){
         const user = message.mentions.users.first();
         if (!user) {
           try {
