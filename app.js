@@ -594,7 +594,7 @@ client.on("guildMemberRemove", function(member){
 });
 
 client.on("guildCreate", guild => {
-   guild.owner.send('Konnichiwa ( ´ ▽ ` )\n Thank you for adding me! \n Type zt!help for commands.')
+   //guild.owner.send('Konnichiwa ( ´ ▽ ` )\n Thank you for adding me! \n Type zt!help for commands.')
 });
 
 client.login(process.env.BOT_TOKEN);   //process.env.BOT_TOKEN
