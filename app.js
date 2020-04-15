@@ -21,8 +21,8 @@ const defaultSettings = {
   roleafterver: "694925479513161819",
   serverid: "694925259672911963",
   adminRole: "Admin",
-  verification: "1",
-  logging: "1"
+  verification: "0",
+  logging: "0"
 }
 
 client.on("guildDelete", guild => {
