@@ -541,7 +541,7 @@ const shortcode = (n) => {
 
 client.on('guildMemberAdd', (member) => {
     const loaderr = client.settings.ensure(member.guild.id, defaultSettings);
-    if (loader.verification == 0) return;
+    if (loaderr.verification == 0) return;
     if (member.user.bot || member.guild.id !== (loaderr.serverid)) return
     const token = shortcode(8)
     const welcomemsg = `Welcome to the server!! We hope you find a home here! Check out the \`#rules\` channel to make sure that we live, and as long as our goals are similar, then there’s a place at the table waiting for you. \n\n If you accept the code of conduct, please verify your agreement by sending a message to \`#verify-me\` with the verification phrase: \n\n\`I agree to abide by all rules. My token is ${token}.\`\n\n **This message is case-sensitive, and please include the period at the end! ** \n\nQuestions? Get at a staff member in the server or via DM.`;
