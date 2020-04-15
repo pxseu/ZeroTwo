@@ -263,72 +263,72 @@ client.on('message', async message => {
       }
 
      case "help":
-      const embed = {
-       "title": "Command list for the bot:",
-       "url": "https://pxseu.cc",
-       "color": 7340243,
-       "thumbnail": {
-         "url": "https://cdn.discordapp.com/avatars/645330135527981069/3440c4def2a42777de2ccafba45adf02.png?size=256"
-       },
-       "author": {
-         "name": "pxseu",
-         "url": "https://pxseu.cc",
-         "icon_url": "https://cdn.discordapp.com/avatars/338718840873811979/29ce2cfd0dae9a8720b9f3894dea41cb.png?size=256"
-       },
-       "fields": [
-         {
-           "name": "zt!hug",
-           "value": "Zero Two hugs you!"
-         },
-         {
-           "name": "zt!vibe",
-           "value": "Just vibing with Zero Two."
-         },
-         {
-           "name": "zt!owner",
-           "value": "Show the owners website."
-         },
-         {
-           "name": "zt!ricardo",
-           "value": "Summon riacrdo."
-         },
-         {
-           "name": "---------------------------------------",
-           "value": "Music commands:"
-         },
-         {
-           "name": "zt!play <search term>",
-           "value": "Searches for a song on youtube, upon selection add's it to the queue."
-         },
-         {
-           "name": "zt!skip",
-           "value": "Skips current song."
-         },
-         {
-           "name": "zt!stop",
-           "value": "Stops all music and disconnects."
-         },
-         {
-           "name": "zt!nextsong",
-           "value": "Shows next song in queue (if exists)."
-         },
-         {
-           "name": "zt!darling",
-           "value": "Zero Two joins voice channel and says 'Darling.'"
-         },
-         {
-           "name": "---------------------------------------",
-           "value": "Setup commands."
-         },
-         {
-           "name": "zt!showconf",
-           "value": "Shows current config of the bot."
-         },
-         {
-           "name": "zt!setconf <name> <value>",
-           "value": "Change the config.\n <name> = name of the config setting \n <value> = value of the config setting"
-         }         
-       ]
+       const embed = {
+ 	 "title": "Command list for the bot:",
+ 	 "url": "https://pxseu.cc",
+ 	 "color": 7340243,
+  	"thumbnail": {
+   	 "url": "https://cdn.discordapp.com/avatars/645330135527981069/3440c4def2a42777de2ccafba45adf02.png?size=256"
+ 	},
+  	"author": {
+  	  "name": "pxseu",
+  	  "url": "https://pxseu.cc",
+   	 "icon_url": "https://cdn.discordapp.com/avatars/338718840873811979/29ce2cfd0dae9a8720b9f3894dea41cb.png?size=256"
+  	},
+  	"fields": [
+   	 {
+     	 "name": "zt!hug",
+    	  "value": "Zero Two hugs you!"
+   	 },
+   	 {
+   	   "name": "zt!vibe",
+   	   "value": "Just vibing with Zero Two."
+   	 },
+   	 {
+     	 "name": "zt!owner",
+    	  "value": "Show the owners website."
+    	},
+   	 {
+    	  "name": "zt!ricardo",
+    	  "value": "Summon riacrdo."
+    	},
+   	 {
+   	   "name": "---------------------------------------",
+   	   "value": "Music commands:"
+  	  },
+  	  {
+  	    "name": "zt!play <search term>",
+  	    "value": "Searches for a song on youtube, upon selection add's it to the queue."
+  	  },
+    	{
+    	  "name": "zt!skip",
+    	  "value": "Skips current song."
+    	},
+    	{
+   	   "name": "zt!stop",
+	      "value": "Stops all music and disconnects."
+   	 },
+   	 {
+   	   "name": "zt!nextsong",
+   	   "value": "Shows next song in queue (if exists)."
+   	 },
+   	 {
+   	   "name": "zt!darling",
+   	   "value": "Zero Two joins voice channel and says 'Darling.'"
+   	 },
+   	 {
+   	   "name": "---------------------------------------",
+   	   "value": "Setup commands."
+   	 },
+    	{
+      	"name": "zt!showconf",
+      	"value": "Shows current config of the bot."
+    	},
+    	{
+      	"name": "zt!setconf <name> <value>",
+    	  "value": "Change the config.\n <name> = name of the config setting \n <value> = value of the config setting  \n prefix: <string> \n logchannel: <id of channel> \n roleafterver: <id of role> \n serverid: <id of the server> \n adminRole: <name of role> \n verification: <1 or 0> \n logging: <1 or 0>"
+    	}
+	  ]
       };
       message.channel.send({ embed });
       return  0;
@@ -581,7 +581,7 @@ client.on("guildMemberRemove", function(member){
 });
 
 client.on("guildCreate", guild => {
-   guild.owner.send('Konnichiwa ( ´ ▽ ` ) Thank you for adding me! Type zt!help for commands.')
+   guild.owner.send('Konnichiwa ( ´ ▽ ` )\n Thank you for adding me! \n Type zt!help for commands.')
 });
 
 client.login(process.env.BOT_TOKEN);   //process.env.BOT_TOKEN
