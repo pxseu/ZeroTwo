@@ -354,7 +354,7 @@ client.on('message', async message => {
        txt = args.join(' ');
        console.log(txt);
        console.log(channelid);
-       //client.channel.get(channelid).send({embed: {color: 10181046, description: txt}});
+       client.channels.get(channelid).send({embed: {color: 10181046, description: txt}});
        return  0;
       } else {
        message.reply("You don't have the permision to use this command.")
