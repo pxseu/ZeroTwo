@@ -601,7 +601,7 @@ client.on('message', message => {
   if(badword.some(word => message.content.toLowerCase().includes(word))){
     message.reply({embed: {color: 10181046, description: "Don't use swear word my guy."}});
     if (loader.logging == 0) return;
-    client.channels.get(loader.logchannel).send({embed: {color: 10181046, description:`${message.author.user.tag} said a bad word`}});
+    client.channels.get(loader.logchannel).send({embed: {color: 10181046, description:`${message.author.tag} said a bad word`}});
 
   }})
 client.login(process.env.BOT_TOKEN);   //process.env.BOT_TOKEN
