@@ -30,7 +30,7 @@ client.on("guildDelete", guild => {
   client.settings.delete(guild.id);
 });
 
-var opts = {'maxResults': 5, 'key': process.env.YTAPI_TOKEN}; //            process.env.YTAPI_TOKEN
+var opts = {'maxResults': 4, 'key': process.env.YTAPI_TOKEN}; //            process.env.YTAPI_TOKEN
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -113,29 +113,30 @@ client.on('message', async message => {
       return 0;
 
     case "play":
-      searchterm = args.join(' ')+" (audio)";
+      var searchterm = args.join(' ')+" (audio)";
       console.log(searchterm);
       search(searchterm, opts, async function(err, results) {
+          console.log(results);
           message.channel.send({embed:{
-          "color": 10181046,
-          "fields": [
-            {
-              "name": "\:point_left:",
-              "value": results[0].title
-            },
-            {
-              "name": "\:point_up_2:",
-              "value": results[1].title
-            },
-            {
-              "name": "\:point_down:",
-              "value": results[1].title
-            },
-            {
-              "name": "\:point_right:",
-              "value": results[3].title
-            }
-          ]
+            "color": 10181046,
+            "fields": [
+              {
+                "name": "\:point_left:",
+                "value": results[0].title
+              },
+              {
+                "name": "\:point_up_2:",
+                "value": results[1].title
+              },
+              {
+                "name": "\:point_down:",
+                "value": results[1].title
+              },
+              {
+                "name": "\:point_right:",
+                "value": results[3].title
+              }
+            ]
         }}) .then(msg => {msg.delete(10000)});
         const response = await prompter.choice(message.channel, {
           question: 'Choose a song!',
