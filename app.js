@@ -4,6 +4,7 @@ var search = require('youtube-search');
 const prompter = require('discordjs-prompter');
 const ytlist = require('youtube-playlist');
 const Enmap = require('enmap');
+const config = require('./gifs.json');
 
 const client = new Discord.Client();
 var queue = new Map();
@@ -59,7 +60,8 @@ client.on('message', async message => {
 /////////////////// GIF //////////////////////////////////////////
 
     case "hug":
-      message.channel.send({embed: {color: 10181046, title:"hugs back "+message.author.username+" tightly (´・ω・｀)", image:  {url: "https://media.giphy.com/media/ddGxYkb7Fp2QRuTTGO/giphy.gif"}}});
+	  var hug = config.huggifs[Math.floor(Math.random() * config.huggifs.length)];
+      message.channel.send({embed: {color: 10181046, title:"hugs back "+message.author.username+" tightly (´・ω・｀)", image:  {url: hug}}});
       return 0;
 
     case "ricardo":
@@ -67,7 +69,8 @@ client.on('message', async message => {
       return 0;
 
     case "pat":
-      message.channel.send({embed: {color: 10181046, title:"Neko has been patted by "+message.author.username+".", image:  {url: "https://i.imgur.com/UWbKpx8.gif"}}});
+	  var pat = config.patgifs[Math.floor(Math.random() * config.patgifs.length)];
+      message.channel.send({embed: {color: 10181046, title:"Pats with love have been sent by "+message.author.username+".", image:  {url: pat}}});
       return 0;
 
     case "yuno":
@@ -80,16 +83,7 @@ client.on('message', async message => {
 
 /*
     case "gif":
-      if (typeof args[0] === "undefined") { return console.log("err");}
-      gife = args.join(' ')
-      //gife = gife.replace(/ /g, "+");
-      giphy.search({
-    	   q: 'gife',
-   	     rating: 'g',
-         limit: "1"
-	      }, function (err, res) {
-    		    console.log(res)
-	      });
+
       return 0;
 */
 
@@ -100,10 +94,6 @@ client.on('message', async message => {
 
 ///////////////// MUSIC //////////////////////////////////////////
 
-    case "playlink":
-      execute(message, serverQueue);
-      return 0;
-
     case "skip":
       skip(message, serverQueue);
       return 0;
@@ -113,6 +103,7 @@ client.on('message', async message => {
       return 0;
 
     case "play":
+	  if (args[0].startsWith("https://www.youtube.com/", 0) || args[0].startsWith("https://youtu.be/", 0)) {message.content = guildConf.prefix+"play "+args[0]; return execute(message, serverQueue);}
       var searchterm = args.join(' ')+" (audio)";
       console.log(searchterm);
       search(searchterm, opts, async function(err, results) {
@@ -280,7 +271,7 @@ client.on('message', async message => {
   	"fields": [
    	 {
      	 "name": "zt!hug",
-    	  "value": "Zero Two hugs you!"
+    	  "value": "Hugies for you!"
    	 },
    	 {
    	   "name": "zt!vibe",
@@ -294,12 +285,16 @@ client.on('message', async message => {
     	  "name": "zt!ricardo",
     	  "value": "Summon riacrdo."
     	},
+        {
+    	  "name": "zt!pat",
+    	  "value": "Just some friendly pats."
+    	},
    	 {
    	   "name": "---------------------------------------",
    	   "value": "Music commands:"
   	  },
   	  {
-  	    "name": "zt!play <search term>",
+  	    "name": "zt!play <search term> or <url>",
   	    "value": "Searches for a song on youtube, upon selection add's it to the queue."
   	  },
     	{
