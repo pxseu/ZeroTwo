@@ -4,8 +4,9 @@ var search = require('youtube-search');
 const prompter = require('discordjs-prompter');
 const ytlist = require('youtube-playlist');
 const Enmap = require('enmap');
-const { patgifs, huggifs, badword, embed-help } = require('./config.json');
+const { patgifs, huggifs, badword, embedhelp, defaultSettings } = require('./config.json');
 
+var opts = {'maxResults': 4, 'key': process.env.YTAPI_TOKEN};
 const client = new Discord.Client();
 var queue = new Map();
 
@@ -16,22 +17,9 @@ client.settings = new Enmap({
   cloneLevel: 'deep'
 });
 
-const defaultSettings = {
-  prefix: "zt!",
-  logchannel: "694925675710382090",
-  roleafterver: "694925479513161819",
-  serverid: "694925259672911963",
-  adminRole: "Admin",
-  modRole: "Moderator",
-  verification: "0",
-  logging: "0"
-}
-
 client.on("guildDelete", guild => {
   client.settings.delete(guild.id);
 });
-
-var opts = {'maxResults': 4, 'key': process.env.YTAPI_TOKEN};
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
