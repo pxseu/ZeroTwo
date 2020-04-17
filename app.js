@@ -4,7 +4,7 @@ var search = require('youtube-search');
 const prompter = require('discordjs-prompter');
 const ytlist = require('youtube-playlist');
 const Enmap = require('enmap');
-const { patgifs, huggifs, badword, embed } = require('./config.json');
+const { patgifs, huggifs, badword, embed-help } = require('./config.json');
 
 const client = new Discord.Client();
 var queue = new Map();
@@ -281,6 +281,7 @@ client.on('message', async message => {
       }
 
      case "help":
+      const embed = embed-help
       message.channel.send({ embed });
       return  0;
      case "avatar":
@@ -292,7 +293,7 @@ client.on('message', async message => {
       });
       message.channel.send(avatarList);
       return 0;
-      
+
 ////////////////// EMBED /////////////////////////////////////////
 
      case "embedimg":
