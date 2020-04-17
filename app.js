@@ -5,8 +5,8 @@ const prompter = require('discordjs-prompter');
 const ytlist = require('youtube-playlist');
 const Enmap = require('enmap');
 const { patgifs, huggifs, badword, embedhelp, defaultSettings } = require('./config.json');
+var opts = { maxResults: 4, key: process.env.YTAPI_TOKEN };
 
-var opts = {'maxResults': 4, 'key': process.env.YTAPI_TOKEN};
 const client = new Discord.Client();
 var queue = new Map();
 
@@ -86,7 +86,8 @@ client.on('message', async message => {
       return 0;
 
     case "play":
-	  if (args[0].startsWith("https://www.youtube.com/", 0) || args[0].startsWith("https://youtu.be/", 0)) {message.content = guildConf.prefix+"play "+args[0]; return execute(message, serverQueue);}
+      //var repeat = 0;
+	    if (args[0].startsWith("https://www.youtube.com/", 0) || args[0].startsWith("https://youtu.be/", 0)) {message.content = guildConf.prefix+"play "+args[0]; return execute(message, serverQueue);}
       var searchterm = args.join(' ')+" (audio)";
       console.log(searchterm);
       search(searchterm, opts, async function(err, results) {
@@ -145,9 +146,14 @@ client.on('message', async message => {
         message.reply("The next song is: "+serverQueue.songs[1].title).then(msg => {msg.delete(5000)});
       } else { message.reply("No songs in queue").then(msg => {msg.delete(5000)});}
       return 0;
+/*
+   case "repeat":
+      if (repaet == 1){repeat = 0;}
+      else {repeat = 1}
+      message.reply("Song repeat has been set to "+repeat);
+      return 0;
 
-
-/*    case "playlist":
+   case "playlist":
       const args = message.content.split(' ');
       console.log(args[1]);
       const voiceChannel = message.member.voiceChannel;
@@ -478,6 +484,7 @@ function play(guild, song) {
 
 	const dispatcher = serverQueue.connection.playStream(ytdl(song.url))
 		.on('end', () => {
+      //if (repeat == 1) {return play(guild, serverQueue.songs[0]);}
 			serverQueue.songs.shift();
 			play(guild, serverQueue.songs[0]);
 		})
