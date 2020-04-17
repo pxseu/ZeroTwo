@@ -4,7 +4,7 @@ var search = require('youtube-search');
 const prompter = require('discordjs-prompter');
 const ytlist = require('youtube-playlist');
 const Enmap = require('enmap');
-const config = require('./gifs.json');
+const { patgifs, huggifs, badword, embed } = require('./config.json');
 
 const client = new Discord.Client();
 var queue = new Map();
@@ -31,7 +31,7 @@ client.on("guildDelete", guild => {
   client.settings.delete(guild.id);
 });
 
-var opts = {'maxResults': 4, 'key': process.env.YTAPI_TOKEN}; //            process.env.YTAPI_TOKEN
+var opts = {'maxResults': 4, 'key': process.env.YTAPI_TOKEN};
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -60,7 +60,7 @@ client.on('message', async message => {
 /////////////////// GIF //////////////////////////////////////////
 
     case "hug":
-	  var hug = config.huggifs[Math.floor(Math.random() * config.huggifs.length)];
+      var hug = huggifs[Math.floor(Math.random() * huggifs.length)];
       message.channel.send({embed: {color: 10181046, title:"hugs back "+message.author.username+" tightly (´・ω・｀)", image:  {url: hug}}});
       return 0;
 
@@ -69,7 +69,7 @@ client.on('message', async message => {
       return 0;
 
     case "pat":
-	  var pat = config.patgifs[Math.floor(Math.random() * config.patgifs.length)];
+      var pat = patgifs[Math.floor(Math.random() * patgifs.length)];
       message.channel.send({embed: {color: 10181046, title:"Pats with love have been sent by "+message.author.username+".", image:  {url: pat}}});
       return 0;
 
@@ -81,16 +81,11 @@ client.on('message', async message => {
       message.channel.send({embed: {color: 10181046, title:"Zero Two vibes with "+message.author.username+".", image:  {url: "https://image.myanimelist.net/ui/G-Sm6d0qIwQxUGHIp-m2WE4r0RSD61OQcp0zIes03ZCYoKjsVsjXKaeievJ3JFbIPWVFdDFNffxoioO0_wZFCqs4E0_YgZYsXqmLfTNB-IZA-B-IvlYVs7FcQAbSVU5Z"}}});
       return 0;
 
-/*
-    case "gif":
-
-      return 0;
-*/
-
     case "kawal":
         message.channel.send("puk puk");
         message.channel.send("Kto tam?");
         message.channel.send("Jebać disa.");
+        return 0;
 
 ///////////////// MUSIC //////////////////////////////////////////
 
@@ -107,7 +102,6 @@ client.on('message', async message => {
       var searchterm = args.join(' ')+" (audio)";
       console.log(searchterm);
       search(searchterm, opts, async function(err, results) {
-          console.log(results);
           message.channel.send({embed:{
             "color": 10181046,
             "fields": [
@@ -164,13 +158,48 @@ client.on('message', async message => {
       } else { message.reply("No songs in queue").then(msg => {msg.delete(5000)});}
       return 0;
 
-/*
-    case "playlist":
+
+/*    case "playlist":
       const args = message.content.split(' ');
       console.log(args[1]);
+      const voiceChannel = message.member.voiceChannel;
       ytlist(args[1], 'url').then( async res => {
-        message.content = guildConf.prefix+"play "+res.data.playlist[0];
-        execute(message, serverQueue);
+        for (var i = 0; i < res.data.playlist.length; i++) {
+          const songInfo = await ytdl.getInfo(res.data.playlist[i]);
+        	const song = {
+        		title: songInfo.title,
+        		url: songInfo.video_url,
+        	};
+
+
+        	if (!serverQueue) {
+        		const queueContruct = {
+        			textChannel: message.channel,
+        			voiceChannel: voiceChannel,
+        			connection: null,
+        			songs: [],
+        			volume: 5,
+        			playing: true,
+        		};
+        		queue.set(message.guild.id, queueContruct);
+        		queueContruct.songs.push(song);
+
+
+        		try {
+        			var connection = await voiceChannel.join();
+        			queueContruct.connection = connection;
+        			play(message.guild, queueContruct.songs[0]);
+        		} catch (err) {
+        			console.log(err);
+        			queue.delete(message.guild.id);
+        			return message.channel.send(err);
+        		}
+        	} else {
+        		serverQueue.songs.push(song);
+            console.log(serverQueue.songs);
+            return message.channel.send(`${song.title} has been added to the queue!`).then(msg => {msg.delete(5000)});
+        	}
+        } console.log(queueContruct.songs)
       });
       return 0;
 */
@@ -187,7 +216,6 @@ client.on('message', async message => {
       } else {
         message.reply('You need to join a voice channel first!');
       }
-
       return 0;
 
     case "czesio":
@@ -200,7 +228,6 @@ client.on('message', async message => {
       } else {
         message.reply('You need to join a voice channel first!');
       }
-
       return 0;
 
     case "jd":
@@ -213,7 +240,6 @@ client.on('message', async message => {
       } else {
         message.reply('You need to join a voice channel first!');
       }
-
       return 0;
 
     case "szmaciura":
@@ -226,7 +252,6 @@ client.on('message', async message => {
       } else {
         message.reply('You need to join a voice channel first!');
       }
-
       return 0;
 
 //////////////////MISC////////////////////////////////////////////
@@ -256,86 +281,25 @@ client.on('message', async message => {
       }
 
      case "help":
-       const embed = {
- 	 "title": "Command list for the bot:",
- 	 "url": "https://pxseu.cc",
- 	 "color": 7340243,
-  	"thumbnail": {
-   	 "url": "https://cdn.discordapp.com/avatars/645330135527981069/3440c4def2a42777de2ccafba45adf02.png?size=256"
- 	},
-  	"author": {
-  	  "name": "pxseu",
-  	  "url": "https://pxseu.cc",
-   	 "icon_url": "https://cdn.discordapp.com/avatars/338718840873811979/29ce2cfd0dae9a8720b9f3894dea41cb.png?size=256"
-  	},
-  	"fields": [
-   	 {
-     	 "name": "zt!hug",
-    	  "value": "Hugies for you!"
-   	 },
-   	 {
-   	   "name": "zt!vibe",
-   	   "value": "Just vibing with Zero Two."
-   	 },
-   	 {
-     	 "name": "zt!owner",
-    	  "value": "Show the owners website."
-    	},
-   	 {
-    	  "name": "zt!ricardo",
-    	  "value": "Summon riacrdo."
-    	},
-        {
-    	  "name": "zt!pat",
-    	  "value": "Just some friendly pats."
-    	},
-   	 {
-   	   "name": "---------------------------------------",
-   	   "value": "Music commands:"
-  	  },
-  	  {
-  	    "name": "zt!play <search term> or <url>",
-  	    "value": "Searches for a song on youtube, upon selection add's it to the queue."
-  	  },
-    	{
-    	  "name": "zt!skip",
-    	  "value": "Skips current song."
-    	},
-    	{
-   	   "name": "zt!stop",
-	      "value": "Stops all music and disconnects."
-   	 },
-   	 {
-   	   "name": "zt!nextsong",
-   	   "value": "Shows next song in queue (if exists)."
-   	 },
-   	 {
-   	   "name": "zt!darling",
-   	   "value": "Zero Two joins voice channel and says 'Darling.'"
-   	 },
-   	 {
-   	   "name": "---------------------------------------",
-   	   "value": "Setup commands."
-   	 },
-    	{
-      	"name": "zt!showconf",
-      	"value": "Shows current config of the bot."
-    	},
-    	{
-      	"name": "zt!setconf <name> <value>",
-    	  "value": "Change the config.\n <name> = name of the config setting \n <value> = value of the config setting  \n prefix: <string> \n logchannel: <id of channel> \n roleafterver: <id of role> \n serverid: <id of the server> \n adminRole: <name of role> \n verification: <1 or 0> \n logging: <1 or 0>"
-    	}
-	  ]
-      };
       message.channel.send({ embed });
       return  0;
-
+     case "avatar":
+      if (!message.mentions.users.size) {
+        return message.channel.send(`Your avatar: <${message.author.displayAvatarURL({ format: "png", dynamic: true })}>`);
+      }
+      const avatarList = message.mentions.users.map(user => {
+        return `${user.username}'s avatar: <${user.displayAvatarURL({ format: "png", dynamic: true })}>`;
+      });
+      message.channel.send(avatarList);
+      return 0;
+      
 ////////////////// EMBED /////////////////////////////////////////
 
      case "embedimg":
       if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole) || message.member.roles.find(r => r.name === guildConf.modRole)){
        imgurl = args.join(' ');
        message.channel.send({embed: {color: 10181046, image: {url: imgurl}}});
+       message.delete().catch(O_o=>{});
        return 0;
      } else {
       message.reply("You don't have the permision to use this command.")
@@ -349,6 +313,7 @@ client.on('message', async message => {
        args[0] = "";
        txt = args.join(' ');
        client.channels.get(channelid).send({embed: {color: 10181046, description: txt}});
+       message.delete().catch(O_o=>{});
        return  0;
       } else {
        message.reply("You don't have the permision to use this command.")
@@ -358,6 +323,7 @@ client.on('message', async message => {
        if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole) || message.member.roles.find(r => r.name === guildConf.modRole)){
         txt = args.join(' ');
         message.channel.send({embed: {color: 10181046, description: txt}});
+        message.delete().catch(O_o=>{});
         return  0;
        } else {
         message.reply("You don't have the permision to use this command.")
@@ -594,7 +560,6 @@ client.on("guildCreate", guild => {
 client.on('message', message => {
   if (message.author.bot || message.channel.type == `dm`) return;
   const loader = client.settings.ensure(message.guild.id, defaultSettings);
-  const badword = ["4r5e", "5h1t", "5hit", "a55", "anal", "anus", "ar5e", "arrse", "arse", "ass", "ass-fucker", "asses", "assfucker", "assfukka", "asshole", "assholes", "asswhole", "a_s_s", "b!tch", "b00bs", "b17ch", "b1tch", "ballbag", "balls", "ballsack", "bastard", "beastial", "beastiality", "bellend", "bestial", "bestiality", "bi+ch", "biatch", "bitch", "bitcher", "bitchers", "bitches", "bitchin", "bitching", "bloody", "blow job", "blowjob", "blowjobs", "boiolas", "bollock", "bollok", "boner", "boob", "boobs", "booobs", "boooobs", "booooobs", "booooooobs", "breasts", "buceta", "bugger", "bum", "bunny fucker", "butt", "butthole", "buttmuch", "buttplug", "c0ck", "c0cksucker", "carpet muncher", "cawk", "chink", "cipa", "cl1t", "clit", "clitoris", "clits", "cnut", "cock", "cock-sucker", "cockface", "cockhead", "cockmunch", "cockmuncher", "cocks", "cocksuck", "cocksucked", "cocksucker", "cocksucking", "cocksucks", "cocksuka", "cocksukka", "cok", "cokmuncher", "coksucka", "coon", "cox", "crap", "cum", "cummer", "cumming", "cums", "cumshot", "cunilingus", "cunillingus", "cunnilingus", "cunt", "cuntlick", "cuntlicker", "cuntlicking", "cunts", "cyalis", "cyberfuc", "cyberfuck", "cyberfucked", "cyberfucker", "cyberfuckers", "cyberfucking", "d1ck", "damn", "dick", "dickhead", "dildo", "dildos", "dink", "dinks", "dirsa", "dlck", "dog-fucker", "doggin", "dogging", "donkeyribber", "doosh", "duche", "dyke", "ejaculate", "ejaculated", "ejaculates", "ejaculating", "ejaculatings", "ejaculation", "ejakulate", "f u c k", "f u c k e r", "f4nny", "fag", "fagging", "faggitt", "faggot", "faggs", "fagot", "fagots", "fags", "fanny", "fannyflaps", "fannyfucker", "fanyy", "fatass", "fcuk", "fcuker", "fcuking", "feck", "fecker", "felching", "fellate", "fellatio", "fingerfuck", "fingerfucked", "fingerfucker", "fingerfuckers", "fingerfucking", "fingerfucks", "fistfuck", "fistfucked", "fistfucker", "fistfuckers", "fistfucking", "fistfuckings", "fistfucks", "flange", "fook", "fooker", "fuck", "fucka", "fucked", "fucker", "fuckers", "fuckhead", "fuckheads", "fuckin", "fucking", "fuckings", "fuckingshitmotherfucker", "fuckme", "fucks", "fuckwhit", "fuckwit", "fudge packer", "fudgepacker", "fuk", "fuker", "fukker", "fukkin", "fuks", "fukwhit", "fukwit", "fux", "fux0r", "f_u_c_k", "gangbang", "gangbanged", "gangbangs", "gaylord", "gaysex", "goatse", "God", "god-dam", "god-damned", "goddamn", "goddamned", "hardcoresex", "hell", "heshe", "hoar", "hoare", "hoer", "homo", "hore", "horniest", "horny", "hotsex", "jack-off", "jackoff", "jap", "jerk-off", "jism", "jiz", "jizm", "jizz", "kawk", "knob", "knobead", "knobed", "knobend", "knobhead", "knobjocky", "knobjokey", "kock", "kondum", "kondums", "kum", "kummer", "kumming", "kums", "kunilingus", "l3i+ch", "l3itch", "labia", "lust", "lusting", "m0f0", "m0fo", "m45terbate", "ma5terb8", "ma5terbate", "masochist", "master-bate", "masterb8", "masterbat*", "masterbat3", "masterbate", "masterbation", "masterbations", "masturbate", "mo-fo", "mof0", "mofo", "mothafuck", "mothafucka", "mothafuckas", "mothafuckaz", "mothafucked", "mothafucker", "mothafuckers", "mothafuckin", "mothafucking", "mothafuckings", "mothafucks", "mother fucker", "motherfuck", "motherfucked", "motherfucker", "motherfuckers", "motherfuckin", "motherfucking", "motherfuckings", "motherfuckka", "motherfucks", "muff", "mutha", "muthafecker", "muthafuckker", "muther", "mutherfucker", "n1gga", "n1gger", "nazi", "nigg3r", "nigg4h", "nigga", "niggah", "niggas", "niggaz", "nigger", "niggers", "nob", "nob jokey", "nobhead", "nobjocky", "nobjokey", "numbnuts", "nutsack", "orgasim", "orgasims", "orgasm", "orgasms", "p0rn", "pawn", "pecker", "penis", "penisfucker", "phonesex", "phuck", "phuk", "phuked", "phuking", "phukked", "phukking", "phuks", "phuq", "pigfucker", "pimpis", "piss", "pissed", "pisser", "pissers", "pisses", "pissflaps", "pissin", "pissing", "pissoff", "poop", "porn", "porno", "pornography", "pornos", "prick", "pricks", "pron", "pube", "pusse", "pussi", "pussies", "pussy", "pussys", "rectum", "retard", "rimjaw", "rimming", "s hit", "s.o.b.", "sadist", "schlong", "screwing", "scroat", "scrote", "scrotum", "semen", "sex", "sh!+", "sh!t", "sh1t", "shag", "shagger", "shaggin", "shagging", "shemale", "shi+", "shit", "shitdick", "shite", "shited", "shitey", "shitfuck", "shitfull", "shithead", "shiting", "shitings", "shits", "shitted", "shitter", "shitters", "shitting", "shittings", "shitty", "skank", "slut", "sluts", "smegma", "smut", "snatch", "son-of-a-bitch", "spac", "spunk", "s_h_i_t", "t1tt1e5", "t1tties", "teets", "teez", "testical", "testicle", "tit", "titfuck", "tits", "titt", "tittie5", "tittiefucker", "titties", "tittyfuck", "tittywank", "titwank", "tosser", "turd", "tw4t", "twat", "twathead", "twatty", "twunt", "twunter", "v14gra", "v1gra", "vagina", "viagra", "vulva", "w00se", "wang", "wank", "wanker", "wanky", "whoar", "whore", "willies", "willy", "xrated", "xxx"];
   if(badword.some(word => message.content.toLowerCase().includes(word))){
     if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === guildConf.adminRole) || message.member.roles.find(r => r.name === guildConf.modRole)) return;
     message.reply({embed: {color: 10181046, description: "Don't use swear word my guy."}});
