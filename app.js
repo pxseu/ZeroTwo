@@ -7,8 +7,10 @@ const Enmap = require('enmap');
 const { patgifs, huggifs, badword, embedhelp, defaultSettings } = require('./config.json');
 var opts = { maxResults: 4, key: process.env.YTAPI_TOKEN };
 
+
 const client = new Discord.Client();
 var queue = new Map();
+
 
 client.settings = new Enmap({
   name: "settings",
