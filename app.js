@@ -275,7 +275,7 @@ client.on('message', async message => {
       }
 
      case "help":
-      const embed = embed-help
+      const embed = embedhelp
       message.channel.send({ embed });
       return  0;
      case "avatar":
@@ -372,6 +372,7 @@ client.on('message', async message => {
         message.reply("You don't have the permision to use this command.")
         return 0;
        }
+
 /////////////// MODERATION ///////////////////////////////////////
 //////////////// SETUP ///////////////////////////////////////////
 
@@ -563,4 +564,5 @@ client.on('message', message => {
     client.channels.get(loader.logchannel).send({embed: {color: 10181046, description:`${message.author.tag} said a bad word: `+message.content}});
 
   }})
-client.login(process.env.BOT_TOKEN);   //process.env.BOT_TOKEN
+
+client.login(process.env.BOT_TOKEN);
