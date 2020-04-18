@@ -7,10 +7,10 @@
 				"start": "node app.js"
 		},
 		"dependencies": {
-				"better-sqlite3": "^6.0.1",
+				"better-sqlite3": "6.0.1",
 				"discord.js": "11.6.3",
 				"discordjs-prompter": "1.3.2",
-				"enmap": "^5.2.4",
+				"enmap": "5.2.4",
 				"ffbinaries": "1.1.4",
 				"ffmpeg-static": "4.0.1",
 				"node-opus": "0.3.3",
