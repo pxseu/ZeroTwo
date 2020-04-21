@@ -86,8 +86,7 @@ module.exports = {
             default:
                return 0;
          }
-      });
-
+       }
    async function execute(message, serverQueue) {
       const args = message.content.split(' ');
       const voiceChannel = message.member.voiceChannel;
