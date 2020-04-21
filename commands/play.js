@@ -5,7 +5,7 @@ module.exports = {
       await Server.updateOne({
             serverid : message.guild.id
          }, {
-            loopsong : false
+            loopsongs : false
       });
       const guildconfdata = guildConf;
       var search = require('youtube-search');
