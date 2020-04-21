@@ -127,7 +127,7 @@ module.exports = {
          const dispatcher = serverQueue.connection.playStream(ytdl(song.url))
             .on('end', async ()  => {
                const loopchck = await Server.findOne({
-                 serverid: message.guild.id
+                 serverid: guild.id
                }).then((currentServer) => {
                  if (currentServer) {
                    return currentServer
