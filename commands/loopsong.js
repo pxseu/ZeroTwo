@@ -9,14 +9,14 @@ module.exports = {
          await Server.updateOne({
             serverid : message.guild.id
          }, {
-            loopsong : true
+            loopsongs : true
          });
          message.react("🔄");
       } else {
          await Server.updateOne({
             serverid: message.guild.id
          }, {
-            loopsong: false
+            loopsongs: false
          });
          message.react("🛑");
       }
