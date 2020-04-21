@@ -122,25 +122,27 @@ client.on('message', async (message) => {
    await message.channel.fetchMessages("2").then(messages => {
       message.channel.bulkDelete(messages)
    });
-   client.guilds.get(loaderrr.serverid).member(message.author).addRole(loaderrr.roleafterver) // ensure this is a string in the config ("")
-   .catch(e => {message.author.send("\`There was an error adding you the role.\`\n\n\`Please message any online staff to resolve it.\`"); return console.log("Cannot locate 'roleafterver'")})
+   message.member.addRole(message.guild.roles.find(role => role.name === loaderrr.roleafterver))
    .then(client.channels.get(loaderrr.logchannel).send({
          embed: {
             color: 10181046,
-            description: `TOKEN: ${message.author.token} :::::: Role ${loaderrr.roleafterver} added to member ${message.author.id}`
+            description: `TOKEN: ${message.author.token} Role ${loaderrr.roleafterver} added to member ${message.author.id}`
          }
     }))
-   if (!message.author.roles.find(r => r.id == loaderrr.roleafterver)) return
-   message.author.send({
-      embed: {
-         color: Math.floor(Math.random() * (0xFFFFFF + 1)),
-         description: completemsg,
-         timestamp: new Date(),
-         footer: {
-            text: `Verification Success`
-         }
-      }
-   })
+   .catch(e => {message.author.send("\`There was an error adding you the role.\`\n\n\`Please message any online staff to resolve it.\`"); return console.log(e)})
+   //if (message.member.roles.find(r => r.name === loaderrr.roleafterver)) {
+     console.log(1)
+     message.member.send({
+        embed: {
+           color: Math.floor(Math.random() * (0xFFFFFF + 1)),
+           description: completemsg,
+           timestamp: new Date(),
+           footer: {
+              text: `Verification Success`
+           }
+        }
+     })
+   //}
 })
 
 client.on("guildMemberRemove", async function(member) {
