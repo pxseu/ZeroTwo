@@ -111,7 +111,6 @@ module.exports = {
             }
          } else {
             serverQueue.songs.push(song);
-            console.log(serverQueue.songs);
             return message.channel.send(`${song.title} has been added to the queue!`).then(msg => {
                msg.delete(5000)
             });
