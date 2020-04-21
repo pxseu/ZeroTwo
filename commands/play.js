@@ -1,7 +1,12 @@
 module.exports = {
    name: 'play',
    description: 'Play song!',
-   execute(message, args, guildConf, serverQueue, queue) {
+   async execute(message, args, guildConf, serverQueue, queue, client, Server) {
+      await Server.updateOne({
+            serverid : message.guild.id
+         }, {
+            loopsong : false
+      });
       const guildconfdata = guildConf;
       var search = require('youtube-search');
       const prompter = require('discordjs-prompter');
@@ -120,8 +125,17 @@ module.exports = {
             return;
          }
          const dispatcher = serverQueue.connection.playStream(ytdl(song.url))
-            .on('end', () => {
-               //if (repeat == 1) {return play(guild, serverQueue.songs[0]);}
+            .on('end', async ()  => {
+               const loopchck = await Server.findOne({
+                 serverid: message.guild.id
+               }).then((currentServer) => {
+                 if (currentServer) {
+                   return currentServer
+                 } else {
+                   return 0
+                 }
+               })
+               if (loopchck.loopsongs == 'true'){ return play(guild, serverQueue.songs[0])}
                serverQueue.songs.shift();
                play(guild, serverQueue.songs[0]);
             })

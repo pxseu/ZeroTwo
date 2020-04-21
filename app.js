@@ -50,7 +50,6 @@ client.on('message', async message => {
          return 0
       }
    })
-   //const guildConf = client.settings.ensure(member.guild.id, defaultSettings);
    if (message.content.indexOf(guildConf.prefix) !== 0) return;
    const args = message.content.slice(guildConf.prefix.length).trim().split(/ +/g);
    const commandName = args.shift().toLowerCase();
@@ -90,7 +89,7 @@ client.on('guildMemberAdd', async (member) => {
       }
    })
 
-   if (loaderr.verification === 'false') return;
+   if (loaderr.verification === false) return;
    if (member.user.bot || member.guild.id !== (loaderr.serverid)) return
    const token = shortcode(8)
    const welcomemsg =
@@ -154,7 +153,7 @@ client.on("guildMemberRemove", async function(member) {
          return 0
       }
    })
-   if (loader.logging == 'false') return;
+   if (loader.logging == false) return;
    client.channels.get(loader.logchannel).send({
       embed: {
          color: 10181046,
@@ -173,7 +172,8 @@ client.on("guildCreate", guild => {
       adminRole: 'Admin',
       modRole: 'Moderator',
       verification: false,
-      logging: false
+      logging: false,
+      loopsongs: false
    }).save().then((newServer) => {
       console.log('Joined a new server!' + newServer);
    })
@@ -202,7 +202,7 @@ client.on('message', async message => {
             description: "Don't use swear word my guy."
          }
       });
-      if (loader.logging == 'false') return;
+      if (loader.logging == false) return;
       client.channels.get(loader.logchannel).send({
          embed: {
             color: 10181046,
