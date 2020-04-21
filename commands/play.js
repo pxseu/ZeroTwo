@@ -135,7 +135,7 @@ module.exports = {
                    return 0
                  }
                })
-               if (loopchck.loopsongs == 'true'){ return play(guild, serverQueue.songs[0])}
+               if (loopchck.loopsongs == true){ return play(guild, serverQueue.songs[0]) }
                serverQueue.songs.shift();
                play(guild, serverQueue.songs[0]);
             })
