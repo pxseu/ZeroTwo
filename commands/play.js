@@ -38,9 +38,9 @@ module.exports = {
                   }
                ]
             }
-         }).then(msg => {
+         })/*.then(msg => {
             msg.delete(15000)
-         });
+         });*/
          const response = await prompter.choice(message.channel, {
             question: 'Choose a song!',
             choices: ['👈', '👆', '👇', '👉'],
