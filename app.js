@@ -4,9 +4,7 @@ const prompter = require('discordjs-prompter');
 const mongoose = require('mongoose');
 const Server = require('./models/server')
 const {
-   badword,
-   embedhelp,
-   defaultSettings
+   badword
 } = require('./config.json');
 
 mongoose.connect(process.env.MONGODB_URI, {
@@ -82,7 +80,7 @@ const shortcode = (n) => {
 }
 
 client.on('guildMemberAdd', async (member) => {
-   const loaderr = Server.findOne({
+   const loaderr = await Server.findOne({
       serverid: member.guild.id
    }).then((currentServer) => {
       if (currentServer) {
@@ -91,7 +89,8 @@ client.on('guildMemberAdd', async (member) => {
          return 0
       }
    })
-   if (loaderr.verification == 0) return;
+
+   if (loaderr.verification === 'false') return;
    if (member.user.bot || member.guild.id !== (loaderr.serverid)) return
    const token = shortcode(8)
    const welcomemsg =
@@ -110,8 +109,8 @@ const verifymsg = 'I agree to abide by all rules. My token is {token}.'
 
 client.on('message', async (message) => {
    if (message.author.bot || !message.author.token || message.channel.type == `dm`) return
-   const loaderrr = Server.findOne({
-      serverid: member.guild.id
+   const loaderrr = await Server.findOne({
+      serverid: message.guild.id
    }).then((currentServer) => {
       if (currentServer) {
          return currentServer
@@ -120,6 +119,19 @@ client.on('message', async (message) => {
       }
    })
    if (message.content !== (verifymsg.replace('{token}', message.author.token))) return
+
+   await message.channel.fetchMessages("2").then(messages => {
+      message.channel.bulkDelete(messages)
+   });
+   client.guilds.get(loaderrr.serverid).member(message.author).addRole(loaderrr.roleafterver) // ensure this is a string in the config ("")
+   .catch(e => {message.author.send("\`There was an error adding you the role.\`\n\n\`Please message any online staff to resolve it.\`"); return console.log("Cannot locate 'roleafterver'")})
+   .then(client.channels.get(loaderrr.logchannel).send({
+         embed: {
+            color: 10181046,
+            description: `TOKEN: ${message.author.token} :::::: Role ${loaderrr.roleafterver} added to member ${message.author.id}`
+         }
+    }))
+   if (!message.author.roles.find(r => r.id == loaderrr.roleafterver)) return
    message.author.send({
       embed: {
          color: Math.floor(Math.random() * (0xFFFFFF + 1)),
@@ -130,17 +142,6 @@ client.on('message', async (message) => {
          }
       }
    })
-   await message.channel.fetchMessages("2").then(messages => {
-      message.channel.bulkDelete(messages)
-   });
-   client.guilds.get(loaderrr.serverid).member(message.author).addRole(loaderrr.roleafterver) // ensure this is a string in the config ("")
-      .then(client.channels.get(loaderrr.logchannel).send({
-         embed: {
-            color: 10181046,
-            description: `TOKEN: ${message.author.token} :: Role ${loaderrr.roleafterver} added to member ${message.author.id}`
-         }
-      }))
-      .catch(console.error)
 })
 
 client.on("guildMemberRemove", async function(member) {
@@ -153,7 +154,7 @@ client.on("guildMemberRemove", async function(member) {
          return 0
       }
    })
-   if (loader.logging == 0) return;
+   if (loader.logging == 'false') return;
    client.channels.get(loader.logchannel).send({
       embed: {
          color: 10181046,
@@ -201,7 +202,7 @@ client.on('message', async message => {
             description: "Don't use swear word my guy."
          }
       });
-      if (loader.logging == 0) return;
+      if (loader.logging == 'false') return;
       client.channels.get(loader.logchannel).send({
          embed: {
             color: 10181046,
