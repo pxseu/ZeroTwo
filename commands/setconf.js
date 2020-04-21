@@ -26,7 +26,7 @@ module.exports = {
                     await Server.updateOne({ serverid : message.guild.id }, {  verification : confName });
                     return message.channel.send(`Guild configuration item ${prop} has been changed to: \`${value.join(" ")}\``);            
                 case 'logging':
-                    await Server.updateOne({ serverid : message.guild.id }, {  verification : confName });
+                    await Server.updateOne({ serverid : message.guild.id }, {  logging : confName });
                     return message.channel.send(`Guild configuration item ${prop} has been changed to: \`${value.join(" ")}\``);            
                 default:
                     return message.channel.send(`Unable to find item \`${prop}\``);          
