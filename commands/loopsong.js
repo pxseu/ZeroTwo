@@ -12,6 +12,7 @@ module.exports = {
             loopsongs : true
          });
          message.react("🔄");
+         message.channel.send("Looping: "+ serverQueue.songs[0].title);
       } else {
          await Server.updateOne({
             serverid: message.guild.id
