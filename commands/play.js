@@ -136,9 +136,11 @@ module.exports = {
                  }
                })
                if (loopchck.loopsongs == true){ return play(guild, serverQueue.songs[0]) }
-               serverQueue.songs.shift();
-               play(guild, serverQueue.songs[0]);
-            })
+               else {
+                 serverQueue.songs.shift();
+                 play(guild, serverQueue.songs[0]);
+               } 
+           })
             .on('error', error => {
                console.error(error);
             });
