@@ -5,7 +5,6 @@ module.exports = {
       if (!message.member.voiceChannel) {return message.channel.send(
          'You have to be in a voice channel to stop the music!');}
       if (!serverQueue){ return message.channel.send('There is no song that I could skip!')};
-      console.log(guildConf.loopsongs)
       if (guildConf.loopsongs == false){   
          await Server.updateOne({
             serverid : message.guild.id
