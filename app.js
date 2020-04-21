@@ -1,9 +1,14 @@
 const fs = require('fs');
 const Discord = require("discord.js");
 const prompter = require('discordjs-prompter');
-const Enmap = require('enmap');
+const mongoose = require('mongoose');
+const Server = require('./models/server')
 const { badword, embedhelp, defaultSettings } = require('./config.json');
 
+mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useUnifiedTopology:true})
+
+mongoose.connection.on('error',(error) => console.error(error))
+mongoose.connection.once('open', () => console.log('Connected to database'))
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -15,15 +20,9 @@ for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
   client.commands.set(command.name, command);
 }
-client.settings = new Enmap({
-  name: "settings",
-  fetchAll: false,
-  autoFetch: true,
-  cloneLevel: 'deep'
-});
 
 client.on("guildDelete", guild => {
-  client.settings.delete(guild.id);
+  Server.findOne({ serverid : guild.id }).deleteOne().exec();
 });
 
 client.on('ready', () => {
@@ -33,7 +32,8 @@ client.on('ready', () => {
 
 client.on('message', async message => {
   if(!message.guild || message.author.bot) return;
-  const guildConf = client.settings.ensure(message.guild.id, defaultSettings);
+  const guildConf = await Server.findOne({ serverid : message.guild.id }).then((currentServer) => {if (currentServer) {return currentServer} else {return 0}}) 
+  //const guildConf = client.settings.ensure(member.guild.id, defaultSettings);
   if(message.content.indexOf(guildConf.prefix) !== 0) return;
   const args = message.content.slice(guildConf.prefix.length).trim().split(/ +/g);
   const commandName = args.shift().toLowerCase();
@@ -42,7 +42,7 @@ client.on('message', async message => {
   console.log(commandName);
   const command = client.commands.get(commandName);
   try {
-    command.execute(message, args, guildConf, serverQueue, queue, client);
+    command.execute(message, args, guildConf, serverQueue, queue, client, Server);
   } catch (error) {
     console.error(error);
     message.reply('there was an error trying to execute that command!');
@@ -61,8 +61,8 @@ const shortcode = (n) => {
     return text;
 }
 
-client.on('guildMemberAdd', (member) => {
-    const loaderr = client.settings.ensure(member.guild.id, defaultSettings);
+client.on('guildMemberAdd', async (member) => {
+    const loaderr = Server.findOne({ serverid : member.guild.id }).then((currentServer) => {if (currentServer) {return currentServer} else {return 0}})
     if (loaderr.verification == 0) return;
     if (member.user.bot || member.guild.id !== (loaderr.serverid)) return
     const token = shortcode(8)
@@ -76,7 +76,7 @@ const verifymsg = 'I agree to abide by all rules. My token is {token}.'
 
 client.on('message', async (message) => {
     if (message.author.bot || !message.author.token || message.channel.type == `dm`) return
-    const loaderrr = client.settings.ensure(message.guild.id, defaultSettings);
+    const loaderrr = Server.findOne({ serverid : member.guild.id }).then((currentServer) => {if (currentServer) {return currentServer} else {return 0}})
     if (message.content !== (verifymsg.replace('{token}', message.author.token))) return
     message.author.send({
         embed: {
@@ -96,20 +96,31 @@ client.on('message', async (message) => {
         .catch(console.error)
 })
 
-client.on("guildMemberRemove", function(member){
-    const loader = client.settings.ensure(member.guild.id, defaultSettings);
+client.on("guildMemberRemove", async function(member){
+    const loader = await Server.findOne({ serverid : member.guild.id }).then((currentServer) => {if (currentServer) {return currentServer} else {return 0}})
     if (loader.logging == 0) return;
     client.channels.get(loader.logchannel).send({embed: {color: 10181046, description:`a member leaves a guild, or is kicked: ${member.user.username}#${member.user.discriminator}`}});
 });
 
 client.on("guildCreate", guild => {
    guild.owner.send('Konnichiwa ( ´ ▽ ` )\n Thank you for adding me! \n Type zt!help for commands.')
-   console.log("Here we go again");
+   new Server({
+    prefix: 'zt!',
+    logchannel: '699869431207034900',
+    roleafterver: '699867596991889428',
+    serverid: guild.id,
+    adminRole: 'Admin',
+    modRole: 'Moderator',
+    verification: false,
+    logging: false
+   }).save().then((newServer) => {
+      console.log('Joined a new server!'+newServer);
+   })
 });
 
-client.on('message', message => {
+client.on('message', async message => {
   if (message.author.bot || message.channel.type == `dm`) return;
-  const loader = client.settings.ensure(message.guild.id, defaultSettings);
+  const loader = await Server.findOne({ serverid : message.guild.id }).then((currentServer) => {if (currentServer) {return currentServer} else {return 0}})
   if(badword.some(word => message.content.toLowerCase().includes(word))){
     if(message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member.roles.find(r => r.name === loader.adminRole) || message.member.roles.find(r => r.name === loader.modRole)) return;
     message.reply({embed: {color: 10181046, description: "Don't use swear word my guy."}});

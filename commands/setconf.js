@@ -1,17 +1,39 @@
 module.exports = {
     name: 'setconf',
     description: 'set configuration for server',
-    execute(message, args, guildConf, serverQueue, queue, client) {
+    async execute(message, args, guildConf, serverQueue, queue, client, Server) {
         if (message.member.roles.find(r => r.name === guildConf.adminRole) || message.member.roles.find(r => r.name === guildConf.modRole)) {
             const [prop, ...value] = args;
-            if (!client.settings.has(message.guild.id, prop)) {
-                return message.reply("This key is not in the configuration.");
+            const confName = value.join(" ")
+            console.log(prop, confName)
+            switch (prop) {
+                case 'prefix':
+                    await Server.updateOne({ serverid : message.guild.id }, {  prefix : confName });
+                    return message.channel.send(`Guild configuration item ${prop} has been changed to:\`${value.join(" ")}\``);            
+                case 'logchannel':
+                    await Server.updateOne({ serverid : message.guild.id }, {  logchannel : confName });
+                    return message.channel.send(`Guild configuration item ${prop} has been changed to: \`${value.join(" ")}\``);            
+                case 'roleafterver':
+                    await Server.updateOne({ serverid : message.guild.id }, {  roleafterver : confName });
+                    return message.channel.send(`Guild configuration item ${prop} has been changed to: \`${value.join(" ")}\``);            
+                case 'adminRole':
+                    await Server.updateOne({ serverid : message.guild.id }, {  adminRole : confName });
+                    return message.channel.send(`Guild configuration item ${prop} has been changed to: \`${value.join(" ")}\``);            
+                case 'modRole':
+                    await Server.updateOne({ serverid : message.guild.id }, {  modRole : confName });
+                    return message.channel.send(`Guild configuration item ${prop} has been changed to: \`${value.join(" ")}\``);            
+                case 'verification':
+                    await Server.updateOne({ serverid : message.guild.id }, {  verification : confName });
+                    return message.channel.send(`Guild configuration item ${prop} has been changed to: \`${value.join(" ")}\``);            
+                case 'logging':
+                    await Server.updateOne({ serverid : message.guild.id }, {  verification : confName });
+                    return message.channel.send(`Guild configuration item ${prop} has been changed to: \`${value.join(" ")}\``);            
+                default:
+                    return message.channel.send(`Unable to find item \`${prop}\``);          
             }
-            client.settings.set(message.guild.id, value.join(" "), prop);
-            message.channel.send(`Guild configuration item ${prop} has been changed to:\n\`${value.join(" ")}\``);
-            return 0;
         } else {
             return message.reply("You're not an admin, sorry!");
         }
     }
 }
+
