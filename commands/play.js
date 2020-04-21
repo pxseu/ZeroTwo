@@ -21,7 +21,6 @@ module.exports = {
          return execute(message, serverQueue);
       }
       var searchterm = args.join(' ') + " (audio)";
-      console.log(searchterm);
       search(searchterm, opts, async function(err, results) {
          message.channel.send({
             embed: {
@@ -45,7 +44,7 @@ module.exports = {
                ]
             }
          }).then(msg => {
-            msg.delete(10000)
+            msg.delete(15000)
          });
          const response = await prompter.choice(message.channel, {
             question: 'Choose a song!',

@@ -12,7 +12,9 @@ module.exports = {
             loopsongs : true
          });
          message.react("🔄");
-         message.channel.send("Looping: "+ serverQueue.songs[0].title);
+         message.channel.send("Looping: "+ serverQueue.songs[0].title).then(msg => {
+           msg.delete(5000)
+         });
       } else {
          await Server.updateOne({
             serverid: message.guild.id
