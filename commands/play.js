@@ -67,7 +67,7 @@ module.exports = {
                return 0;
          }
       });
-      if (quildConf.loopsongs == true) {
+      if (guildConf.loopsongs == true) {
          const response = await prompter.choice(message.channel, {
             question: 'Stop the loop?',
             choices: ['👆', '👇'],
