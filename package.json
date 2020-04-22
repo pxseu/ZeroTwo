@@ -17,6 +17,6 @@
 				"request": "2.81.0",
 				"youtube-playlist": "1.0.2",
 				"youtube-search": "1.1.4",
-				"ytdl-core": "2.0.0"
+				"ytdl-core": "^2.1.0"
 		}
 }
