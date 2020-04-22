@@ -20,6 +20,7 @@ module.exports = {
       const response = await prompter.choice(message.channel, {
         question: {
           embed: {
+            "title": "Choose the song: ",
             "color": 10181046,
             "fields": [{
                 "name": "\:point_left:",
@@ -64,17 +65,18 @@ module.exports = {
           return 0;
       }
     });
+
     async function loopchck(guildConf, message) {
       if (guildConf.loopsongs == true) {
         const response = await prompter.choice(message.channel, {
           question: 'Stop the loop?',
-          choices: ['👆', '👇'],
+          choices: ['👍', '👎'],
           userId: message.author.id
         }).catch((e) => {
           console.log(e)
         })
         switch (response) {
-          case "👆":
+          case "👍":
             await Server.updateOne({
               serverid: message.guild.id
             }, {
@@ -82,7 +84,7 @@ module.exports = {
             });
             message.react("🛑");
             return 0;
-          case "👇":
+          case "👎":
             message.react("🔄");
             return 0;
           default:
@@ -90,8 +92,6 @@ module.exports = {
         }
       }
     }
-
-
 
     async function execute(message, serverQueue, guildConf) {
       loopchck(guildConf, message);
