@@ -177,7 +177,7 @@ client.on("guildCreate", guild => {
       logging: false,
       loopsongs: false
    }).save().then((newServer) => {
-      console.log('Joined a new server!' + newServer);
+      console.log('Joined a new server: ' + newServer);
    })
 });
 
