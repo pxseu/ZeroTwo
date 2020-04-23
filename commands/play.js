@@ -20,7 +20,7 @@ module.exports = {
       const response = await prompter.choice(message.channel, {
         question: {
           embed: {
-            "title": "Choose the song: ",
+            "title": "Choose the song: (wait for all 4 emojis to show up)",
             "color": 10181046,
             "fields": [{
                 "name": "\:point_left:",
@@ -43,7 +43,7 @@ module.exports = {
         },
         choices: ['👈', '👆', '👇', '👉'],
         userId: message.author.id
-      });
+      }).catch((e) => {console.log(e); message.channel.send("I fucking told you to wait.")})
       switch (response) {
         case "👈":
           message.content = guildconfdata.prefix + "play " + results[0].link;
