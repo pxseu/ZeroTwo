@@ -1,6 +1,5 @@
 const fs = require('fs');
 const Discord = require("discord.js");
-const prompter = require('discordjs-prompter');
 const mongoose = require('mongoose');
 const Server = require('./models/server')
 const {
