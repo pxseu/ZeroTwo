@@ -10,7 +10,7 @@ module.exports = {
       maxResults: 4,
       key: process.env.YTAPI_TOKEN
     };
-    if (args[0].startsWith("https://www.youtube.com/", 0) || args[0].startsWith("https://youtu.be/",
+    if (args[0].startsWith("https://", 0) || args[0].startsWith("http://",
         0)) {
       message.content = guildconfdata.prefix + "play " + args[0];
       return execute(message, serverQueue, guildConf);
