@@ -15,7 +15,7 @@ module.exports = {
       message.content = guildconfdata.prefix + "play " + args[0];
       return execute(message, serverQueue, guildConf);
     }
-    var searchterm = args.join(' ') + " (audio)";
+    var searchterm = args.join(' ');
     search(searchterm, opts, async function(err, results) {
       const response = await prompter.choice(message.channel, {
         question: {
