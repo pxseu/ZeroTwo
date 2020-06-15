@@ -1,11 +1,13 @@
+const search = require('youtube-search');
+const prompter = require('discordjs-prompter');
+const ytdl = require("ytdl-core");
+
 module.exports = {
   name: 'play',
   description: 'Play song!',
   async execute(message, args, guildConf, serverQueue, queue, client, Server) {
     const guildconfdata = guildConf;
-    var search = require('youtube-search');
-    const prompter = require('discordjs-prompter');
-    const ytdl = require("ytdl-core");
+    
     var opts = {
       maxResults: 4,
       key: process.env.YTAPI_TOKEN
