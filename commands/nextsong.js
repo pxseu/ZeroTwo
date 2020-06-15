@@ -7,9 +7,7 @@ module.exports = {
             msg.delete(5000)
          });
       } else {
-         message.reply("No songs in queue").then(msg => {
-            msg.delete(5000)
-         });
+         message.reply("No songs in queue")
       }
    },
 };

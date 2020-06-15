@@ -2,12 +2,12 @@ module.exports = {
    name: 'szmaciura',
    description: 'Ty no nie wiem',
    execute(message, args) {
-      if (message.member.voiceChannel) {
-         message.member.voiceChannel.join()
+      if (message.member.voice.channel) {
+         message.member.voice.channel.join()
             .then(connection => {
-               const dispatcher = connection.playFile('./mp3/szmaciura.mp3');
+               const dispatcher = connection.play('./mp3/szmaciura.mp3');
                dispatcher.on("end", end => {
-                  message.member.voiceChannel.leave();
+                  message.member.voice.channel.leave();
                });
             }).catch(console.log);
       } else {

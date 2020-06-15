@@ -1,6 +1,6 @@
 module.exports = {
-   name: 'owner',
-   description: 'Owner!',
+   name: 'kawal',
+   description: 'kawal',
    execute(message, args) {
       message.channel.send("puk puk");
       message.channel.send("Kto tam?");
