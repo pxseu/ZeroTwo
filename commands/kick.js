@@ -2,9 +2,7 @@ module.exports = {
    name: 'kick',
    description: 'kick user',
    async execute(message, args, guildConf, serverQueue, queue, client) {
-      if (message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r
-            .name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member
-         .roles.find(r => r.name === guildConf.adminRole)) {
+      if (message.member.roles.cache.some(role => role.name == guildConf.adminRole) || message.member.roles.cache.some(role => role.name == guildConf.modRole)) {
          const user = message.mentions.users.first();
          if (!user) {
             try {

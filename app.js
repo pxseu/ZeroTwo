@@ -109,12 +109,6 @@ client.on('message', async (message) => {
    if (message.author.bot || !message.author.token || message.channel.type == `dm`) return
    const loaderrr = await Server.findOne({
       serverid: message.guild.id
-   }).then((currentServer) => {
-      if (currentServer) {
-         return currentServer
-      } else {
-         return 0
-      }
    })
    if (message.content !== (verifymsg.replace('{token}', message.author.token))) return
 
@@ -147,12 +141,6 @@ client.on('message', async (message) => {
 client.on("guildMemberRemove", async function(member) {
    const loader = await Server.findOne({
       serverid: member.guild.id
-   }).then((currentServer) => {
-      if (currentServer) {
-         return currentServer
-      } else {
-         return 0
-      }
    })
    if (loader.logging == false) return;
    client.channels.get(loader.logchannel).send({
@@ -184,25 +172,16 @@ client.on('message', async message => {
    if (message.author.bot || message.channel.type == `dm`) return;
    const loader = await Server.findOne({
       serverid: message.guild.id
-   }).then((currentServer) => {
-      if (currentServer) {
-         return currentServer
-      } else {
-         return 0
-      }
    })
    if (badword.some(word => message.content.toLowerCase().includes(word))) {
-      if (message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r.name === "Mod") || message.member.roles.find(r =>
-            r
-            .name === "OWNERS") || message.member.roles.find(r => r.name === loader.adminRole) || message.member.roles.find(r => r.name === loader
-            .modRole))
-         return;
+      //if (message.member.roles.cache.some(role => role.name == loader.adminRole) || message.member.roles.cache.some(role => role.name == loader.modRole))        return;  
       message.reply({
          embed: {
             color: 10181046,
             description: "Don't use swear word my guy."
          }
       });
+      
       if (loader.logging == false) return;
       client.channels.get(loader.logchannel).send({
          embed: {

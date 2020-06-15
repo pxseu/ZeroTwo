@@ -3,8 +3,8 @@ module.exports = {
    description: 'vct.',
    execute(message, args) {
       function vctest(message) {
-         if (message.member.voiceChannel) {
-            message.member.voiceChannel.join()
+         if (message.member.voice.channel) {
+            message.member.voice.channel.join()
                .then(connection => {
                   message.reply('I have successfully connected to the channel!');
                })

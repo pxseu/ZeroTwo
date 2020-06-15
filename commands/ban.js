@@ -2,9 +2,9 @@ module.exports = {
    name: 'ban',
    description: 'ban user',
    async execute(message, args, guildConf, serverQueue, queue, client) {
-      if (message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r
-            .name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member
-         .roles.find(r => r.name === guildConf.adminRole)) {
+      if (!message.guild) return;
+      
+      if (message.member.roles.cache.some(role => role.name == guildConf.adminRole) || message.member.roles.cache.some(role => role.name == guildConf.modRole)) {
          const user = message.mentions.users.first();
          if (!user) {
             try {
@@ -19,7 +19,7 @@ module.exports = {
          if (user === message.author) return message.channel.send('You can\'t ban yourself');
          if (!message.guild.member(user).bannable) return message.reply(
             'You can\'t ban this user because you the bot has not sufficient permissions!');
-         await message.guild.ban(user)
+         await message.guild.member(user).ban()
          message.react("☑️");
          client.channels.get("694925675710382090").send({
             embed: {

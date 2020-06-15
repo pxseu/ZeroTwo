@@ -2,14 +2,11 @@ module.exports = {
    name: 'embedin',
    description: 'Embed text in specific channel',
    async execute(message, args, guildConf, serverQueue, queue, client) {
-      if (message.member.roles.find(r => r.name === "Head Admin") || message.member.roles.find(r => r
-            .name === "Mod") || message.member.roles.find(r => r.name === "OWNERS") || message.member
-         .roles.find(r => r.name === guildConf.adminRole) || message.member.roles.find(r => r.name ===
-            guildConf.modRole)) {
+      if (message.member.roles.cache.some(role => role.name == guildConf.adminRole) || message.member.roles.cache.some(role => role.name == guildConf.modRole)) {
          const channelid = args[0];
          args[0] = "";
          txt = args.join(' ');
-         client.channels.get(channelid).send({
+         client.channels.cache.get(channelid).send({
             embed: {
                color: 10181046,
                description: txt

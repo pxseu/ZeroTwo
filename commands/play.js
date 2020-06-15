@@ -96,7 +96,7 @@ module.exports = {
     async function execute(message, serverQueue, guildConf) {
       loopchck(guildConf, message);
       const args = message.content.split(' ');
-      const voiceChannel = message.member.voiceChannel;
+      const voiceChannel = message.member.voice.channel;
       if (!voiceChannel) return message.channel.send(
         'You need to be in a voice channel to play music!'
       );
@@ -119,6 +119,7 @@ module.exports = {
           songs: [],
           volume: 5,
           playing: true,
+          loop: false
         };
         queue.set(message.guild.id, queueContruct);
         queueContruct.songs.push(song);
@@ -133,9 +134,7 @@ module.exports = {
         }
       } else {
         serverQueue.songs.push(song);
-        return message.channel.send(`${song.title} has been added to the queue!`).then(msg => {
-          msg.delete(5000)
-        });
+        return message.channel.send(`${song.title} has been added to the queue!`)
       }
     }
 
@@ -146,18 +145,9 @@ module.exports = {
         queue.delete(guild.id);
         return;
       }
-      const dispatcher = serverQueue.connection.playStream(ytdl(song.url))
-        .on('end', async () => {
-          const loopchck = await Server.findOne({
-            serverid: guild.id
-          }).then((currentServer) => {
-            if (currentServer) {
-              return currentServer
-            } else {
-              return 0
-            }
-          })
-          if (loopchck.loopsongs == true) {
+      const dispatcher = serverQueue.connection.play(ytdl(song.url))
+        .on('finish', async () => {
+          if (serverQueue.loop == true) {
             return play(guild, serverQueue.songs[0])
           } else {
             serverQueue.songs.shift();
