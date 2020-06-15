@@ -35,19 +35,13 @@ client.on("guildDelete", guild => {
 
 client.on('ready', () => {
    console.log(`Logged in as ${client.user.tag}!`);
-   client.user.setActivity("with " + client.guilds.size + " users");
+   client.user.setActivity("with " + client.channels.cache.size + " users");
 });
 
 client.on('message', async message => {
    if (!message.guild || message.author.bot) return;
    const guildConf = await Server.findOne({
       serverid: message.guild.id
-   }).then((currentServer) => {
-      if (currentServer) {
-         return currentServer
-      } else {
-         return 0
-      }
    })
    if (message.content.indexOf(guildConf.prefix) !== 0) return;
    const args = message.content.slice(guildConf.prefix.length).trim().split(/ +/g);
@@ -153,6 +147,7 @@ client.on("guildMemberRemove", async function(member) {
 
 client.on("guildCreate", guild => {
    guild.owner.send('Konnichiwa ( ´ ▽ ` )\n Thank you for adding me! \n Type zt!help for commands.')
+   client.user.setActivity("with " + client.channels.cache.size + " users");
    new Server({
       prefix: 'zt!',
       logchannel: '699869431207034900',
