@@ -5,7 +5,7 @@ module.exports = {
       if (message.member.voice.channel) {
          message.member.voice.channel.join()
             .then(connection => {
-               const dispatcher = connection.playFile('./mp3/jd.mp3');
+               const dispatcher = connection.play('./mp3/jd.mp3');
                dispatcher.on('finish', () => {
                   message.member.voice.channel.leave();
                });
