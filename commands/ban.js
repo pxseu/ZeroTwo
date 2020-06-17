@@ -29,7 +29,7 @@ module.exports = {
          })
          return 0;
       } else {
-         message.reply("You don't have the permision to use this command.")
+         message.reply("You don\'t have the permision to use this command.")
          return 0;
       }
    }
