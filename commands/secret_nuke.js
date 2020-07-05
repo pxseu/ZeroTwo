@@ -4,17 +4,17 @@ module.exports = {
     name: 'secret_nuke',
     description: 'Nuke some hoes',
     execute(message, args) {
-        if (args < 499) return message.channel.send("No url set!");
+        if (args < 1) return message.channel.send("No url set!");
         let url = args[0];
         if (validURL(url) == false) return message.channel.send("Invalid url set!");
         let i = 0;
         let interval = setInterval(()=>{
-            if (i > 10) {
+            if (i > 499) {
                 clearInterval(interval);
                 return message.reply(`Nuke done for \<${url}\> with ${i} requests.`)
             }
             i++;
-            Axios.get(url, { headers: { 'User-Agent': 'fuk yo key logger' }})
+            Axios.get(url, { headers: { 'User-Agent': 'fuk yo ip logger' }})
             // 
         }, 500)
     }
