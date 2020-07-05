@@ -1,8 +1,10 @@
 {
 		"name": "zerotwo-discordbot",
 		"description": "zerotwo-discordbot",
+		"main": "app.js",
 		"version": "0.0.1",
 		"dependencies": {
+				"axios": "^0.19.2",
 				"discord.js": "12.2.0",
 				"discordjs-prompter": "^2.0.4",
 				"ffbinaries": "1.1.4",
@@ -14,5 +16,9 @@
 				"youtube-playlist": "1.0.2",
 				"youtube-search": "1.1.4",
 				"ytdl-core": "^2.1.7"
+		},
+		"devDependencies": {
+				"dotenv": "^8.2.0",
+				"nodemon": "^2.0.4"
 		}
 }
