@@ -1,3 +1,5 @@
+//require("dotenv").config()
+
 const fs = require('fs');
 const Discord = require("discord.js");
 const mongoose = require('mongoose');
@@ -169,7 +171,7 @@ client.on('message', async message => {
       serverid: message.guild.id
    })
    if (badword.some(word => message.content.toLowerCase().includes(word))) {
-      //if (message.member.roles.cache.some(role => role.name == loader.adminRole) || message.member.roles.cache.some(role => role.name == loader.modRole))        return;  
+      if (message.member.roles.cache.some(role => role.name == loader.adminRole) || message.member.roles.cache.some(role => role.name == loader.modRole))        return;  
       message.reply({
          embed: {
             color: 10181046,
