@@ -1,4 +1,4 @@
-//require("dotenv").config()
+require("dotenv").config()
 
 const fs = require('fs');
 const Discord = require("discord.js");
@@ -11,8 +11,7 @@ const {
 mongoose.connect(process.env.MONGODB_URI, {
    useNewUrlParser: true,
    useUnifiedTopology: true,
-   useCreateIndex: true,
-   useUnifiedTopology: true
+   useCreateIndex: true
 })
 
 mongoose.connection.on('error', (error) => console.error(error))
@@ -26,7 +25,7 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 
 for (const file of commandFiles) {
    const command = require(`./commands/${file}`);
-   client.commands.set(command.name, command);
+   client.commands.set(command.name, command.description, command);
 }
 
 client.on("guildDelete", guild => {
