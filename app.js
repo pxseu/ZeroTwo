@@ -25,7 +25,7 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 
 for (const file of commandFiles) {
    const command = require(`./commands/${file}`);
-   client.commands.set(command.name, command.description, command);
+   client.commands.set(command.name, command, command.description);
 }
 
 client.on("guildDelete", guild => {
