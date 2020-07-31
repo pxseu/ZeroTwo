@@ -13,7 +13,7 @@
 				"discordjs-prompter": "^2.0.4",
 				"dotenv": "^8.2.0",
 				"ffbinaries": "1.1.4",
-				"ffmpeg-static": "4.0.1",
+				"ffmpeg-static": "4.2.6",
 				"genius-api": "^0.4.1",
 				"mongoose": "5.9.9",
 				"node-genius": "^1.1.0",
