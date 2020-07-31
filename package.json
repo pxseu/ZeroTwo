@@ -21,7 +21,7 @@
 				"remove": "^0.1.5",
 				"youtube-playlist": "1.0.2",
 				"youtube-search": "1.1.4",
-				"ytdl-core": "^2.1.7"
+				"ytdl-core": "^3.2.0"
 		},
 		"devDependencies": {
 				"nodemon": "^2.0.4"
