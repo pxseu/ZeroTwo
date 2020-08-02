@@ -1,6 +1,7 @@
 const search = require('youtube-search');
 const prompter = require('discordjs-prompter');
 const ytdl = require("ytdl-core");
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
   name: 'play',
@@ -96,16 +97,25 @@ module.exports = {
     }
 
     async function execute(message, serverQueue, guildConf) {
+      const embed = new MessageEmbed()
+
       loopchck(guildConf, message);
       const args = message.content.split(' ');
       const voiceChannel = message.member.voice.channel;
-      if (!voiceChannel) return message.channel.send(
-        'You need to be in a voice channel to play music!'
-      );
+      if (!voiceChannel) {
+        embed.setTitle(`error`);
+        embed.setDescription('You need to be in a voice channel to play music!');
+        embed.setColor("RANDOM");
+        return message.channel.send(embed)
+      }
+        
+
       const permissions = voiceChannel.permissionsFor(message.client.user);
       if (!permissions.has('CONNECT') || !permissions.has('SPEAK')) {
-        return message.channel.send(
-          'I need the permissions to join and speak in your voice channel!');
+        embed.setTitle(`error`);
+        embed.setDescription('I need the permissions to join and speak in your voice channel!');
+        embed.setColor("RANDOM");
+        return message.channel.send(embed)
       }
       const songInfo = await ytdl.getInfo(args[1]);
       const song = {
@@ -136,7 +146,10 @@ module.exports = {
         }
       } else {
         serverQueue.songs.push(song);
-        return message.channel.send(`${song.title} has been added to the queue!`)
+        embed.setTitle(`Succes.`);
+        embed.setColor("RANDOM");
+        embed.setDescription(`${song.title} has been added to the queue!`);
+        return message.channel.send(embed)
       }
     }
 
@@ -160,6 +173,11 @@ module.exports = {
           console.error(error);
         });
       dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+      const embed = new MessageEmbed();
+      embed.setTitle(`Now playing:`);
+      embed.setColor("RANDOM");
+      embed.setDescription(`${song.title}`);
+      message.channel.send(embed)
     }
   }
 }
