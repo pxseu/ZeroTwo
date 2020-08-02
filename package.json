@@ -4,11 +4,12 @@
 		"main": "app.js",
 		"version": "0.0.1",
 		"scripts": {
-				"start": "node .",
-				"devStart": "nodemon ."
+				"start": "cross-env NODE_ENV=productionn node .",
+				"devStart": "cross-env NODE_ENV=development nodemon ."
 		},
 		"dependencies": {
 				"axios": "^0.19.2",
+				"cross-env": "^7.0.2",
 				"discord.js": "12.2.0",
 				"discordjs-prompter": "^2.0.4",
 				"dotenv": "^8.2.0",
