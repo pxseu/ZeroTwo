@@ -16,7 +16,7 @@
 				"ffbinaries": "1.1.4",
 				"ffmpeg-static": "4.2.6",
 				"genius-api": "^0.4.1",
-				"mongoose": "5.9.26",
+				"mongoose": "5.9.28",
 				"node-genius": "^1.1.0",
 				"node-opus": "0.3.3",
 				"remove": "^0.1.5",
