@@ -5,7 +5,7 @@ module.exports = {
       if (!message.guild) return;
       
       if (message.member.roles.cache.some(role => role.name == guildConf.adminRole) || message.member.roles.cache.some(role => role.name == guildConf.modRole)) {
-         const user = message.mentions.users.first();
+         let user = message.mentions.users.first();
          if (!user) {
             try {
                if (!message.guild.members.get(args.slice(0, 1).join(' '))) throw new Error(
