@@ -1,13 +1,16 @@
+const { MessageEmbed } = require("discord.js")
+
 module.exports = {
    name: 'avatar',
-   description: 'Show avatars',
-   execute(message) {
-      if (!message.mentions.users.size) {
-         return message.channel.send(`Your avatar: ${message.author.displayAvatarURL({ dynamic: true })}`);
-      }
-      const avatarList = message.mentions.users.map(user => {
-         return `${user.username}'s avatar: <${user.displayAvatarURL({ format: "png", dynamic: true })}>`;
-      });
-      message.channel.send(avatarList);
+   description: 'show user avatars',
+   execute(message, args) {
+      let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(r => r.user.username.toLowerCase() === args.join(' ').toLocaleLowerCase()) || message.guild.members.cache.find(ro => ro.displayName.toLowerCase() === args.join(' ').toLocaleLowerCase()) || message.member;
+      user = user.user;
+      
+      const embed = new MessageEmbed();
+      embed.setDescription(`${ user.id == message.author.id ? "Your" : `${user.username}'s`} avatar`)
+      embed.setImage(user.displayAvatarURL({ dynamic: true }));
+
+      message.channel.send(embed);
    },
 };

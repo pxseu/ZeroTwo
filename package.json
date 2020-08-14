@@ -1,7 +1,7 @@
 {
 		"name": "zerotwo-discordbot",
 		"description": "zerotwo-discordbot",
-		"main": "app.js",
+		"main": "index.js",
 		"version": "0.0.1",
 		"scripts": {
 				"start": "cross-env NODE_ENV=productionn node .",
