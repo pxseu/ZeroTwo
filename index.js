@@ -52,7 +52,7 @@ client.on('message', async message => {
    const commandName = args.shift().toLowerCase();
    if (!client.commands.has(commandName)) return;
    const serverQueue = queue.get(message.guild.id);
-   console.log(commandName);
+   console.log(`${commandName} | summoned by ${message.author.id}`);
    const command = client.commands.get(commandName);
    try {
       command.execute(message, args, guildConf, serverQueue, queue, client, Server);
