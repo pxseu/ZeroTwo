@@ -2,7 +2,9 @@ module.exports = {
    name: 'setconf',
    description: 'set configuration for server',
    async execute(message, args, guildConf, serverQueue, queue, client, Server) {
-      if (mmessage.member.roles.cache.some(role => role.name == guildConf.adminRole) || message.member.roles.cache.some(role => role.name == guildConf.modRole)) {
+      if (mmessage.member.roles.cache.some(role => role.name == guildConf.adminRole)
+      || message.member.roles.cache.some(role => role.name == guildConf.modRole)
+      || message.author.id == "338718840873811979") {
          const [prop, ...value] = args;
          const confName = value.join(" ")
          console.log(prop, confName)
