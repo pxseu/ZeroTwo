@@ -69,5 +69,6 @@ module.exports = {
       } else {
          return message.reply("You're not an admin, sorry!");
       }
-   }
+   },
+   type: 0
 }

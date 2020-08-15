@@ -9,5 +9,6 @@ module.exports = {
       serverQueue.loop = false;
       serverQueue.connection.dispatcher.end();
       message.react("⏭️");
-   }
+   },
+   type: 4
 }

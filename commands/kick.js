@@ -3,17 +3,11 @@ module.exports = {
    description: 'kick user',
    async execute(message, args, guildConf, serverQueue, queue, client) {
       if (message.member.roles.cache.some(role => role.name == guildConf.adminRole) || message.member.roles.cache.some(role => role.name == guildConf.modRole)) {
-         const user = message.mentions.users.first();
-         if (!user) {
-            try {
-               if (!message.guild.members.get(args.slice(0, 1).join(' '))) throw new Error(
-                  'Couldn\' get a Discord user with this userID!');
-               user = message.guild.members.get(args.slice(0, 1).join(' '));
-               user = user.user;
-            } catch (error) {
-               return message.reply('Couldn\' get a Discord user with this userID!');
-            }
-         }
+         let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(r => r.user.username.toLowerCase() === args.join(' ').toLocaleLowerCase()) || message.guild.members.cache.find(ro => ro.displayName.toLowerCase() === args.join(' ').toLocaleLowerCase());
+         
+         if (!user) return message.reply('Couldn\' get a Discord user with this userID!');
+         user = user.user;
+         
          if (user === message.author) return message.channel.send('You can\'t kick yourself');
          if (!message.guild.member(user).bannable) return message.reply(
             'You can\'t kick this user because you the bot has not sufficient permissions!');
@@ -30,5 +24,6 @@ module.exports = {
          message.reply("You don't have the permision to use this command.")
          return 0;
       }
-   }
+   },
+   type: 2
 }

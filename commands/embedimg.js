@@ -16,5 +16,6 @@ module.exports = {
       } else {
          message.reply("You don't have the permision to use this command.")
       }
-   }
+   },
+   type: 2
 }

@@ -127,5 +127,6 @@ module.exports = {
               }
             }
           }
-    }
+    },
+    type: 4
 }

@@ -12,4 +12,5 @@ module.exports = {
          }
       });
    },
+   type: 3
 };

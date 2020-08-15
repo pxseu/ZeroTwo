@@ -4,4 +4,5 @@ module.exports = {
 	execute(message, args) {
 		message.channel.send({embed: {color: 10181046, title:"My owner is pxseu#6944", description: "[OWNERS WEBSITE](https://pxseu.cc)" }});
 	},
+	type: 0
 };

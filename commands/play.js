@@ -179,5 +179,6 @@ module.exports = {
       embed.setDescription(`${song.title}`);
       message.channel.send(embed)
     }
-  }
+  },
+  type: 4
 }
