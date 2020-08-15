@@ -13,5 +13,6 @@ module.exports = {
          serverQueue.loop = false;
          message.react("🛑");
       }
-   }
+   },
+   type: 4
 }

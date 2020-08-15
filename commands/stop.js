@@ -9,5 +9,6 @@ module.exports = {
       serverQueue.songs = [];
       serverQueue.connection.dispatcher.end();
       message.react("🛑");
-   }
+   },
+   type: 4
 }

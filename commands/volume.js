@@ -35,5 +35,6 @@ module.exports = {
         embed.setColor("RANDOM");
         message.channel.send(embed);
     },
+   type: 4
  };
  

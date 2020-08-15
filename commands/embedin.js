@@ -18,5 +18,6 @@ module.exports = {
          message.reply("You don't have the permision to use this command.")
          return 0;
       }
-   }
+   },
+   type: 2
 }

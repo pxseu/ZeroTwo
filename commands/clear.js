@@ -20,4 +20,5 @@ module.exports = {
          return 0;
       }
    },
+   type: 2
 };

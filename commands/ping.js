@@ -28,5 +28,6 @@ module.exports = {
       });
 
       if (!message.deleted) message.delete();
-   }
+   },
+   type: 0
 }

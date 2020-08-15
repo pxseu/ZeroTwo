@@ -1,6 +1,6 @@
 module.exports = {
    name: 'vct',
-   description: 'vct.',
+   description: 'Test bot connection',
    execute(message, args) {
       function vctest(message) {
          if (message.member.voice.channel) {
@@ -14,5 +14,6 @@ module.exports = {
          }
       }
       vctest(message);
-   }
+   },
+   type: 0
 };

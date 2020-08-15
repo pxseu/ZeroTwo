@@ -10,4 +10,5 @@ module.exports = {
          message.reply("No songs in queue")
       }
    },
+   type: 4
 };

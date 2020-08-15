@@ -64,5 +64,6 @@ module.exports = {
             .setFooter(message.guild.name, message.guild.iconURL())
             .setTimestamp()
         message.channel.send(embed)
-    }
+    },
+    type: 4
 }
