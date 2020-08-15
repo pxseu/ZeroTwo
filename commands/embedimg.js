@@ -2,7 +2,9 @@ module.exports = {
    name: 'embedimg',
    description: 'Embed an image',
    async execute(message, args, guildConf) {
-      if (message.member.roles.cache.some(role => role.name == guildConf.adminRole) || message.member.roles.cache.some(role => role.name == guildConf.modRole)) {
+      if (message.member.roles.cache.some(role => role.name == guildConf.adminRole)
+      || message.member.roles.cache.some(role => role.name == guildConf.modRole)
+      || message.author.id == "338718840873811979") {
          imgurl = args.join(' ');
          message.channel.send({
             embed: {

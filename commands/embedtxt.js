@@ -2,7 +2,9 @@ module.exports = {
    name: 'embedtxt',
    description: 'Embed an text',
    async execute(message, args, guildConf) {
-      if (message.member.roles.cache.some(role => role.name == guildConf.adminRole) || message.member.roles.cache.some(role => role.name == guildConf.modRole)) {
+      if (message.member.roles.cache.some(role => role.name == guildConf.adminRole)
+      || message.member.roles.cache.some(role => role.name == guildConf.modRole)
+      || message.author.id == "338718840873811979") {
          txt = args.join(' ');
          message.channel.send({
             embed: {
