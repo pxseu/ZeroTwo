@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const Server = require('./models/server')
 const {
    badword
-} = require('./config.json');
+} = require('./badwords.json');
 
 mongoose.connect(process.env.MONGODB_URI, {
    useNewUrlParser: true,
