@@ -1,8 +1,12 @@
+const { MessageEmbed } = require("discord.js");
+
 module.exports = {
 	name: 'owner',
 	description: 'Owner!',
 	execute(message, args) {
-		message.channel.send({embed: {color: 10181046, title:"My owner is pxseu#6944", description: "[OWNERS WEBSITE](https://pxseu.cc)" }});
+		const embed = new MessageEmbed();
+		embed.setDescription(`My owner is \`\`pxseu#0001\`\`\n[My owners website](https://www.pxseu.com)`);
+		message.channel.send(embed);
 	},
 	type: 0
 };
