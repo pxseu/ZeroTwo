@@ -12,7 +12,7 @@ module.exports = {
          txt = args.join(' ');
 
          if (channelid != undefined) return message.reply('No channel Id was provided.');
-         if (txt != undefined) return message.reply("Message cannot bee empty.");
+         if (txt == undefined) return message.reply("Message cannot bee empty.");
          const embed = new MessageEmbed();
          embed.setColor("RANDOM");
          embed.setDescription(txt);

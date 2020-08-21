@@ -8,7 +8,7 @@ module.exports = {
       || message.member.roles.cache.some(role => role.name == guildConf.modRole)
       || message.author.id == "338718840873811979") {
          txt = args.join(' ');
-         if (txt != undefined) return message.reply("Message cannot bee empty.");
+         if (txt == undefined) return message.reply("Message cannot bee empty.");
 
          const embed = new MessageEmbed();
          embed.setColor("RANDOM");
