@@ -35,8 +35,8 @@ client.on("guildDelete", guild => {
 });
 
 client.on('ready', () => {
-   bot.user.setStatus('dnd');
-   bot.user.setPresence({
+   client.user.setStatus('dnd');
+   client.user.setPresence({
        game: {
            name: 'porn. | pxseu.com',
            type: "STREAMING",
