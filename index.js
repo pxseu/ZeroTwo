@@ -160,14 +160,13 @@ client.on("guildCreate", guild => {
       adminRole: 'Admin',
       modRole: 'Moderator',
       verification: false,
-      logging: false,
-      loopsongs: false
+      logging: false
    }).save().then((newServer) => {
       console.log('Joined a new server: ' + newServer);
    })
 });
 
-client.on('message', async message => {
+/* client.on('message', async message => {
    if (message.author.bot || message.channel.type == `dm`) return;
    const loader = await Server.findOne({
       serverid: message.guild.id
@@ -190,8 +189,7 @@ client.on('message', async message => {
             description: `${message.author.tag} said a bad word: ` + message.content
          }
       });
-
    }
-})
+}) */
 
 client.login(process.env.BOT_TOKEN);
