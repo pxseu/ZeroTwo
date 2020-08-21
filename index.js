@@ -39,7 +39,7 @@ client.on('ready', () => {
    client.user.setPresence({
       status: 'dnd',
       activity: {
-          name: 'porn. | pxseu.com',
+          name: 'porn | pxseu.com',
           type: 'STREAMING',
           url: 'https://www.twitch.tv/monstercat'
       }
