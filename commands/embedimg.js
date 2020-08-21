@@ -13,6 +13,7 @@ module.exports = {
 
          const embed = new MessageEmbed();
          embed.setColor("RANDOM");
+         embed.setDescription(`[Image](${imgurl})`);
          embed.setImage(imgurl);
          message.channel.send(embed);
       } else {
