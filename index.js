@@ -35,11 +35,14 @@ client.on("guildDelete", guild => {
 });
 
 client.on('ready', () => {
-   console.log(`Logged in as ${client.user.tag}!`);
-   client.user.setActivity("luv u",{
-      name: "online",
-      type: "CUSTOM_STATUS"
-   })
+   bot.user.setStatus('dnd');
+   bot.user.setPresence({
+       game: {
+           name: 'porn. | pxseu.com',
+           type: "STREAMING",
+           url: "https://www.twitch.tv/monstercat"
+       }
+   });
 });
 
 client.on('message', async message => {
