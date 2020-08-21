@@ -9,8 +9,7 @@ const serverSchema = new Schema({
   adminRole: String,
   modRole: String,
   verification: Boolean,
-  logging: Boolean,  
-  loopsongs: Boolean
+  logging: Boolean
 })
 
 module.exports = mongoose.model('Server', serverSchema)

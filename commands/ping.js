@@ -8,7 +8,7 @@ module.exports = {
 
       embed = new Discord.MessageEmbed({
          title: "Ping",
-         description: "<a:loading:521018476480167937> Pinging..."
+         description: "Pinging..."
       });
 
       message.channel.send(embed).then(msg => {

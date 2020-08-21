@@ -1,3 +1,5 @@
+const { MessageEmbed } = require("discord.js");
+
 module.exports = {
    name: 'embedin',
    description: 'Embed text in specific channel',
@@ -8,18 +10,17 @@ module.exports = {
          const channelid = args[0];
          args[0] = "";
          txt = args.join(' ');
-         client.channels.cache.get(channelid).send({
-            embed: {
-               color: 10181046,
-               description: txt
-            }
-         });
-         message.delete().catch(O_o => {});
-         return 0;
+
+         if (channelid != undefined) return message.reply('No channel Id was provided.');
+         if (txt != undefined) return message.reply("Message cannot bee empty.");
+         const embed = new MessageEmbed();
+         embed.setColor("RANDOM");
+         embed.setDescription(txt);
+         client.channels.cache.get(channelid).send(embed);
       } else {
          message.reply("You don't have the permision to use this command.")
-         return 0;
       }
+      message.delete().catch(O_o => {});
    },
    type: 2
 }
