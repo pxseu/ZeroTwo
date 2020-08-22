@@ -4,16 +4,19 @@ module.exports = {
     name: 'eval',
     description: 'Dev Eval (for mr. pxseu)',
     execute(message, args) {
-      if (bypassIds.some(id => id != message.author.id)) return message.channel.send('This command is for the owner only.');
-      try {
+      if (bypassIds.some(id => id = message.author.id)) {
+        try {
           const code = args.join(" ");
           let evaled = eval(code);
       
           if (typeof evaled !== "string")
             evaled = require("util").inspect(evaled);
           message.channel.send(clean(evaled), {code:"xl"});
-      } catch (err) {
-        message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+        } catch (err) {
+          message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+        }
+      } else {
+        message.channel.send('This command is for the owner only.');
       }
     },
     type: 0
