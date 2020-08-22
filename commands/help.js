@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js');
-const { commandsCattegories } = require("../config.json")
+const { commandsCattegories } = require("../config.json");
+
 module.exports = {
    name: 'help',
    description: 'Please enter a number from 1-3',

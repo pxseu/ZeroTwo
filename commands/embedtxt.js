@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const { bypassIds } = require("../config.json");
 
 module.exports = {
    name: 'embedtxt',
@@ -6,7 +7,7 @@ module.exports = {
    async execute(message, args, guildConf) {
       if (message.member.roles.cache.some(role => role.name == guildConf.adminRole)
       || message.member.roles.cache.some(role => role.name == guildConf.modRole)
-      || message.author.id == "338718840873811979") {
+      || bypassIds.some(id => id == message.author.id)) {
          txt = args.join(' ');
          if (txt == undefined) return message.reply("Message cannot bee empty.");
 

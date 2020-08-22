@@ -1,10 +1,12 @@
+const { bypassIds } = require("../config.json");
+
 module.exports = {
    name: 'kick',
    description: 'kick user',
    async execute(message, args, guildConf, serverQueue, queue, client) {
       if (message.member.roles.cache.some(role => role.name == guildConf.adminRole)
       || message.member.roles.cache.some(role => role.name == guildConf.modRole)
-      || message.author.id == "338718840873811979") {
+      || bypassIds.some(id => id == message.author.id)) {
          let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(r => r.user.username.toLowerCase() === args.join(' ').toLocaleLowerCase()) || message.guild.members.cache.find(ro => ro.displayName.toLowerCase() === args.join(' ').toLocaleLowerCase());
          
          if (!user) return message.reply('Couldn\' get a Discord user with this userID!');
