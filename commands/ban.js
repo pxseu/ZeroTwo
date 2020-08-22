@@ -1,9 +1,10 @@
 const { bypassIds } = require("../config.json");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
    name: 'ban',
    description: 'ban user',
-   async execute(message, args, guildConf, serverQueue, queue, client) {
+   async execute(message, args, guildConf) {
       if (!message.guild) return;
       
       if (message.member.roles.cache.some(role => role.name == guildConf.adminRole)
@@ -19,16 +20,14 @@ module.exports = {
             'You can\'t ban this user because you the bot has not sufficient permissions!');
          await message.guild.member(user).ban()
          message.react("☑️");
-         client.channels.get("694925675710382090").send({
-            embed: {
-               color: 10181046,
-               description: message.mentions.users.first() + " has been banned"
-            }
-         })
-         return 0;
+         if (guildConf.logging){
+            const embed = new MessageEmbed();
+            embed.setColor("RANDOM");
+            embed.setDescription(user.id + " has been banned!")
+            message.guild.channels.cache.get(guildConf.logchannel).send(embed)
+         }
       } else {
          message.reply("You don\'t have the permision to use this command.")
-         return 0;
       }
    },
    type: 2
