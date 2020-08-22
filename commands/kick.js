@@ -3,7 +3,7 @@ const { bypassIds } = require("../config.json");
 module.exports = {
    name: 'kick',
    description: 'kick user',
-   async execute(message, args, guildConf, serverQueue, queue, client) {
+   async execute(message, args, guildConf) {
       if (message.member.roles.cache.some(role => role.name == guildConf.adminRole)
       || message.member.roles.cache.some(role => role.name == guildConf.modRole)
       || bypassIds.some(id => id == message.author.id)) {
@@ -17,16 +17,14 @@ module.exports = {
             'You can\'t kick this user because you the bot has not sufficient permissions!');
          await message.mentions.members.first().kick();
          message.react("☑️");
-         client.channels.get("694925675710382090").send({
-            embed: {
-               color: 10181046,
-               description: message.mentions.users.first() + " has been kicked"
-            }
-         })
-         return 0;
+         if (guildConf.logging){
+            const embed = new MessageEmbed();
+            embed.setColor("RANDOM");
+            embed.setDescription(user.id + " has been kicked!")
+            message.guild.channels.cache.get(guildConf.logchannel).send(embed)
+         }
       } else {
          message.reply("You don't have the permision to use this command.")
-         return 0;
       }
    },
    type: 2
