@@ -1,8 +1,12 @@
+const { bypassIds } = require("../config.json");
+
 module.exports = {
    name: 'clear',
    description: 'clear channel',
    async execute(message, args, guildConf) {
-      if (message.member.roles.cache.some(role => role.name == guildConf.adminRole) || message.member.roles.cache.some(role => role.name == guildConf.modRole)) {
+      if (message.member.roles.cache.some(role => role.name == guildConf.adminRole)
+      || message.member.roles.cache.some(role => role.name == guildConf.modRole)
+      ||  bypassIds.some(id => id == message.author.id)) {
          const amount = args.join(' ');
          if (!amount) return message.reply(
             'You haven\'t given an amount of messages which should be deleted!');
