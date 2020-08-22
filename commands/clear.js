@@ -16,7 +16,12 @@ module.exports = {
          await message.channel.messages.fetch({
             limit: amount
          }).then(messages => {
-            message.channel.bulkDelete(messages)
+            message.channel.bulkDelete(messages);
+            message.channel.send(`Succesfully deleted: ${amount} messages.`).then((msg) => {
+               setTimeout(() => {
+                  msg.delete();
+               }, 4000)
+            })
          });
          return 0;
       } else {
