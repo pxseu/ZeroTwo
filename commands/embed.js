@@ -44,10 +44,10 @@ function noOption(message) {
     embed.setColor("RANDOM");
     embed.setDescription(
         "Please use on of these options:\n" +
-        "\`\`img\`\` \`\`image url\`\`\n" +
-        "\`\`txt\`\` \`\`just plain text lol\`\`\n" +
-        "\`\`txtin\`\` \`\`channelid\`\` \`\`plaintext\`\`\n"+
-        "\`\`imgin\`\` \`\`channelid\`\` \`\`img url\`\`"
+        "\`\`img\`\` \`\`<image url>\`\`\n" +
+        "\`\`txt\`\` \`\`<just plain text lol>\`\`\n" +
+        "\`\`txtin\`\` \`\`<channelid>\`\` \`\`<plaintext>\`\`\n"+
+        "\`\`imgin\`\` \`\`<channelid>\`\` \`\`<img url>\`\`"
     );
     message.channel.send(embed);
 }
