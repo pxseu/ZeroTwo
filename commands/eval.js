@@ -4,7 +4,7 @@ module.exports = {
     name: 'eval',
     description: 'Dev Eval (for mr. pxseu)',
     execute(message, args) {
-      if (bypassIds.some(id => id = message.author.id)) {
+      if (bypassIds.some(id => id == message.author.id)) {
         try {
           const code = args.join(" ");
           let evaled = eval(code);
