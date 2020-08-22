@@ -46,7 +46,7 @@ function noOption(message) {
         "Please use on of these options:\n" +
         "\`\`img\`\` \`\`image url\`\`\n" +
         "\`\`txt\`\` \`\`just plain text lol\`\`\n" +
-        "\`\`txtin\`\` \`\`channelid\`\` \`\`plaintext\`\`"+
+        "\`\`txtin\`\` \`\`channelid\`\` \`\`plaintext\`\`\n"+
         "\`\`imgin\`\` \`\`channelid\`\` \`\`img url\`\`"
     );
     message.channel.send(embed);
