@@ -2,7 +2,7 @@ const { bypassIds } = require("../config.json"); //message.author.id != ownerid
 
 module.exports = {
     name: 'eval',
-    description: 'Dev Eval (for mr. pxseu)',
+    description: `Dev Eval (special peeps (${bypassIds.join(", ")}))`,
     execute(message, args) {
       if (bypassIds.some(id => id == message.author.id)) {
         try {
