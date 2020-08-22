@@ -1,30 +1,29 @@
 {
-		"name": "zerotwo-discordbot",
-		"description": "zerotwo-discordbot",
-		"main": "index.js",
-		"version": "0.0.1",
-		"scripts": {
-				"start": "cross-env NODE_ENV=productionn node .",
-				"devStart": "cross-env NODE_ENV=development nodemon ."
-		},
-		"dependencies": {
-				"axios": "^0.19.2",
-				"cross-env": "^7.0.2",
-				"discord.js": "12.3.1",
-				"discordjs-prompter": "^2.0.4",
-				"dotenv": "^8.2.0",
-				"ffbinaries": "1.1.4",
-				"ffmpeg-static": "4.2.7",
-				"genius-api": "^0.4.1",
-				"mongoose": "5.10.0",
-				"node-genius": "^1.1.0",
-				"node-opus": "0.3.3",
-				"remove": "^0.1.5",
-				"youtube-playlist": "1.0.4",
-				"youtube-search": "1.1.4",
-				"ytdl-core": "^3.2.1"
-		},
-		"devDependencies": {
-				"nodemon": "^2.0.4"
-		}
+	"name": "zerotwo-discordbot",
+	"description": "zerotwo-discordbot",
+	"main": "index.js",
+	"version": "0.0.1",
+	"scripts": {
+		"start": "cross-env NODE_ENV=productionn node .",
+		"devStart": "cross-env NODE_ENV=development nodemon ."
+	},
+	"dependencies": {
+		"cross-env": "^7.0.2",
+		"discord.js": "12.3.1",
+		"discordjs-prompter": "^2.0.4",
+		"dotenv": "^8.2.0",
+		"ffbinaries": "1.1.4",
+		"ffmpeg-static": "4.2.7",
+		"genius-api": "^0.4.1",
+		"mongoose": "5.10.0",
+		"node-genius": "^1.1.0",
+		"node-opus": "0.3.3",
+		"remove": "^0.1.5",
+		"youtube-playlist": "1.0.4",
+		"youtube-search": "1.1.4",
+		"ytdl-core": "^3.2.1"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.4"
+	}
 }
