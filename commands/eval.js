@@ -1,4 +1,4 @@
-const { bypassIds } = require("../config.json"); //message.author.id != ownerid
+const { bypassIds } = require("../config.json");
 
 module.exports = {
     name: 'eval',
