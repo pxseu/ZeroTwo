@@ -1,5 +1,4 @@
 {
-	"ownerid": "338718840873811979",
 	"commandsCattegories": {
 		"0": "Commands for bot",
 		"1": "User commands",
@@ -27,7 +26,6 @@
 		"https://i.imgur.com/i1PIph3.gif"
 	],
 	"bypassIds": [
-		"338718840873811979",
-		"670600281846841354"
+		"338718840873811979"
 	]
 }

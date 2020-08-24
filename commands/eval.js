@@ -1,7 +1,5 @@
 const { bypassIds } = require("../config.json");
 
-const peitho = "my amazing girlfriend who I fell in love and wont ever let go off. I love you."
-
 module.exports = {
     name: 'eval',
     description: `Dev Eval (special peeps (${bypassIds.join(", ")}))`,
