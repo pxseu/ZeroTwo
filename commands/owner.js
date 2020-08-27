@@ -7,7 +7,7 @@ module.exports = {
 	execute(message, args) {
 		const embed = new MessageEmbed();
 		embed.setDescription(
-			`My owner is \`\`pxseu#0001\`\`\n (${ownerid})[My owners website](https://www.pxseu.com)`
+			`My owner is \`\`pxseu#0001\`\` (338718840873811979)\n[My owners website](https://www.pxseu.com)`
 		);
 		message.channel.send(embed);
 	},
