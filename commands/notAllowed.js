@@ -1,10 +1,10 @@
 module.exports = {
 	name: 'sex',
-	description: 'No',
+	description: 'no',
 	execute(message, args) {
 		message.channel.send('no');
 	},
-	type: 3,
+	type: 0,
 	aliases: [
 		'fuck',
 		'nut',
