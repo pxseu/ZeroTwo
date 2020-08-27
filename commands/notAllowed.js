@@ -1,5 +1,3 @@
-const { MessageEmbed } = require('discord.js');
-
 module.exports = {
 	name: 'sex',
 	description: 'No',
@@ -7,5 +5,14 @@ module.exports = {
 		message.channel.send('no');
 	},
 	type: 3,
-	aliases: ['fuck', 'nut', 'hentai', 'nsfw', 'boobs'],
+	aliases: [
+		'fuck',
+		'nut',
+		'hentai',
+		'nsfw',
+		'boobs',
+		'rape',
+		'anal',
+		'astolfoIsNotHot',
+	],
 };
