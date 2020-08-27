@@ -1,6 +1,6 @@
 const search = require('youtube-search');
 const prompter = require('discordjs-prompter');
-const ytdl = require("ytdl-core");
+const ytdl = require('ytdl-core-discord');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
     if (args[0].startsWith("https://", 0) || args[0].startsWith("http://",
         0)) {
       message.content = guildconfdata.prefix + "play " + args[0];
-      return execute(message, serverQueue, guildConf);
+      return executePlay(message, serverQueue, guildConf);
     }
     var searchterm = args.join(' ');
     search(searchterm, opts, async function(err, results) {
@@ -50,19 +50,19 @@ module.exports = {
       switch (response) {
         case "👈":
           message.content = guildconfdata.prefix + "play " + results[0].link;
-          execute(message, serverQueue, guildConf);
+          executePlay(message, serverQueue, guildConf);
           return 0;
         case "👆":
           message.content = guildconfdata.prefix + "play " + results[1].link;
-          execute(message, serverQueue, guildConf);
+          executePlay(message, serverQueue, guildConf);
           return 0;
         case "👇":
           message.content = guildconfdata.prefix + "play " + results[2].link;
-          execute(message, serverQueue, guildConf);
+          executePlay(message, serverQueue, guildConf);
           return 0;
         case "👉":
           message.content = guildconfdata.prefix + "play " + results[3].link;
-          execute(message, serverQueue, guildConf);
+          executePlay(message, serverQueue, guildConf);
           return 0;
         default:
           return 0;
@@ -70,7 +70,7 @@ module.exports = {
     });
 
     async function loopchck(guildConf, message) {
-      if (guildConf.loopsongs == true) {
+      if (serverQueue == true) {
         const response = await prompter.choice(message.channel, {
           question: 'Stop the loop?',
           choices: ['👍', '👎'],
@@ -80,11 +80,7 @@ module.exports = {
         })
         switch (response) {
           case "👍":
-            await Server.updateOne({
-              serverid: message.guild.id
-            }, {
-              loopsongs: false
-            });
+            serverQueue.loop = false;
             message.react("🛑");
             return 0;
           case "👎":
@@ -96,7 +92,7 @@ module.exports = {
       }
     }
 
-    async function execute(message, serverQueue, guildConf) {
+    async function executePlay(message, serverQueue, guildConf) {
       const embed = new MessageEmbed()
 
       loopchck(guildConf, message);
@@ -120,7 +116,7 @@ module.exports = {
       const songInfo = await ytdl.getInfo(args[1]);
       const song = {
         title: songInfo.title,
-        url: songInfo.video_url,
+        url: songInfo.video_url
       };
 
       if (!serverQueue) {
@@ -153,14 +149,14 @@ module.exports = {
       }
     }
 
-    function play(guild, song) {
+    async function play(guild, song) {
       const serverQueue = queue.get(guild.id);
       if (!song) {
         serverQueue.voiceChannel.leave();
         queue.delete(guild.id);
         return;
       }
-      const dispatcher = serverQueue.connection.play(ytdl(song.url))
+      const dispatcher = serverQueue.connection.play(await ytdl(song.url) , { type: 'opus' })
         .on('finish', async () => {
           if (serverQueue.loop == true) {
             return play(guild, serverQueue.songs[0])
