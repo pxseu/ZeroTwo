@@ -12,4 +12,5 @@ module.exports = {
 		message.channel.send(embed);
 	},
 	type: 0,
+	aliases: ['daddy', 'mybigboi'],
 };

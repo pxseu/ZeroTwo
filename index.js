@@ -59,10 +59,14 @@ client.on('message', async (message) => {
 		.trim()
 		.split(/ +/g);
 	const commandName = args.shift().toLowerCase();
-	if (!client.commands.has(commandName)) return;
+	const command =
+		client.commands.get(commandName) ||
+		client.commands.find(
+			(cmd) => cmd.aliases && cmd.aliases.includes(commandName)
+		);
+	if (!command) return message.react('❌');
 	const serverQueue = queue.get(message.guild.id);
 	console.log(`${commandName} | summoned by ${message.author.id}`);
-	const command = client.commands.get(commandName);
 	try {
 		command.execute(
 			message,
