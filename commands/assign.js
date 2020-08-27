@@ -37,7 +37,8 @@ module.exports = {
                 message.channel.send("Added role to user.")
             }
         } else {
-            message.channel.send("Insufficient permissions.")
-        }
-    }
+            message.channel.send("Insufficient permissions.");
+        };
+    },
+    type: 2
 };
