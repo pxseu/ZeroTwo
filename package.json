@@ -4,8 +4,8 @@
 	"main": "index.js",
 	"version": "0.0.1",
 	"scripts": {
-		"start": "cross-env NODE_ENV=productionn node .",
-		"devStart": "cross-env NODE_ENV=development nodemon ."
+		"start": "cross-env NODE_ENV=production node .",
+		"dev": "cross-env NODE_ENV=development nodemon ."
 	},
 	"dependencies": {
 		"@discordjs/opus": "^0.3.2",

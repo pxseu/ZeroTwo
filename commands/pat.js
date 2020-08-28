@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const { patgifs } = require('../config.json');
+const { patgifs } = require('../utils/config');
 
 module.exports = {
 	name: 'pat',

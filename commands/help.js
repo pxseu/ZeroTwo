@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const { commandsCattegories } = require('../config.json');
+const { commandsCattegories } = require('../utils/config');
 
 module.exports = {
 	name: 'help',
@@ -18,30 +18,33 @@ module.exports = {
 			.setTimestamp();
 
 		if (args == undefined || args[0] == undefined) {
-			embed.setTitle('**Cattegories:**');
+			embed.setTitle('**Categories:**');
 			let description = ``;
 
 			Object.keys(commandsCattegories).forEach(function eachKey(key) {
 				description += `${key}. `;
 				description += `\`\`${commandsCattegories[key]}\`\`\n`;
 			});
-			description += `\nUsage: \`\`zt!help [cattegory number]\`\``;
+			description += `\nUsage: \`\`zt!help [category number]\`\``;
 
 			embed.setDescription(description);
 		} else {
 			if (getCommandType(args[0]) == undefined) {
 				embed.setTitle('**Results:**');
-				embed.setDescription('This cattegory does not exist.');
+				embed.setDescription('This category does not exist.');
 			} else {
 				const cattegory = getCommandType(args[0]);
 				const cattegoryName = commandsCattegories[cattegory].toLowerCase();
-				embed.setTitle(`Cattegory: ${cattegory} (${cattegoryName})`);
+				embed.setTitle(`Category: ${cattegory} (${cattegoryName})`);
 				client.commands
 					.filter((command) => command.type == cattegory)
 					.forEach((command) => {
 						embed.addField(
 							`${guildConf.prefix}${command.name}`,
-							command.description
+							command.description +
+								(command.aliases
+									? `\nAliases: \`\`${command.aliases.join('``, ``')}\`\``
+									: null)
 						);
 					});
 			}
