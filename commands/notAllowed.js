@@ -11,7 +11,6 @@ module.exports = {
 		'hentai',
 		'nsfw',
 		'boobs',
-		'rape',
 		'anal',
 		'astolfoIsNotHot',
 	],
