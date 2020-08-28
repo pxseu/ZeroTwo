@@ -1,4 +1,4 @@
-const { bypassIds } = require('../config.json');
+const { bypassIds } = require('../utils/config');
 
 module.exports = {
 	name: 'clear',

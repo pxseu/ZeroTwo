@@ -1,5 +1,3 @@
-const { Model } = require('mongoose');
-
 const events = {
 	READY: 'ready',
 	MESSAGE: 'message',

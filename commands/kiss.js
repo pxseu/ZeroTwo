@@ -1,10 +1,10 @@
 const { MessageEmbed } = require('discord.js');
+const { kissgifs } = require('../utils/config');
 
 module.exports = {
 	name: 'kiss',
 	description: 'Kiss!',
 	execute(message, args) {
-		const { kissgifs } = require('../config.json');
 		const kiss = kissgifs[Math.floor(Math.random() * kissgifs.length)];
 
 		const tagged =
