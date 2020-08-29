@@ -1,9 +1,9 @@
 module.exports = {
-	name: 'sex',
+	name: 'astolfoIsNotHot',
 	description: 'no',
 	execute(message, args) {
 		message.channel.send('no');
 	},
 	type: 0,
-	aliases: ['fuck', 'nsfw', 'anal', 'astolfoIsNotHot'],
+	aliases: ['astolfoIsNotHot'],
 };
