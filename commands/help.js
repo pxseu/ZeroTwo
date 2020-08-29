@@ -1,9 +1,9 @@
 const { MessageEmbed } = require('discord.js');
-const { commandsCattegories } = require('../utils/config');
+const { commandsCategories } = require('../utils/config');
 
 module.exports = {
 	name: 'help',
-	description: 'Please enter a number from 1-3',
+	description: `Please enter a number from 0-6`,
 	execute(message, args, guildConf, serverQueue, queue, client) {
 		let user = message.member;
 
@@ -21,9 +21,9 @@ module.exports = {
 			embed.setTitle('**Categories:**');
 			let description = ``;
 
-			Object.keys(commandsCattegories).forEach(function eachKey(key) {
+			Object.keys(commandsCategories).forEach(function eachKey(key) {
 				description += `${key}. `;
-				description += `\`\`${commandsCattegories[key]}\`\`\n`;
+				description += `\`\`${commandsCategories[key]}\`\`\n`;
 			});
 			description += `\nUsage: \`\`zt!help [category number]\`\``;
 
@@ -34,7 +34,7 @@ module.exports = {
 				embed.setDescription('This category does not exist.');
 			} else {
 				const cattegory = getCommandType(args[0]);
-				const cattegoryName = commandsCattegories[cattegory].toLowerCase();
+				const cattegoryName = commandsCategories[cattegory].toLowerCase();
 				embed.setTitle(`Category: ${cattegory} (${cattegoryName})`);
 				client.commands
 					.filter((command) => command.type == cattegory)
@@ -67,6 +67,10 @@ function getCommandType(string = '') {
 			return 3;
 		case '4':
 			return 4;
+		case '5':
+			return 5;
+		case '6':
+			return 6;
 		default:
 			return undefined;
 	}

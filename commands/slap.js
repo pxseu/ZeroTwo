@@ -1,13 +1,12 @@
 const { MessageEmbed } = require('discord.js');
 const getImage = require('../utils/getImage');
-//const { kissgifs } = require('../utils/config');
+//const { patgifs } = require('../utils/config');
 
 module.exports = {
-	name: 'kiss',
-	description: 'Kiss!',
+	name: 'slap',
+	description: 'Slap someone!',
 	async execute(message, args) {
-		const kiss = await getImage('/kiss');
-		//const kiss = kissgifs[Math.floor(Math.random() * kissgifs.length)];
+		//const pat = patgifs[Math.floor(Math.random() * patgifs.length)];
 
 		const tagged =
 			message.mentions.members.first() ||
@@ -21,17 +20,16 @@ module.exports = {
 					ro.displayName.toLowerCase() === args.join(' ').toLocaleLowerCase()
 			);
 
-		const msgContent =
-			tagged != undefined && tagged.id != message.author.id
-				? `<@${message.author.id}> kisses <@${tagged.id}> (vewy uwu)`
-				: `kisses <@${message.author.id}> uwu`;
-
 		const embed = new MessageEmbed();
+		if (tagged == undefined || tagged.id == message.author.id) {
+			embed.setDescription('Please mention someone to slap!');
+		} else {
+			const slap = await getImage('/slap');
+			embed.setDescription(`<@${message.author.id}> slaps <@${tagged.id}>.`);
+			embed.setImage(slap.url);
+		}
 		embed.setColor('RANDOM');
-		embed.setDescription(msgContent);
-		embed.setImage(kiss.url);
 		message.channel.send(embed);
 	},
 	type: 3,
-	aliases: ['makeout', 'kims', 'buzi'],
 };

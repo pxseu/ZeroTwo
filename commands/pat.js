@@ -1,11 +1,13 @@
 const { MessageEmbed } = require('discord.js');
-const { patgifs } = require('../utils/config');
+const getImage = require('../utils/getImage');
+//const { patgifs } = require('../utils/config');
 
 module.exports = {
 	name: 'pat',
 	description: 'Pats!',
-	execute(message, args) {
-		const pat = patgifs[Math.floor(Math.random() * patgifs.length)];
+	async execute(message, args) {
+		const pat = await getImage('/pat');
+		//const pat = patgifs[Math.floor(Math.random() * patgifs.length)];
 
 		const tagged =
 			message.mentions.members.first() ||
@@ -27,7 +29,7 @@ module.exports = {
 		const embed = new MessageEmbed();
 		embed.setColor('RANDOM');
 		embed.setDescription(msgContent);
-		embed.setImage(pat);
+		embed.setImage(pat.url);
 		message.channel.send(embed);
 	},
 	type: 3,

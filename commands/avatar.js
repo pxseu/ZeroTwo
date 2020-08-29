@@ -27,7 +27,9 @@ module.exports = {
 					  }'s`
 			} avatar`
 		);
-		embed.setImage(member.user.displayAvatarURL({ dynamic: true }));
+		embed.setImage(
+			`${member.user.displayAvatarURL({ dynamic: true })}?size=512`
+		);
 
 		message.channel.send(embed);
 	},
