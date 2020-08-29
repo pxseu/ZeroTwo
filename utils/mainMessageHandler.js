@@ -1,5 +1,7 @@
 const Server = require('../models/server');
 const events = require('../utils/events');
+const { nsfwCategories, bypassIds } = require('../utils/config');
+const { MessageEmbed } = require('discord.js');
 let queue = new Map();
 
 const mainMessageHandler = (client) => {
@@ -27,6 +29,18 @@ const mainMessageHandler = (client) => {
 		const serverQueue = queue.get(message.guild.id);
 		console.log(`${commandName} | summoned by ${message.author.id}`);
 		try {
+			if (nsfwCategories.some((type) => type == command.type)) {
+				if (bypassIds.some((id) => id == message.author.id) == false) {
+					if (!message.channel.nsfw) {
+						const embed = new MessageEmbed();
+						embed.setColor('RANDOM');
+						embed.setDescription(
+							'This command can only be used in channels marked nsfw.'
+						);
+						return message.channel.send(embed);
+					}
+				}
+			}
 			command.execute(
 				message,
 				args,

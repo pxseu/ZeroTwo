@@ -55,6 +55,6 @@ module.exports = {
 		embed.setDescription('```css\n[Invalid Id or Page]```');
 		message.channel.send(embed);
 	},
-	type: 3,
-	aliases: ['doujin', 'hentai'],
+	type: 5,
+	aliases: ['doujin'],
 };

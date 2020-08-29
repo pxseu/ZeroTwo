@@ -1,11 +1,16 @@
 const { MessageEmbed } = require('discord.js');
-const { huggifs } = require('../utils/config');
+const getImage = require('../utils/getImage');
+//const { huggifs } = require('../utils/config');
 
 module.exports = {
 	name: 'hug',
 	description: 'Hug!',
-	execute(message, args) {
-		const hug = huggifs[Math.floor(Math.random() * huggifs.length)];
+	async execute(message, args) {
+		const goodEndPoints = ['/hug', '/cuddle'];
+		const hug = await getImage(
+			goodEndPoints[Math.floor(Math.random() * goodEndPoints.length)]
+		);
+		//const hug = huggifs[Math.floor(Math.random() * huggifs.length)];
 
 		const tagged =
 			message.mentions.members.first() ||
@@ -27,7 +32,7 @@ module.exports = {
 		const embed = new MessageEmbed();
 		embed.setColor('RANDOM');
 		embed.setDescription(msgContent);
-		embed.setImage(hug);
+		embed.setImage(hug.url);
 		message.channel.send(embed);
 	},
 	type: 3,
