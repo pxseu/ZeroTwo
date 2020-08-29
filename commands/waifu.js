@@ -21,5 +21,5 @@ module.exports = {
 		);
 		return message.channel.send(embed);
 	},
-	type: 3,
+	type: 6,
 };

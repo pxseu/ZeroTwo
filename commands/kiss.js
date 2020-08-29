@@ -32,6 +32,6 @@ module.exports = {
 		embed.setImage(kiss.url);
 		message.channel.send(embed);
 	},
-	type: 3,
+	type: 6,
 	aliases: ['makeout', 'kims', 'buzi'],
 };

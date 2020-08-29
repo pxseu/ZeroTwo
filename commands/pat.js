@@ -32,5 +32,5 @@ module.exports = {
 		embed.setImage(pat.url);
 		message.channel.send(embed);
 	},
-	type: 3,
+	type: 6,
 };
