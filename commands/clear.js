@@ -50,4 +50,5 @@ module.exports = {
 	},
 	type: 2,
 	aliases: ['purge'],
+	cooldown: 10,
 };

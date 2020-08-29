@@ -101,4 +101,5 @@ module.exports = {
 		});
 	},
 	type: 1,
+	cooldown: 5,
 };
