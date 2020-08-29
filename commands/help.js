@@ -44,7 +44,7 @@ module.exports = {
 							command.description +
 								(command.aliases
 									? `\nAliases: \`\`${command.aliases.join('``, ``')}\`\``
-									: null)
+									: '')
 						);
 					});
 			}

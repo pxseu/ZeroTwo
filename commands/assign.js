@@ -3,12 +3,12 @@ const { bypassIds } = require('../utils/config');
 module.exports = {
 	name: 'assign',
 	description: 'Assign a role',
-	execute(message, args) {
+	execute(message, args, guildConf) {
 		if (args < 1)
 			return message.channel.send({
 				embed: {
 					title: 'Assign a role.',
-					description: '``You can assign the roles by p!assign [roleName]``',
+					description: `\`\`You can assign the roles by ${guildConf.prefix}assign [roleName]\`\``,
 				},
 			});
 

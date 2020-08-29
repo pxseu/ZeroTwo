@@ -7,6 +7,14 @@ module.exports = {
 	name: 'play',
 	description: 'Play song!',
 	async execute(message, args, guildConf, serverQueue, queue, client, Server) {
+		if (args == undefined || args[0] == undefined) {
+			const embed = new MessageEmbed();
+			embed.setTitle();
+			embed.setDescription(``);
+			embed.setColor('RANDOM');
+			return message.channel.send(embed);
+		}
+
 		const guildconfdata = guildConf;
 
 		var opts = {
@@ -152,7 +160,7 @@ module.exports = {
 				}
 			} else {
 				serverQueue.songs.push(song);
-				embed.setTitle(`Succes.`);
+				embed.setTitle(`Success.`);
 				embed.setColor('RANDOM');
 				embed.setDescription(`${song.title} has been added to the queue!`);
 				return message.channel.send(embed);
