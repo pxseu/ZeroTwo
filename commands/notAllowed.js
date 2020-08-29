@@ -5,5 +5,5 @@ module.exports = {
 		message.channel.send('no');
 	},
 	type: 0,
-	aliases: ['fuck', 'nut', 'nsfw', 'boobs', 'anal', 'astolfoIsNotHot'],
+	aliases: ['fuck', 'nsfw', 'anal', 'astolfoIsNotHot'],
 };
