@@ -32,9 +32,11 @@ const kissgifs = [
 	'https://i.imgur.com/i1PIph3.gif',
 ];
 
-const bypassIds = ['670600281846841354', '343627503698706432'];
-
-// '338718840873811979',
+const bypassIds = [
+	'338718840873811979',
+	'670600281846841354',
+	'343627503698706432',
+];
 
 module.exports = {
 	commandsCategories,
