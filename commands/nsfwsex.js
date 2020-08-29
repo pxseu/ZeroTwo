@@ -33,6 +33,6 @@ module.exports = {
 		embed.setImage(sex.url);
 		message.channel.send(embed);
 	},
-	type: 6,
+	type: 5,
 	aliases: ['fuck'],
 };
