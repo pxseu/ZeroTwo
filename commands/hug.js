@@ -35,6 +35,6 @@ module.exports = {
 		embed.setImage(hug.url);
 		message.channel.send(embed);
 	},
-	type: 3,
-	aliases: ['cuddle', 'cuddleing', 'furhug'],
+	type: 6,
+	aliases: ['cuddle', 'cuddleing', 'furhug', 'tuli', 'tulimy'],
 };
