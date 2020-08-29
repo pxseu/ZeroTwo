@@ -5,5 +5,5 @@ module.exports = {
 		message.channel.send('no');
 	},
 	type: 0,
-	aliases: ['astolfoIsNotHot'],
+	aliases: ['astolfoIsNotHot', 'yiff'],
 };
