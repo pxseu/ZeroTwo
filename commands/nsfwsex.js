@@ -28,7 +28,7 @@ module.exports = {
 		} else {
 			const confEmbed = new MessageEmbed();
 			confEmbed.setDescription(
-				`Do you want to have sex with <@${message.author.id}>, <@${tagged.id}>?`
+				`Do you want to have sex with <@${message.author.id}>, <@${tagged.id}>? \n[say \`\`yes\`\` or \`\`no\`\`]`
 			);
 			confEmbed.setColor("RANDOM");
 			message.channel.send(confEmbed).then((confmsg) => {
@@ -37,19 +37,24 @@ module.exports = {
 					.awaitMessages(filter, { max: 1, time: 20000 })
 					.then((collected) => {
 						if (!collected.first()) return;
-						if (!collected.first().deleted) collected.first().delete();
-						if (collected.first().content.toLowerCase() == "yes") {
+						if (collected.first().content.toLowerCase().includes("yes")) {
 							embed.setDescription(
 								`<@${message.author.id}> fucks <@${tagged.id}> hard 😳`
 							);
 							embed.setImage(sex.url);
 							message.channel.send(embed);
-						} else if (collected.first().content.toLowerCase() == "no") {
+							if (!confmsg.deleted) confmsg.delete();
+							if (!collected.first().deleted) collected.first().delete();
+						} else if (collected.first().content.toLowerCase().includes("no")) {
 							embed.setDescription(`<@${tagged.id}> didn't consent!`);
+							message.channel.send(embed);
+							if (!confmsg.deleted) confmsg.delete();
+							if (!collected.first().deleted) collected.first().delete();
+						} else {
+							embed.setDescription(`<@${tagged.id}> ghosted you...`);
 							message.channel.send(embed);
 						}
 					});
-				if (!confmsg.deleted) confmsg.delete();
 			});
 		}
 		if (!message.deleted) message.delete();
