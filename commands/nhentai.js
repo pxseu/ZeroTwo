@@ -1,14 +1,14 @@
-const { MessageEmbed } = require('discord.js');
-const { API } = require('nhentai-api');
+const { MessageEmbed } = require("discord.js");
+const { API } = require("nhentai-api");
 
 const api = new API();
 
 module.exports = {
-	name: 'nhentai',
-	description: 'Find your favourite doujin.',
+	name: "nhentai",
+	description: "Find your favourite doujin.",
 	execute(message, args, guildConf) {
 		const embed = new MessageEmbed();
-		embed.setColor('RANDOM');
+		embed.setColor("RANDOM");
 
 		if (args == undefined || args[0] == undefined) {
 			embed.setDescription(
@@ -26,7 +26,7 @@ module.exports = {
                     \nPages: ${book.pages.length}
                     \nTags: \`\`${book.tags
 											.map((tag) => tag.name)
-											.join('``, ``')}\`\`
+											.join("``, ``")}\`\`
                     `
 				);
 				embed.setImage(api.getImageURL(book.cover));
@@ -52,9 +52,9 @@ module.exports = {
 			});
 		}
 
-		embed.setDescription('```css\n[Invalid Id or Page]```');
+		embed.setDescription("```css\n[Invalid Id or Page]```");
 		message.channel.send(embed);
 	},
 	type: 5,
-	aliases: ['doujin'],
+	aliases: ["doujin"],
 };

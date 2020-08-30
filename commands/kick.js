@@ -1,8 +1,8 @@
-const { bypassIds } = require('../utils/config');
+const { bypassIds } = require("../utils/config");
 
 module.exports = {
-	name: 'kick',
-	description: 'kick user',
+	name: "kick",
+	description: "kick user",
 	async execute(message, args, guildConf) {
 		if (
 			message.member.roles.cache.some(
@@ -18,11 +18,11 @@ module.exports = {
 				message.guild.members.cache.get(args[0]) ||
 				message.guild.members.cache.find(
 					(r) =>
-						r.user.username.toLowerCase() === args.join(' ').toLocaleLowerCase()
+						r.user.username.toLowerCase() === args.join(" ").toLocaleLowerCase()
 				) ||
 				message.guild.members.cache.find(
 					(ro) =>
-						ro.displayName.toLowerCase() === args.join(' ').toLocaleLowerCase()
+						ro.displayName.toLowerCase() === args.join(" ").toLocaleLowerCase()
 				);
 
 			if (!user)
@@ -36,11 +36,11 @@ module.exports = {
 					"You can't kick this user because you the bot has not sufficient permissions!"
 				);
 			await message.mentions.members.first().kick();
-			message.react('☑️');
+			message.react("☑️");
 			if (guildConf.logging) {
 				const embed = new MessageEmbed();
-				embed.setColor('RANDOM');
-				embed.setDescription(user.id + ' has been kicked!');
+				embed.setColor("RANDOM");
+				embed.setDescription(user.id + " has been kicked!");
 				message.guild.channels.cache.get(guildConf.logchannel).send(embed);
 			}
 		} else {

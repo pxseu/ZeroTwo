@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const database = async (dburl = '') => {
+const database = async (dburl = "") => {
 	try {
 		mongoose.connect(dburl, {
 			useNewUrlParser: true,
@@ -8,9 +8,9 @@ const database = async (dburl = '') => {
 			useCreateIndex: true,
 		});
 
-		mongoose.connection.on('error', (error) => console.error(error));
-		mongoose.connection.once('open', () =>
-			console.log('Connected to database')
+		mongoose.connection.on("error", (error) => console.error(error));
+		mongoose.connection.once("open", () =>
+			console.log("Connected to database")
 		);
 	} catch (error) {
 		console.error(error);

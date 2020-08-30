@@ -1,9 +1,9 @@
-const { bypassIds } = require('../utils/config');
-const { MessageEmbed } = require('discord.js');
+const { bypassIds } = require("../utils/config");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-	name: 'ban',
-	description: 'ban user',
+	name: "ban",
+	description: "Ban a user!",
 	async execute(message, args, guildConf) {
 		if (!message.guild) return;
 
@@ -21,11 +21,11 @@ module.exports = {
 				message.guild.members.cache.get(args[0]) ||
 				message.guild.members.cache.find(
 					(r) =>
-						r.user.username.toLowerCase() === args.join(' ').toLocaleLowerCase()
+						r.user.username.toLowerCase() === args.join(" ").toLocaleLowerCase()
 				) ||
 				message.guild.members.cache.find(
 					(ro) =>
-						ro.displayName.toLowerCase() === args.join(' ').toLocaleLowerCase()
+						ro.displayName.toLowerCase() === args.join(" ").toLocaleLowerCase()
 				);
 
 			if (!user)
@@ -39,11 +39,11 @@ module.exports = {
 					"You can't ban this user because you the bot has not sufficient permissions!"
 				);
 			await message.guild.member(user).ban();
-			message.react('☑️');
+			message.react("☑️");
 			if (guildConf.logging) {
 				const embed = new MessageEmbed();
-				embed.setColor('RANDOM');
-				embed.setDescription(user.id + ' has been banned!');
+				embed.setColor("RANDOM");
+				embed.setDescription(user.id + " has been banned!");
 				message.guild.channels.cache.get(guildConf.logchannel).send(embed);
 			}
 		} else {

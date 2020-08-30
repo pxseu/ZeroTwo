@@ -1,18 +1,18 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const serverSchema = new Schema({
 	prefix: {
 		type: String,
-		default: 'zt!',
+		default: "zt!",
 	},
 	logchannel: {
 		type: String,
-		default: '',
+		default: "",
 	},
 	roleafterver: {
 		type: String,
-		default: '',
+		default: "",
 	},
 	serverid: {
 		type: String,
@@ -20,11 +20,11 @@ const serverSchema = new Schema({
 	},
 	adminRole: {
 		type: String,
-		default: 'Admin',
+		default: "Admin",
 	},
 	modRole: {
 		type: String,
-		default: 'Moderator',
+		default: "Moderator",
 	},
 	verification: {
 		type: Boolean,
@@ -36,4 +36,4 @@ const serverSchema = new Schema({
 	},
 });
 
-module.exports = mongoose.model('Server', serverSchema);
+module.exports = mongoose.model("Server", serverSchema);

@@ -1,6 +1,6 @@
 module.exports = {
-	name: 'showconf',
-	description: 'show current config',
+	name: "showconf",
+	description: "show current config",
 	execute(message, args, guildConf, serverQueue, queue) {
 		message.channel.send(
 			`The following are the server's current configuration:`
@@ -10,31 +10,31 @@ module.exports = {
 				color: 10181046,
 				fields: [
 					{
-						name: 'prefix',
+						name: "prefix",
 						value: guildConf.prefix,
 					},
 					{
-						name: 'Admin Role',
+						name: "Admin Role",
 						value: guildConf.adminRole,
 					},
 					{
-						name: 'Mod Role',
+						name: "Mod Role",
 						value: guildConf.modRole,
 					},
 					{
-						name: 'Verification',
+						name: "Verification",
 						value: guildConf.verification,
 					},
 					{
-						name: 'Logging',
+						name: "Logging",
 						value: guildConf.logging,
 					},
 					{
-						name: 'Role After Verification',
+						name: "Role After Verification",
 						value: guildConf.roleafterver,
 					},
 					{
-						name: 'Logging Channel',
+						name: "Logging Channel",
 						value: guildConf.logchannel,
 					},
 				],

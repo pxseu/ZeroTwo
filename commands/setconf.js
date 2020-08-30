@@ -1,8 +1,8 @@
-const { bypassIds } = require('../utils/config');
+const { bypassIds } = require("../utils/config");
 
 module.exports = {
-	name: 'setconf',
-	description: 'set configuration for server',
+	name: "setconf",
+	description: "set configuration for server",
 	async execute(message, args, guildConf, serverQueue, queue, client, Server) {
 		if (
 			mmessage.member.roles.cache.some(
@@ -14,10 +14,10 @@ module.exports = {
 			bypassIds.some((id) => id == message.author.id)
 		) {
 			const [prop, ...value] = args;
-			const confName = value.join(' ');
+			const confName = value.join(" ");
 			console.log(prop, confName);
 			switch (prop) {
-				case 'prefix':
+				case "prefix":
 					await Server.updateOne(
 						{
 							serverid: message.guild.id,
@@ -28,10 +28,10 @@ module.exports = {
 					);
 					return message.channel.send(
 						`Guild configuration item ${prop} has been changed to:\`${value.join(
-							' '
+							" "
 						)}\``
 					);
-				case 'logchannel':
+				case "logchannel":
 					await Server.updateOne(
 						{
 							serverid: message.guild.id,
@@ -42,10 +42,10 @@ module.exports = {
 					);
 					return message.channel.send(
 						`Guild configuration item ${prop} has been changed to: \`${value.join(
-							' '
+							" "
 						)}\``
 					);
-				case 'roleafterver':
+				case "roleafterver":
 					await Server.updateOne(
 						{
 							serverid: message.guild.id,
@@ -56,10 +56,10 @@ module.exports = {
 					);
 					return message.channel.send(
 						`Guild configuration item ${prop} has been changed to: \`${value.join(
-							' '
+							" "
 						)}\``
 					);
-				case 'adminRole':
+				case "adminRole":
 					await Server.updateOne(
 						{
 							serverid: message.guild.id,
@@ -70,10 +70,10 @@ module.exports = {
 					);
 					return message.channel.send(
 						`Guild configuration item ${prop} has been changed to: \`${value.join(
-							' '
+							" "
 						)}\``
 					);
-				case 'modRole':
+				case "modRole":
 					await Server.updateOne(
 						{
 							serverid: message.guild.id,
@@ -84,10 +84,10 @@ module.exports = {
 					);
 					return message.channel.send(
 						`Guild configuration item ${prop} has been changed to: \`${value.join(
-							' '
+							" "
 						)}\``
 					);
-				case 'verification':
+				case "verification":
 					await Server.updateOne(
 						{
 							serverid: message.guild.id,
@@ -98,10 +98,10 @@ module.exports = {
 					);
 					return message.channel.send(
 						`Guild configuration item ${prop} has been changed to: \`${value.join(
-							' '
+							" "
 						)}\``
 					);
-				case 'logging':
+				case "logging":
 					await Server.updateOne(
 						{
 							serverid: message.guild.id,
@@ -112,7 +112,7 @@ module.exports = {
 					);
 					return message.channel.send(
 						`Guild configuration item ${prop} has been changed to: \`${value.join(
-							' '
+							" "
 						)}\``
 					);
 				default:

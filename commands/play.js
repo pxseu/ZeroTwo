@@ -1,17 +1,17 @@
-const search = require('youtube-search');
-const prompter = require('discordjs-prompter');
-const ytdl = require('ytdl-core-discord');
-const { MessageEmbed } = require('discord.js');
+const search = require("youtube-search");
+const prompter = require("discordjs-prompter");
+const ytdl = require("ytdl-core-discord");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-	name: 'play',
-	description: 'Play song!',
+	name: "play",
+	description: "Play song!",
 	async execute(message, args, guildConf, serverQueue, queue, client, Server) {
 		if (args == undefined || args[0] == undefined) {
 			const embed = new MessageEmbed();
 			embed.setTitle();
 			embed.setDescription(``);
-			embed.setColor('RANDOM');
+			embed.setColor("RANDOM");
 			return message.channel.send(embed);
 		}
 
@@ -21,60 +21,60 @@ module.exports = {
 			maxResults: 4,
 			key: process.env.YTAPI_TOKEN,
 		};
-		if (args[0].startsWith('https://', 0) || args[0].startsWith('http://', 0)) {
-			message.content = guildconfdata.prefix + 'play ' + args[0];
+		if (args[0].startsWith("https://", 0) || args[0].startsWith("http://", 0)) {
+			message.content = guildconfdata.prefix + "play " + args[0];
 			return executePlay(message, serverQueue);
 		}
-		var searchterm = args.join(' ');
+		var searchterm = args.join(" ");
 		search(searchterm, opts, async function (err, results) {
 			const response = await prompter
 				.choice(message.channel, {
 					question: {
 						embed: {
-							title: 'Choose the song: (wait for all 4 emojis to show up)',
+							title: "Choose the song: (wait for all 4 emojis to show up)",
 							color: 10181046,
 							fields: [
 								{
-									name: ':point_left:',
+									name: ":point_left:",
 									value: results[0].title,
 								},
 								{
-									name: ':point_up_2:',
+									name: ":point_up_2:",
 									value: results[1].title,
 								},
 								{
-									name: ':point_down:',
+									name: ":point_down:",
 									value: results[1].title,
 								},
 								{
-									name: ':point_right:',
+									name: ":point_right:",
 									value: results[3].title,
 								},
 							],
 						},
 					},
-					choices: ['👈', '👆', '👇', '👉'],
+					choices: ["👈", "👆", "👇", "👉"],
 					userId: message.author.id,
 				})
 				.catch((e) => {
 					console.log(e);
-					message.channel.send('I fucking told you to wait.');
+					message.channel.send("I fucking told you to wait.");
 				});
 			switch (response) {
-				case '👈':
-					message.content = guildconfdata.prefix + 'play ' + results[0].link;
+				case "👈":
+					message.content = guildconfdata.prefix + "play " + results[0].link;
 					executePlay(message, serverQueue);
 					return 0;
-				case '👆':
-					message.content = guildconfdata.prefix + 'play ' + results[1].link;
+				case "👆":
+					message.content = guildconfdata.prefix + "play " + results[1].link;
 					executePlay(message, serverQueue);
 					return 0;
-				case '👇':
-					message.content = guildconfdata.prefix + 'play ' + results[2].link;
+				case "👇":
+					message.content = guildconfdata.prefix + "play " + results[2].link;
 					executePlay(message, serverQueue);
 					return 0;
-				case '👉':
-					message.content = guildconfdata.prefix + 'play ' + results[3].link;
+				case "👉":
+					message.content = guildconfdata.prefix + "play " + results[3].link;
 					executePlay(message, serverQueue);
 					return 0;
 				default:
@@ -86,20 +86,20 @@ module.exports = {
 			if (serverQueue == true) {
 				const response = await prompter
 					.choice(message.channel, {
-						question: 'Stop the loop?',
-						choices: ['👍', '👎'],
+						question: "Stop the loop?",
+						choices: ["👍", "👎"],
 						userId: message.author.id,
 					})
 					.catch((e) => {
 						console.log(e);
 					});
 				switch (response) {
-					case '👍':
+					case "👍":
 						serverQueue.loop = false;
-						message.react('🛑');
+						message.react("🛑");
 						return 0;
-					case '👎':
-						message.react('🔄');
+					case "👎":
+						message.react("🔄");
 						return 0;
 					default:
 						return 0;
@@ -111,24 +111,24 @@ module.exports = {
 			const embed = new MessageEmbed();
 
 			loopchck(message);
-			const args = message.content.split(' ');
+			const args = message.content.split(" ");
 			const voiceChannel = message.member.voice.channel;
 			if (!voiceChannel) {
 				embed.setTitle(`error`);
 				embed.setDescription(
-					'You need to be in a voice channel to play music!'
+					"You need to be in a voice channel to play music!"
 				);
-				embed.setColor('RANDOM');
+				embed.setColor("RANDOM");
 				return message.channel.send(embed);
 			}
 
 			const permissions = voiceChannel.permissionsFor(message.client.user);
-			if (!permissions.has('CONNECT') || !permissions.has('SPEAK')) {
+			if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
 				embed.setTitle(`error`);
 				embed.setDescription(
-					'I need the permissions to join and speak in your voice channel!'
+					"I need the permissions to join and speak in your voice channel!"
 				);
-				embed.setColor('RANDOM');
+				embed.setColor("RANDOM");
 				return message.channel.send(embed);
 			}
 			const songInfo = await ytdl.getInfo(args[1]);
@@ -161,7 +161,7 @@ module.exports = {
 			} else {
 				serverQueue.songs.push(song);
 				embed.setTitle(`Success.`);
-				embed.setColor('RANDOM');
+				embed.setColor("RANDOM");
 				embed.setDescription(`${song.title} has been added to the queue!`);
 				return message.channel.send(embed);
 			}
@@ -175,8 +175,8 @@ module.exports = {
 				return;
 			}
 			const dispatcher = serverQueue.connection
-				.play(await ytdl(song.url), { type: 'opus' })
-				.on('finish', async () => {
+				.play(await ytdl(song.url), { type: "opus" })
+				.on("finish", async () => {
 					if (serverQueue.loop == true) {
 						return play(guild, serverQueue.songs[0]);
 					} else {
@@ -184,17 +184,17 @@ module.exports = {
 						play(guild, serverQueue.songs[0]);
 					}
 				})
-				.on('error', (error) => {
+				.on("error", (error) => {
 					console.error(error);
 				});
 			dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 			const embed = new MessageEmbed();
 			embed.setTitle(`Now playing:`);
-			embed.setColor('RANDOM');
+			embed.setColor("RANDOM");
 			embed.setDescription(`${song.title}`);
 			message.channel.send(embed);
 		}
 	},
 	type: 4,
-	aliases: ['p'],
+	aliases: ["p"],
 };
