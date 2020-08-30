@@ -1,13 +1,10 @@
 const { MessageEmbed } = require("discord.js");
-const { getImage } = require("../utils/getImage");
-//const { patgifs } = require('../utils/config');
+const { getImage } = require("../utils/apiStuff");
 
 module.exports = {
 	name: "slap",
 	description: "Slap someone!",
 	async execute(message, args) {
-		//const pat = patgifs[Math.floor(Math.random() * patgifs.length)];
-
 		const tagged =
 			message.mentions.members.first() ||
 			message.guild.members.cache.get(args[0]) ||

@@ -1,6 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { getImage } = require("../utils/getImage");
-//const { huggifs } = require('../utils/config');
+const { getImage } = require("../utils/apiStuff");
 
 module.exports = {
 	name: "hug",
@@ -10,7 +9,6 @@ module.exports = {
 		const hug = await getImage(
 			goodEndPoints[Math.floor(Math.random() * goodEndPoints.length)]
 		);
-		//const hug = huggifs[Math.floor(Math.random() * huggifs.length)];
 
 		const tagged =
 			message.mentions.members.first() ||
