@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const getImage = require("../utils/getImage");
+const { getImage } = require("../utils/getImage");
 //const { patgifs } = require('../utils/config');
 
 module.exports = {
