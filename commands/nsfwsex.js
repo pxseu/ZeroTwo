@@ -5,14 +5,7 @@ module.exports = {
 	name: "sex",
 	description: "Sex someone!",
 	async execute(message, args) {
-<<<<<<< HEAD
-		const goodEndPoints = ["/classic", "/Random_hentai_gif"];
-		const sex = await getImage(
-			goodEndPoints[Math.floor(Math.random() * goodEndPoints.length)]
-		);
-=======
-		const sex = await getImage('/classic');
->>>>>>> 3825b5a5e11cb2a59eec3656dc8633768db6915b
+		const sex = await getImage("/classic");
 
 		const tagged =
 			message.mentions.members.first() ||
