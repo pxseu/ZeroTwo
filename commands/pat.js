@@ -1,13 +1,11 @@
 const { MessageEmbed } = require("discord.js");
-const getImage = require("../utils/getImage");
-//const { patgifs } = require('../utils/config');
+const { getImage } = require("../utils/getImage");
 
 module.exports = {
 	name: "pat",
 	description: "Pats!",
 	async execute(message, args) {
 		const pat = await getImage("/pat");
-		//const pat = patgifs[Math.floor(Math.random() * patgifs.length)];
 
 		const tagged =
 			message.mentions.members.first() ||

@@ -1,7 +1,7 @@
 const Server = require("../models/server");
 const events = require("../utils/events");
 const { nsfwCategories, bypassIds } = require("../utils/config");
-const { MessageEmbed, Collection, Message } = require("discord.js");
+const { MessageEmbed, Collection } = require("discord.js");
 
 let queue = new Map();
 const cooldowns = new Collection();

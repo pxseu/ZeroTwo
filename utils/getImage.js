@@ -1,13 +1,20 @@
 const fetch = require("node-fetch");
 
-async function getImage(endpoint = "") {
-	if (endpoint == undefined || endpoint == "") {
-		throw new Error("No endpoint defined");
-	}
+const getImage = (endpoint = "") =>
+	new Promise(async (resolve, reject) => {
+		if (endpoint == undefined || endpoint == "") {
+			return reject(new Error("No endpoint defined"));
+		}
 
-	return await fetch(`https://nekos.life/api/v2/img${endpoint}`).then((res) =>
-		res.json()
-	);
-}
+		const request = await fetch(`https://nekos.life/api/v2/img${endpoint}`);
 
-module.exports = getImage;
+		if (request.status != 200)
+			return reject(new Error("Error while fetching data"));
+
+		const data = await request.json();
+		resolve(data);
+	});
+
+module.exports = {
+	getImage,
+};

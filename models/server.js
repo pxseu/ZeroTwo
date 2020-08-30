@@ -36,4 +36,4 @@ const serverSchema = new Schema({
 	},
 });
 
-module.exports = mongoose.model("Server", serverSchema);
+module.exports = mongoose.model("server", serverSchema);
