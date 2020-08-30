@@ -1,7 +1,7 @@
-const Server = require('../models/server');
-const events = require('../utils/events');
-const { nsfwCategories, bypassIds } = require('../utils/config');
-const { MessageEmbed, Collection, Message } = require('discord.js');
+const Server = require("../models/server");
+const events = require("../utils/events");
+const { nsfwCategories, bypassIds } = require("../utils/config");
+const { MessageEmbed, Collection, Message } = require("discord.js");
 
 let queue = new Map();
 const cooldowns = new Collection();
@@ -27,7 +27,7 @@ const mainMessageHandler = (client) => {
 			client.commands.find(
 				(cmd) => cmd.aliases && cmd.aliases.includes(commandName)
 			);
-		if (!command) return message.react('❌');
+		if (!command) return message.react("❌");
 		const serverQueue = queue.get(message.guild.id);
 		console.log(`${commandName} | summoned by ${message.author.id}`);
 
@@ -55,7 +55,7 @@ const mainMessageHandler = (client) => {
 								command.name
 							}\` command.`
 						);
-						embed.setColor('RANDOM');
+						embed.setColor("RANDOM");
 
 						return message.reply(embed);
 					}
@@ -68,9 +68,9 @@ const mainMessageHandler = (client) => {
 			if (nsfwCategories.some((type) => type == command.type)) {
 				if (!message.channel.nsfw) {
 					const embed = new MessageEmbed();
-					embed.setColor('RANDOM');
+					embed.setColor("RANDOM");
 					embed.setDescription(
-						'This command can only be used in channels marked nsfw.'
+						"This command can only be used in channels marked nsfw."
 					);
 					return message.channel.send(embed);
 				}
@@ -89,7 +89,7 @@ const mainMessageHandler = (client) => {
 			);
 		} catch (error) {
 			console.error(error);
-			message.reply('there was an error trying to execute that command!');
+			message.reply("there was an error trying to execute that command!");
 		}
 	});
 };

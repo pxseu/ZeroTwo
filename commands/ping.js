@@ -1,24 +1,24 @@
-const Discord = require('discord.js');
+const Discord = require("discord.js");
 
 module.exports = {
-	name: 'ping',
-	description: 'Ping!',
+	name: "ping",
+	description: "Ping!",
 	execute(message, args) {
 		let embed, ping;
 
 		embed = new Discord.MessageEmbed({
-			title: 'Ping',
-			description: 'Pinging...',
+			title: "Ping",
+			description: "Pinging...",
 		});
 
 		message.channel.send(embed).then((msg) => {
 			ping = msg.createdTimestamp - message.createdTimestamp;
 			let color =
 				ping < 250
-					? '#00ff00'
+					? "#00ff00"
 					: ping > 250 && ping < 500
-					? '#ffaa00'
-					: '#ff0000';
+					? "#ffaa00"
+					: "#ff0000";
 
 			embed
 				.setDescription(

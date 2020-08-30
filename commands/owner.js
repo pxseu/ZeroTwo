@@ -1,8 +1,8 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-	name: 'owner',
-	description: 'Owner!',
+	name: "owner",
+	description: "Owner!",
 	execute(message, args) {
 		const embed = new MessageEmbed();
 		embed.setDescription(
@@ -11,5 +11,5 @@ module.exports = {
 		message.channel.send(embed);
 	},
 	type: 0,
-	aliases: ['daddy', 'mybigboi'],
+	aliases: ["daddy", "mybigboi"],
 };

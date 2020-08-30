@@ -1,9 +1,9 @@
-const { MessageEmbed } = require('discord.js');
-const api = require('genius-api');
+const { MessageEmbed } = require("discord.js");
+const api = require("genius-api");
 const genius = new api(process.env.GENIUS_TOKEN);
 
 module.exports = {
-	name: 'lyricsspotify',
+	name: "lyricsspotify",
 	description: "Show lyrics to the spotufy song you're listening.",
 	async execute(message, args) {
 		let user =
@@ -11,11 +11,11 @@ module.exports = {
 			message.guild.members.cache.get(args[0]) ||
 			message.guild.members.cache.find(
 				(r) =>
-					r.user.username.toLowerCase() === args.join(' ').toLocaleLowerCase()
+					r.user.username.toLowerCase() === args.join(" ").toLocaleLowerCase()
 			) ||
 			message.guild.members.cache.find(
 				(ro) =>
-					ro.displayName.toLowerCase() === args.join(' ').toLocaleLowerCase()
+					ro.displayName.toLowerCase() === args.join(" ").toLocaleLowerCase()
 			) ||
 			message.member;
 
@@ -25,11 +25,11 @@ module.exports = {
 					user.user.username,
 					user.user.displayAvatarURL({ dynamic: true })
 				)
-				.setColor('GREEN')
+				.setColor("GREEN")
 				.setThumbnail(user.user.displayAvatarURL())
 				.addField(
-					'**No song playing on spotify!**',
-					'You or this user is not playing any song!'
+					"**No song playing on spotify!**",
+					"You or this user is not playing any song!"
 				)
 				.setFooter(message.guild.name, message.guild.iconURL())
 				.setTimestamp();
@@ -38,18 +38,18 @@ module.exports = {
 		}
 		user.presence.activities.forEach((activity) => {
 			if (
-				activity.type === 'LISTENING' &&
-				activity.name === 'Spotify' &&
+				activity.type === "LISTENING" &&
+				activity.name === "Spotify" &&
 				activity.assets !== null
 			) {
 				let trackName = activity.details;
 				let trackAuthor = activity.state;
-				trackAuthor = trackAuthor.replace(/;/g, ' ');
+				trackAuthor = trackAuthor.replace(/;/g, " ");
 
 				genius.search(`${trackName} by ${trackAuthor}`).then((response) => {
-					let descriptionFunsies = '';
+					let descriptionFunsies = "";
 					if (response.hits == undefined || response.hits.length === 0) {
-						descriptionFunsies = 'No song found!';
+						descriptionFunsies = "No song found!";
 					} else {
 						console.log(response.hits);
 						let loopCount = 0;
@@ -57,7 +57,7 @@ module.exports = {
 							if (loopCount == 5) break;
 							loopCount++;
 							descriptionFunsies += `**[${result.result.full_title}](${result.result.url})**`;
-							descriptionFunsies += '\n\n';
+							descriptionFunsies += "\n\n";
 						}
 					}
 
@@ -66,9 +66,9 @@ module.exports = {
 							user.user.username,
 							user.user.displayAvatarURL({ dynamic: true })
 						)
-						.setColor('RANDOM')
+						.setColor("RANDOM")
 						.setThumbnail(user.user.displayAvatarURL())
-						.setTitle('**Results:**')
+						.setTitle("**Results:**")
 						.setDescription(descriptionFunsies)
 						.setFooter(message.guild.name, message.guild.iconURL())
 						.setTimestamp();
@@ -81,11 +81,11 @@ module.exports = {
 				user.user.username,
 				user.user.displayAvatarURL({ dynamic: true })
 			)
-			.setColor('GREEN')
+			.setColor("GREEN")
 			.setThumbnail(user.user.displayAvatarURL())
 			.addField(
-				'**No song playing on spotify!**',
-				'You or this user is not playing any song!'
+				"**No song playing on spotify!**",
+				"You or this user is not playing any song!"
 			)
 			.setFooter(message.guild.name, message.guild.iconURL())
 			.setTimestamp();

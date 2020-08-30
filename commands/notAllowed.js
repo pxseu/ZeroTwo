@@ -1,9 +1,9 @@
 module.exports = {
-	name: 'astolfoIsNotHot',
-	description: 'no',
+	name: "astolfoIsNotHot",
+	description: "no",
 	execute(message, args) {
-		message.channel.send('no');
+		message.channel.send("no");
 	},
 	type: 0,
-	aliases: ['astolfoIsNotHot', 'yiff'],
+	aliases: ["astolfoIsNotHot", "yiff"],
 };

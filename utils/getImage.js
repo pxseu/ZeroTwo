@@ -1,6 +1,6 @@
-const fetch = require('node-fetch');
+const fetch = require("node-fetch");
 
-async function getImage(endpoint = '') {
+async function getImage(endpoint = "") {
 	return await fetch(`https://nekos.life/api/v2/img${endpoint}`).then((res) =>
 		res.json()
 	);

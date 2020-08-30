@@ -1,8 +1,8 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-	name: 'fursona',
-	description: 'Generate a random fursona!',
+	name: "fursona",
+	description: "Generate a random fursona!",
 	execute(message, args, guildConf, serverQueue, queue, client) {
 		const user = message.member;
 
@@ -11,7 +11,7 @@ module.exports = {
 			user.user.username,
 			user.user.displayAvatarURL({ dynamic: true })
 		);
-		embed.setColor('RANDOM');
+		embed.setColor("RANDOM");
 		embed.setFooter(message.guild.name, message.guild.iconURL());
 		embed.setTimestamp();
 		embed.setImage(

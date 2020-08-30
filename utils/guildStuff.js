@@ -1,5 +1,5 @@
-const Server = require('../models/server');
-const events = require('../utils/events');
+const Server = require("../models/server");
+const events = require("../utils/events");
 
 const guildStuff = (client) => {
 	client.on(events.GUILDDELETE, (guild) => {
@@ -37,7 +37,7 @@ const guildStuff = (client) => {
 		member.user.token = token;
 	});
 
-	const verifymsg = 'I agree to abide by all rules. My token is {token}.';
+	const verifymsg = "I agree to abide by all rules. My token is {token}.";
 
 	client.on(events.MESSAGE, async (message) => {
 		if (
@@ -49,10 +49,10 @@ const guildStuff = (client) => {
 		const guild = await Server.findOne({
 			serverid: message.guild.id,
 		});
-		if (message.content !== verifymsg.replace('{token}', message.author.token))
+		if (message.content !== verifymsg.replace("{token}", message.author.token))
 			return;
 
-		await message.channel.fetchMessages('2').then((messages) => {
+		await message.channel.fetchMessages("2").then((messages) => {
 			message.channel.bulkDelete(messages);
 		});
 		message.member
@@ -69,7 +69,7 @@ const guildStuff = (client) => {
 			)
 			.catch((e) => {
 				message.author.send(
-					'`There was an error adding you the role.`\n\n`Please message any online staff to resolve it.`'
+					"`There was an error adding you the role.`\n\n`Please message any online staff to resolve it.`"
 				);
 				return console.log(e);
 			});
@@ -105,7 +105,7 @@ const guildStuff = (client) => {
 		guild.owner.send(
 			`Konnichiwa ( \´ ▽ \` )\nThank you for adding me!\nType zt!help for commands.`
 		);
-		client.user.setActivity('with ' + client.channels.cache.size + ' users');
+		client.user.setActivity("with " + client.channels.cache.size + " users");
 		new Server({
 			serverid: guild.id,
 		}).save();
@@ -140,8 +140,8 @@ const guildStuff = (client) => {
 
 function shortcode(n) {
 	const possible =
-		'ABCDEFGHIJKLMNPQRSTUVWXYZabcdefghjklmnopqrstuvwxyz0123456789';
-	let text = '';
+		"ABCDEFGHIJKLMNPQRSTUVWXYZabcdefghjklmnopqrstuvwxyz0123456789";
+	let text = "";
 	for (var i = 0; i < n + 1; i++)
 		text += possible.charAt(Math.floor(Math.random() * possible.length));
 	return text;
