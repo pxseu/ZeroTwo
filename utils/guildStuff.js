@@ -88,7 +88,7 @@ const guildStuff = (client) => {
 		//}
 	});
 
-	client.on(events.GUILDMEMBEREMOVE, async function (member) {
+	client.on(events.GUILDMEMBERREMOVE, async function (member) {
 		const guild = await Server.findOne({
 			serverid: member.guild.id,
 		});
