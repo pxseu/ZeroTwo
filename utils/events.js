@@ -4,7 +4,7 @@ const events = {
 	GUILDCREATE: "guildCreate",
 	GUILDDELETE: "guildDelete",
 	GUILDMEMBERADD: "guildMemberAdd",
-	GUILDMEMBEREMOVE: "guildMemberRemove",
+	GUILDMEMBERREMOVE: "guildMemberRemove",
 };
 
 module.exports = events;
