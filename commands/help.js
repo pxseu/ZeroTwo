@@ -50,7 +50,7 @@ module.exports = {
 					});
 			}
 		}
-		embed.setFooter(`Proudly providing ${cleint.commands.lenght} commands!`);
+		embed.setFooter(`Proudly providing ${client.commands.length} commands!`);
 		message.channel.send(embed);
 	},
 	type: 0,
