@@ -6,7 +6,6 @@ const database = require("./utils/database");
 const guildStuff = require("./utils/guildStuff");
 const mainMessageHandler = require("./utils/mainMessageHandler");
 const events = require("./utils/events");
-//const { badword } = require('./badwords.json');
 
 let client = new Discord.Client();
 
