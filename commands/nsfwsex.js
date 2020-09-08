@@ -60,5 +60,5 @@ module.exports = {
 		if (!message.deleted) message.delete();
 	},
 	type: 5,
-	aliases: ["fuck"],
+	aliases: ["fuck", "seggs"],
 };
