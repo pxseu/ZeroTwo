@@ -34,15 +34,17 @@ const kissgifs = [
 
 const bypassIds = [
 	"338718840873811979",
-	/* "670600281846841354", */
 	"343627503698706432",
 	"714991222074376303",
 ];
+
+const bannedIds = ["670600281846841354" /* Peitho lmao */];
 
 module.exports = {
 	commandsCategories,
 	nsfwCategories,
 	bypassIds,
+	bannedIds,
 	kissgifs,
 	patgifs,
 	huggifs,
