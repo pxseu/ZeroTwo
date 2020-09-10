@@ -1,6 +1,6 @@
 const Server = require("../models/server");
 const events = require("../utils/events");
-const { nsfwCategories, bypassIds } = require("../utils/config");
+const { nsfwCategories, bypassIds, bannedIds } = require("../utils/config");
 const { MessageEmbed, Collection } = require("discord.js");
 
 let queue = new Map();
@@ -31,6 +31,18 @@ const mainMessageHandler = (client) => {
 		const serverQueue = queue.get(message.guild.id);
 		console.log(`${commandName} | summoned by ${message.author.id}`);
 
+		if (bannedIds.some((id) => id == message.author.id) == true) {
+			const embed = new MessageEmbed();
+
+			embed.setDescription(
+				`<@${message.author.id}>, 
+				You have been permanetly banned from using this bot.
+				(uid: ${message.author.id})`
+			);
+			embed.setColor("RANDOM");
+
+			return message.reply(embed);
+		}
 		if (bypassIds.some((id) => id == message.author.id) == false) {
 			if (!cooldowns.has(command.name)) {
 				cooldowns.set(command.name, new Collection());
