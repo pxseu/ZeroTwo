@@ -1,4 +1,5 @@
 const { bypassIds } = require("../utils/config");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
 	name: "eval",
@@ -16,7 +17,10 @@ module.exports = {
 				message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
 			}
 		} else {
-			message.channel.send("This command is for the owner only.");
+			const embed = new MessageEmbed();
+
+			embed.setColor("RANDOM");
+			embed.setDescription(`No. Only <@${bypassIds.join(">, <@")}>.`);
 		}
 	},
 	type: 0,
