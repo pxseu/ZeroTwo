@@ -14,4 +14,6 @@ module.exports = {
 
 		message.channel.send(embed);
 	},
+	type: 5,
+	aliases: ["link", "website", "homepage"],
 };
