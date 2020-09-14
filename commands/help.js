@@ -5,7 +5,6 @@ module.exports = {
 	name: "help",
 	description: `Please enter a number from 0-6`,
 	execute(message, args, guildConf) {
-		const client = message.client;
 		let user = message.member;
 
 		const embed = new MessageEmbed()
@@ -37,7 +36,7 @@ module.exports = {
 				const cattegory = getCommandType(args[0]);
 				const cattegoryName = commandsCategories[cattegory].toLowerCase();
 				embed.setTitle(`Category: ${cattegory} (${cattegoryName})`);
-				client.commands
+				message.client.commands
 					.filter((command) => command.type == cattegory)
 					.forEach((command) => {
 						embed.addField(
@@ -50,29 +49,21 @@ module.exports = {
 					});
 			}
 		}
-		embed.setFooter(`Proudly providing ${client.commands.length} commands!`);
+
+		embed.setFooter(
+			`Proudly providing ${message.client.commands.array().length} commands!`
+		);
+
 		message.channel.send(embed);
 	},
 	type: 0,
 };
 
 function getCommandType(string = "") {
-	switch (string) {
-		case "0":
-			return 0;
-		case "1":
-			return 1;
-		case "2":
-			return 2;
-		case "3":
-			return 3;
-		case "4":
-			return 4;
-		case "5":
-			return 5;
-		case "6":
-			return 6;
-		default:
-			return undefined;
+	try {
+		const i = parseInt(string);
+		return commandsCategories.hasOwnProperty(i) ? i : undefined;
+	} catch (error) {
+		return undefined;
 	}
 }
