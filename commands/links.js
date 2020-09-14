@@ -8,7 +8,7 @@ module.exports = {
 		embed.setTitle(this.description);
 		embed.setDescription(
 			"My Website: [https://www.pxseu.com](https://www.pxseu.com) ✨\n" +
-				"My bot: [https://github.com/pxseu/ZeroTwoBot](https://github.com/pxseu/ZeroTwoBot)😳"
+				"My bot: [https://github.com/pxseu/ZeroTwoBot](https://github.com/pxseu/ZeroTwoBot) 😳"
 		);
 		embed.setColor("RANDOM");
 
