@@ -20,4 +20,5 @@ module.exports = {
 		}
 	},
 	type: 4,
+	aliases: ["loop"],
 };

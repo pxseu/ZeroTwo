@@ -1,3 +1,5 @@
+"use strict";
+
 const events = {
 	READY: "ready",
 	MESSAGE: "message",
