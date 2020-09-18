@@ -1,3 +1,5 @@
+"use strict";
+
 const badword = [
 	"4r5e",
 	"5h1t",

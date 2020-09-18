@@ -1,3 +1,5 @@
+"use strict";
+
 const commandsCategories = {
 	0: "Commands for bot!",
 	1: "User commands!",

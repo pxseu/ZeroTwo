@@ -1,3 +1,5 @@
+"use strict";
+
 const Server = require("../models/server");
 const events = require("../utils/events");
 
