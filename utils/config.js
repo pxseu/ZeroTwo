@@ -40,7 +40,9 @@ const bypassIds = [
 	"714991222074376303",
 ];
 
-const bannedIds = [];
+const bannedIds = [
+	"670600281846841354" /* Peitho lmao */
+];
 
 module.exports = {
 	commandsCategories,
@@ -51,9 +53,3 @@ module.exports = {
 	patgifs,
 	huggifs,
 };
-
-/* 
-
-Peitho if you see this I'm sorry
-
-*/
