@@ -18,46 +18,44 @@ module.exports = {
 		}
 
 		if (!args[0]) {
-			embed.setDescription(`Please enter a number ${emotes.error}`);
+			embed.setDescription(`Please enter a number.`);
 			return message.channel.send(embed);
 		}
 
 		if (isNaN(args[0])) {
-			embed.setDescription(`Please enter a valid number ${emotes.error}`);
+			embed.setDescription(`Please enter a valid number.`);
 			return message.channel.send(embed);
 		}
 		if (100 < args[0]) {
-			embed.setDescription(`Please enter a valid number ${emotes.error}`);
+			embed.setDescription(`Please enter a valid number.`);
 			return message.channel.send(embed);
 		}
 
 		if (args[0] <= 0) {
-			embed.setDescription(`Please enter a valid number ${emotes.error}`);
+			embed.setDescription(`Please enter a valid number.`);
 			return message.channel.send(embed);
 		}
 
 		if (message.content.includes("-")) {
-			embed.setDescription(`Please enter a valid number ${emotes.error}`);
+			embed.setDescription(`Please enter a valid number.`);
 			return message.channel.send(embed);
 		}
 		if (message.content.includes("+")) {
-			embed.setDescription(`Please enter a valid number ${emotes.error}`);
+			embed.setDescription(`Please enter a valid number.`);
 			return message.channel.send(embed);
 		}
 		if (message.content.includes(",")) {
-			embed.setDescription(`Please enter a valid number ${emotes.error}`);
+			embed.setDescription(`Please enter a valid number.`);
 			return message.channel.send(embed);
 		}
 		if (message.content.includes(".")) {
-			embed.setDescription(`Please enter a valid number ${emotes.error}`);
+			embed.setDescription(`Please enter a valid number.`);
 			return message.channel.send(embed);
 		}
 
 		message.client.player.setVolume(message.guild.id, parseInt(args.join(" ")));
 
-		embed.setDescription(
-			`Volume set to \`${args.join(" ")}\` ${emotes.success}`
-		);
+		embed.setDescription(`Volume set to \`${args.join(" ")}\``);
 		message.channel.send(embed);
 	},
 	type: 4,
