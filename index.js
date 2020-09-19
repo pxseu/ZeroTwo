@@ -4,6 +4,7 @@ require("dotenv").config();
 
 const fs = require("fs");
 const Discord = require("discord.js");
+const music = require("./utils/music");
 const database = require("./utils/database");
 const guildStuff = require("./utils/guildStuff");
 const mainMessageHandler = require("./utils/mainMessageHandler");
@@ -12,6 +13,7 @@ const events = require("./utils/events");
 let client = new Discord.Client();
 
 client.commands = new Discord.Collection();
+client.player = music(client);
 
 const commandFiles = fs
 	.readdirSync("./commands")
