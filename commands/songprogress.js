@@ -13,18 +13,20 @@ module.exports = {
 		}
 
 		//If there's no music
-		if (!client.player.isPlaying(message.guild.id)) {
+		if (!message.client.player.isPlaying(message.guild.id)) {
 			embed.setDescription(`No music playing on this server ${emotes.error}`);
 			return message.channel.send(embed);
 		}
 
-		const song = await client.player.nowPlaying(message.guild.id);
+		const song = await message.client.player.nowPlaying(message.guild.id);
 
 		//Message
 		embed.setDescription(
 			`Currently playing \`${
 				song.name
-			}\`\nProgress: [${client.player.createProgressBar(message.guild.id)}]`
+			}\`\nProgress: [${message.client.player.createProgressBar(
+				message.guild.id
+			)}]`
 		);
 		message.channel.send(embed);
 	},
