@@ -4,7 +4,7 @@ const { filters } = require("../utils/config");
 module.exports = {
 	name: "filters",
 	description: "filters",
-	execute(message) {
+	execute(message, _, guildConf) {
 		const embed = new MessageEmbed();
 		embed.setColor("RANDOM");
 
@@ -34,7 +34,7 @@ module.exports = {
 		});
 
 		embed.setDescription(
-			`List of all filters enabled or disabled.\nUse \`${config.prefix}filter\` to add a filter to a song.`
+			`List of all filters enabled or disabled.\nUse \`${guildConf.prefix}filter\` to add a filter to a song.`
 		);
 		embed.addField("**Filters**", filtersStatuses[0].join("\n"), true);
 		embed.addField("** **", filtersStatuses[1].join("\n"), true);
