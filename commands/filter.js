@@ -2,8 +2,8 @@ const { MessageEmbed } = require("discord.js");
 const { filters } = require("../utils/config");
 
 module.exports = {
-	name: "filters",
-	description: "filters",
+	name: "filter",
+	description: "filter",
 	execute(message, args) {
 		const embed = new MessageEmbed();
 		embed.setColor("RANDOM");
