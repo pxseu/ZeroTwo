@@ -12,7 +12,7 @@ module.exports = {
 			return message.channel.send(embed);
 		}
 
-		if (!client.player.isPlaying(message.guild.id)) {
+		if (!message.client.player.isPlaying(message.guild.id)) {
 			embed.setDescription(`No music playing on this server.`);
 			return message.channel.send(embed);
 		}
