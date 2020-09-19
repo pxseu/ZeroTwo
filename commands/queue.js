@@ -11,7 +11,7 @@ module.exports = {
 		if (!queue) return message.channel.send(`No songs currently playing`);
 
 		message.channel.send(
-			`**Server queue ${emotes.queue}**\nCurrent - ${queue.playing.name} | ${queue.playing.author}\n` +
+			`**Server queue: **\nCurrent - ${queue.playing.name} | ${queue.playing.author}\n` +
 				queue.tracks
 					.map((track, i) => {
 						return `#${i + 1} - ${track.name} | ${track.author}`;
