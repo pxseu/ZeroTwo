@@ -49,11 +49,11 @@ module.exports = {
 
 		if (filtersUpdated[filterRealName]) {
 			embed.setDescription(
-				`I'm adding the filter to the music, please wait... Note: the longer the music is, the longer this will take ${emotes.music}`
+				`I'm adding the filter to the music, please wait... \nNote: the longer the music is, the longer this will take.`
 			);
 		} else {
 			embed.setDescription(
-				`I'm disabling the filter on the music, please wait... Note: the longer the music is playing, the longer this will take ${emotes.music}`
+				`I'm disabling the filter on the music, please wait... \nNote: the longer the music is playing, the longer this will take`
 			);
 		}
 		message.channel.send(embed);
