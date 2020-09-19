@@ -55,11 +55,11 @@ module.exports = {
 
 			if (result.type === "playlist") {
 				embed.setDescription(
-					`${result.tracks.length} songs added to the queue \[<@${message.member.id}>\]\nCurrently playing ${result.tracks[0].name}`
+					`\`${result.tracks.length}\` songs added to the queue \[<@${message.member.id}>\]\nCurrently playing ${result.tracks[0].name}`
 				);
 			} else {
 				embed.setDescription(
-					`Currently playing ${result.name} \[<@${message.member.id}>\]`
+					`Currently playing \`${result.name}\` \[<@${message.member.id}>\]`
 				);
 			}
 			message.channel.send(embed);
@@ -67,20 +67,16 @@ module.exports = {
 			const queue = message.client.player.getQueue(message.guild.id);
 
 			queue.on("end", () => {
-				embed.setDescription(
-					`There is no more music in the queue ${emotes.error}`
-				);
+				embed.setDescription(`There is no more music in the queue.`);
 				message.channel.send(embed);
 			});
 			queue.on("trackChanged", (_, newTrack) => {
-				embed.setDescription(
-					`Now playing ${newTrack.name} ... ${emotes.music}`
-				);
+				embed.setDescription(`Now playing \`${newTrack.name}\`.`);
 				message.channel.send(embed);
 			});
 			queue.on("channelEmpty", () => {
 				embed.setDescription(
-					`Music stopped, there are no more members in the voice channel ${emotes.error}`
+					`Music stopped, there are no more members in the voice channel.`
 				);
 				message.channel.send(embed);
 			});

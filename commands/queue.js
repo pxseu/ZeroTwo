@@ -1,3 +1,5 @@
+const { Message, MessageEmbed } = require("discord.js");
+
 module.exports = {
 	name: "queue",
 	description: "queue",
@@ -10,14 +12,17 @@ module.exports = {
 
 		if (!queue) return message.channel.send(`No songs currently playing`);
 
-		message.channel.send(
-			`**Server queue: **\nCurrent - ${queue.playing.name} | ${queue.playing.author}\n` +
+		const embed = new MessageEmbed();
+		embed.setColor("RANDOM");
+		embed.setDescription(
+			`**Server queue: **\nCurrent - \`${queue.playing.name}\` | \`${queue.playing.author}\`\n` +
 				queue.tracks
 					.map((track, i) => {
-						return `#${i + 1} - ${track.name} | ${track.author}`;
+						return `#${i + 1} - \`${track.name}\` | \`${track.author}\``;
 					})
 					.join("\n")
 		);
+		message.channel.send(embed);
 	},
 	type: 4,
 };
