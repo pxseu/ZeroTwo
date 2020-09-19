@@ -15,7 +15,7 @@ module.exports = {
 		embed.setColor("RANDOM");
 
 		if (currentTrack) {
-			const result = await client.player
+			const result = await message.client.player
 				.addToQueue(message.guild.id, args.join(" "))
 				.catch(() => {});
 			if (!result) {
@@ -41,7 +41,7 @@ module.exports = {
 			message.channel.send(embed);
 		} else {
 			//Else, play the song
-			const result = await client.player
+			const result = await message.client.player
 				.play(message.member.voice.channel, args.join(" "))
 				.catch(() => {});
 			if (!result) {
@@ -64,7 +64,7 @@ module.exports = {
 			}
 			message.channel.send(embed);
 
-			const queue = client.player.getQueue(message.guild.id);
+			const queue = message.client.player.getQueue(message.guild.id);
 
 			queue.on("end", () => {
 				embed.setDescription(
