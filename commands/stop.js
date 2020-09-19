@@ -1,7 +1,7 @@
 module.exports = {
 	name: "stop",
 	description: "stop",
-	async execute(message) {
+	execute(message) {
 		if (!message.member.voice.channel)
 			return message.channel.send(
 				"You have to be in a voice channel to stop the music!"
@@ -16,4 +16,5 @@ module.exports = {
 		message.react("🛑");
 	},
 	type: 4,
+	aliases: ["leave", "end"],
 };
