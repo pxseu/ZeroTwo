@@ -5,6 +5,7 @@ module.exports = {
 	description: "loop current song",
 	async execute(message) {
 		const embed = new MessageEmbed();
+		embed.setColor("RANDOM");
 
 		if (!message.member.voice.channel) {
 			embed.setDescription(`You're not in a voice channel.`);
