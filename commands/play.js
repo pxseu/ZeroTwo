@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
 	name: "play",
 	description: "Play song!",
-	async execute(message, args, guildConf, serverQueue, queue) {
+	async execute(message, args) {
 		if (!message.member.voice.channel)
 			return message.channel.send(`You're not in a voice channel.`);
 
@@ -34,7 +34,7 @@ module.exports = {
 				);
 			} else {
 				embed.setDescription(
-					`${result.name} added to the queue \[<@${message.member.id}>\]`
+					`\`${result.name}\` added to the queue \[<@${message.member.id}>\]`
 				);
 			}
 
