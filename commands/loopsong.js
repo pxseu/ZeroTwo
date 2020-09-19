@@ -13,7 +13,7 @@ module.exports = {
 		}
 
 		if (!message.client.player.isPlaying(message.guild.id)) {
-			embed.setDescription(`No music playing on this server ${emotes.error}`);
+			embed.setDescription(`No music playing on this server.`);
 			return message.channel.send(embed);
 		}
 
@@ -23,11 +23,11 @@ module.exports = {
 		if (repeatMode) {
 			message.client.player.setRepeatMode(message.guild.id, false);
 
-			embed.setDescription(`Repeat mode disabled ${emotes.success}`);
+			embed.setDescription(`Repeat mode disabled.`);
 		} else {
 			message.client.player.setRepeatMode(message.guild.id, true);
 
-			embed.setDescription(`Repeat mode enabled ${emotes.success}`);
+			embed.setDescription(`Repeat mode enabled.`);
 		}
 		message.channel.send(embed);
 	},

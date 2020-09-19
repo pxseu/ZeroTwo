@@ -11,7 +11,8 @@ module.exports = {
 				message.member.roles.cache.some(
 					(role) => role.name == guildConf.modRole
 				) ||
-				bypassIds.some((id) => id == message.author.id)) == false
+				bypassIds.some((id) => id == message.author.id) ||
+				message.member.hasPermission("ADMINISTRATOR")) == false
 		)
 			return message.reply("You don't have the permision to use this command.");
 
