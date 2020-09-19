@@ -40,9 +40,28 @@ const bypassIds = [
 	"714991222074376303",
 ];
 
-const bannedIds = [
-	"670600281846841354" /* Peitho lmao */
-];
+const bannedIds = ["670600281846841354" /* Peitho lmao */];
+
+const filters = {
+	bassboost: "Bassboost",
+	"8D": "8D",
+	vaporwave: "Vaporwave",
+	nightcore: "Nightcore",
+	phaser: "Phaser",
+	tremolo: "Tremolo",
+	vibrato: "Vibrato",
+	reverse: "Reverse",
+	treble: "Treble",
+	normalizer: "Normalizer",
+	surrounding: "Surrounding",
+	pulsator: "Pulsator",
+	subboost: "Subboost",
+	karaoke: "Karaoke",
+	flanger: "Flanger",
+	gate: "Gate",
+	haas: "Haas",
+	mcompand: "Mcompand",
+};
 
 module.exports = {
 	commandsCategories,
@@ -52,4 +71,5 @@ module.exports = {
 	kissgifs,
 	patgifs,
 	huggifs,
+	filters,
 };

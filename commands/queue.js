@@ -1,9 +1,9 @@
-const { Message, MessageEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
 	name: "queue",
 	description: "queue",
-	async execute(message) {
+	execute(message) {
 		if (!message.member.voice.channel)
 			return message.channel.send(
 				"You have to be in a voice channel to stop the music!"

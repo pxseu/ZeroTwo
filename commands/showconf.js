@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
 	name: "showconf",
 	description: "show current config",
-	execute(message, args, guildConf, serverQueue, queue) {
+	execute(message, args, guildConf) {
 		const embed = new MessageEmbed();
 		embed.setDescription(
 			`The following are the server's current configuration:`

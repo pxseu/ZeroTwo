@@ -3,36 +3,61 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
 	name: "volume",
 	description: "Change bot audio play volume.",
-	execute(message, args, guildConf, serverQueue) {
+	execute(message, args) {
 		const embed = new MessageEmbed();
-		if (serverQueue == undefined) return message.reply("No song is playing.");
-		const volume = args[0];
-		if (!volume) {
-			embed.setTitle("Please choose from:");
-			embed.setDescription("\n``earrape``\n``normal``\n``silent``");
-			embed.setColor("RANDOM");
+		embed.setColor("RANDOM");
+
+		if (!message.member.voice.channel) {
+			embed.setDescription(`You're not in a voice channel.`);
 			return message.channel.send(embed);
 		}
-		switch (volume.toLowerCase()) {
-			case "earrape":
-				serverQueue.volume = 20;
-				break;
-			case "normal":
-				serverQueue.volume = 5;
-				break;
-			case "silent":
-				serverQueue.volume = 1;
-				break;
-			default:
-				embed.setTitle("Please choose from:");
-				embed.setDescription("\n``earrape``\n``normal``\n``silent``");
-				embed.setColor("RANDOM");
-				return message.channel.send(embed);
+
+		if (!client.player.isPlaying(message.guild.id)) {
+			embed.setDescription(`No music playing on this server.`);
+			return message.channel.send(embed);
 		}
-		embed.setTitle("Volume set to:");
-		embed.setDescription(`${volume}`);
-		embed.setFooter("The volume will applied to the next song.");
-		embed.setColor("RANDOM");
+
+		if (!args[0]) {
+			embed.setDescription(`Please enter a number ${emotes.error}`);
+			return message.channel.send(embed);
+		}
+
+		if (isNaN(args[0])) {
+			embed.setDescription(`Please enter a valid number ${emotes.error}`);
+			return message.channel.send(embed);
+		}
+		if (100 < args[0]) {
+			embed.setDescription(`Please enter a valid number ${emotes.error}`);
+			return message.channel.send(embed);
+		}
+
+		if (args[0] <= 0) {
+			embed.setDescription(`Please enter a valid number ${emotes.error}`);
+			return message.channel.send(embed);
+		}
+
+		if (message.content.includes("-")) {
+			embed.setDescription(`Please enter a valid number ${emotes.error}`);
+			return message.channel.send(embed);
+		}
+		if (message.content.includes("+")) {
+			embed.setDescription(`Please enter a valid number ${emotes.error}`);
+			return message.channel.send(embed);
+		}
+		if (message.content.includes(",")) {
+			embed.setDescription(`Please enter a valid number ${emotes.error}`);
+			return message.channel.send(embed);
+		}
+		if (message.content.includes(".")) {
+			embed.setDescription(`Please enter a valid number ${emotes.error}`);
+			return message.channel.send(embed);
+		}
+
+		message.client.player.setVolume(message.guild.id, parseInt(args.join(" ")));
+
+		embed.setDescription(
+			`Volume set to \`${args.join(" ")}\` ${emotes.success}`
+		);
 		message.channel.send(embed);
 	},
 	type: 4,

@@ -3,7 +3,7 @@ const { bypassIds } = require("../utils/config");
 module.exports = {
 	name: "setconf",
 	description: "set configuration for server",
-	async execute(message, args, guildConf, serverQueue, queue, client, Server) {
+	async execute(message, args, guildConf, client, Server) {
 		if (
 			mmessage.member.roles.cache.some(
 				(role) => role.name == guildConf.adminRole
