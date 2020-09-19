@@ -11,7 +11,8 @@ module.exports = {
 			message.member.roles.cache.some(
 				(role) => role.name == guildConf.modRole
 			) ||
-			bypassIds.some((id) => id == message.author.id)
+			bypassIds.some((id) => id == message.author.id) ||
+			message.member.hasPermission("ADMINISTRATOR")
 		) {
 			let user =
 				message.mentions.members.first() ||
