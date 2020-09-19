@@ -14,7 +14,7 @@ module.exports = {
 		}
 
 		//If there's no music
-		if (!client.player.isPlaying(message.guild.id)) {
+		if (!message.client.player.isPlaying(message.guild.id)) {
 			embed.setDescription(`No music playing on this server ${emotes.error}`);
 			return message.channel.send(embed);
 		}
@@ -29,7 +29,7 @@ module.exports = {
 			array.push(
 				filters[filterName] +
 					" : " +
-					client.player.getQueue(message.guild.id).filters[filterName]
+					message.client.player.getQueue(message.guild.id).filters[filterName]
 			);
 		});
 
