@@ -5,7 +5,6 @@ const events = require("../utils/events");
 const { nsfwCategories, bypassIds, bannedIds } = require("../utils/config");
 const { MessageEmbed, Collection } = require("discord.js");
 
-let queue = new Map();
 const cooldowns = new Collection();
 
 const mainMessageHandler = (client) => {
@@ -30,7 +29,7 @@ const mainMessageHandler = (client) => {
 				(cmd) => cmd.aliases && cmd.aliases.includes(commandName)
 			);
 		if (!command) return message.react("❌");
-		const serverQueue = queue.get(message.guild.id);
+
 		console.log(`${commandName} | summoned by ${message.author.id}`);
 
 		if (bannedIds.some((id) => id == message.author.id) == true) {
@@ -96,8 +95,7 @@ const mainMessageHandler = (client) => {
 				message,
 				args,
 				guildConf,
-				serverQueue,
-				queue,
+
 				client,
 				Server
 			);
