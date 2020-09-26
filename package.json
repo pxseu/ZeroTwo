@@ -17,9 +17,9 @@
 		"ffmpeg-static": "^4.2.7",
 		"genius-api": "^0.4.1",
 		"moment": "^2.29.0",
-		"mongoose": "5.10.6",
+		"mongoose": "5.10.7",
 		"nhentai-api": "^3.0.2",
-		"ytdl-core-discord": "^1.2.1"
+		"ytdl-core-discord": "^1.2.3"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.4"
