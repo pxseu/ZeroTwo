@@ -1,14 +1,25 @@
+const vm = require("vm");
 const { bypassIds } = require("../utils/config");
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
 	name: "eval",
 	description: `Dev Eval (special peeps (${bypassIds.join(", ")}))`,
-	execute(message, args) {
+	async execute(message, args) {
 		if (bypassIds.some((id) => id == message.author.id)) {
 			try {
 				const code = args.join(" ");
-				let evaled = eval(code);
+				const script = new vm.Script(`const h = "h1t1 is not funny"; ${code}`);
+
+				const context = {
+					module: this,
+					message,
+					args,
+					kill: process.exit,
+				};
+
+				vm.createContext(context);
+				let evaled = await script.runInContext(context);
 
 				if (typeof evaled !== "string")
 					evaled = require("util").inspect(evaled);
