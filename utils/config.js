@@ -40,7 +40,7 @@ const bypassIds = [
 	"714991222074376303",
 ];
 
-const bannedIds = ["670600281846841354" /* Peitho lmao */];
+const bannedIds = [];
 
 const filters = {
 	bassboost: "Bassboost",

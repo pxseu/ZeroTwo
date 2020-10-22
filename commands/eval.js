@@ -12,9 +12,9 @@ module.exports = {
 				const script = new vm.Script(`const h = "h1t1 is not funny"; ${code}`);
 
 				const context = {
-					module: this,
 					message,
 					args,
+					module: this,
 					kill: process.exit,
 				};
 
