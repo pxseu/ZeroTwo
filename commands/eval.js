@@ -1,3 +1,5 @@
+"use strict";
+
 const vm = require("vm");
 const { bypassIds } = require("../utils/config");
 const { MessageEmbed } = require("discord.js");
@@ -9,12 +11,12 @@ module.exports = {
 		if (bypassIds.some((id) => id == message.author.id)) {
 			try {
 				const code = args.join(" ");
-				const script = new vm.Script(`const h = "h1t1 is not funny"; ${code}`);
+				const script = new vm.Script(code);
 
 				const context = {
+					h,
 					message,
 					args,
-					module: this,
 					kill: process.exit,
 				};
 
@@ -31,7 +33,7 @@ module.exports = {
 			const embed = new MessageEmbed();
 
 			embed.setColor("RANDOM");
-			embed.setDescription(`No. Only <@${bypassIds.join(">, <@")}>.`);
+			embed.setDescription(`Only <@${bypassIds.join(">, <@")}>.`);
 		}
 	},
 	type: 0,
@@ -43,4 +45,8 @@ function clean(text) {
 			.replace(/`/g, "`" + String.fromCharCode(8203))
 			.replace(/@/g, "@" + String.fromCharCode(8203));
 	else return text;
+}
+
+function h() {
+	return "h";
 }

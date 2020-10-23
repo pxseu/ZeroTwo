@@ -18,6 +18,10 @@ const getImage = (endpoint = "") =>
 		resolve(data);
 	});
 
+const randomElement = (array = []) =>
+	array[Math.floor(Math.random() * array.length)];
+
 module.exports = {
 	getImage,
+	randomElement,
 };
