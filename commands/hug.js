@@ -1,14 +1,12 @@
 const { MessageEmbed } = require("discord.js");
-const { getImage } = require("../utils/apiStuff");
+const { getImage, randomElement } = require("../utils/apiStuff");
 
 module.exports = {
 	name: "hug",
 	description: "Hug!",
 	async execute(message, args) {
 		const goodEndPoints = ["/hug", "/cuddle"];
-		const hug = await getImage(
-			goodEndPoints[Math.floor(Math.random() * goodEndPoints.length)]
-		);
+		const hug = await getImage(randomElement(goodEndPoints));
 
 		const tagged =
 			message.mentions.members.first() ||

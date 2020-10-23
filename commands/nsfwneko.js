@@ -1,14 +1,12 @@
 const { MessageEmbed } = require("discord.js");
-const { getImage } = require("../utils/apiStuff");
+const { getImage, randomElement } = require("../utils/apiStuff");
 
 module.exports = {
 	name: "nsfwneko",
 	description: "NSFW Nekos!",
 	async execute(message, args) {
 		const endpoints = ["/lewdkemo", "/nsfw_neko_gif"];
-		const nsfwneko = await getImage(
-			endpoints[Math.floor(Math.random() * endpoints.length)]
-		);
+		const nsfwneko = await getImage(randomElement(endpoints));
 
 		const embed = new MessageEmbed();
 		embed.setColor("RANDOM");
