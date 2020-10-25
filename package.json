@@ -19,7 +19,7 @@
 		"moment": "^2.29.1",
 		"mongoose": "5.10.10",
 		"nhentai-api": "^3.0.2",
-		"ytdl-core-discord": "^1.2.3"
+		"ytdl-core-discord": "^1.2.4"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.5"
