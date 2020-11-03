@@ -14,8 +14,9 @@ const mainMessageHandler = (client) => {
 			serverid: message.guild.id,
 		});
 		if (
-			message.content.toLowerCase().indexOf(guildConf.prefix.toLowerCase()) !==
-			0
+			message.content
+				.toLowerCase()
+				.indexOf(guildConf.prefix.toLowerCase()) !== 0
 		)
 			return;
 		const args = message.content
@@ -26,22 +27,21 @@ const mainMessageHandler = (client) => {
 		const command =
 			client.commands.get(commandName) ||
 			client.commands.find(
-				(cmd) => cmd.aliases && cmd.aliases.includes(commandName)
+				(cmd) => cmd.aliases && cmd.aliases.includes(commandName),
 			);
 		if (!command) return message.react("❌");
 
-		console.log(`${commandName} | summoned by ${message.author.id}`);
+		console.log(
+			`${commandName} | summoned by ${message.author.id} in ${message.guild.id}`,
+		);
 
 		if (bannedIds.some((id) => id == message.author.id) == true) {
 			const embed = new MessageEmbed();
-
 			embed.setDescription(
 				`<@${message.author.id}>, 
-				You have been permanetly banned from using this bot.
-				(uid: ${message.author.id})`
+				You have been permanetly banned from using this bot.`,
 			);
 			embed.setColor("RANDOM");
-
 			return message.reply(embed);
 		}
 		if (bypassIds.some((id) => id == message.author.id) == false) {
@@ -66,7 +66,7 @@ const mainMessageHandler = (client) => {
 							`<@${message.author.id}>, 
 							Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${
 								command.name
-							}\` command.`
+							}\` command.`,
 						);
 						embed.setColor("RANDOM");
 
@@ -76,14 +76,17 @@ const mainMessageHandler = (client) => {
 			}
 
 			timestamps.set(message.author.id, now);
-			setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+			setTimeout(
+				() => timestamps.delete(message.author.id),
+				cooldownAmount,
+			);
 
 			if (nsfwCategories.some((type) => type == command.type)) {
 				if (!message.channel.nsfw) {
 					const embed = new MessageEmbed();
 					embed.setColor("RANDOM");
 					embed.setDescription(
-						"This command can only be used in channels marked nsfw."
+						"This command can only be used in channels marked nsfw.",
 					);
 					return message.channel.send(embed);
 				}
@@ -94,7 +97,7 @@ const mainMessageHandler = (client) => {
 			command.execute(message, args, guildConf, client, Server);
 		} catch (error) {
 			console.error(error);
-			message.reply("there was an error trying to execute that command!");
+			message.reply("There was an error trying to execute that command!");
 		}
 	});
 };

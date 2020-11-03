@@ -25,11 +25,11 @@ for (const file of commandFiles) {
 }
 
 client.on(events.READY, () => {
-	console.log(`Logged in as ${client.user.tag}!`);
+	console.log(`> Logged in as ${client.user.tag}!`);
 	client.user.setPresence({
 		status: "dnd",
 		activity: {
-			name: "porn | pxseu.com",
+			name: "help | pxseu.com",
 			type: "STREAMING",
 			url: "https://www.twitch.tv/monstercat",
 		},
