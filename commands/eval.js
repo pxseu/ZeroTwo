@@ -18,6 +18,8 @@ module.exports = {
 					message,
 					args,
 					kill: process.exit,
+					require,
+					setInterval,
 				};
 
 				vm.createContext(context);
@@ -27,7 +29,9 @@ module.exports = {
 					evaled = require("util").inspect(evaled);
 				message.channel.send(clean(evaled), { code: "xl" });
 			} catch (err) {
-				message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+				message.channel.send(
+					`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``,
+				);
 			}
 		} else {
 			const embed = new MessageEmbed();
