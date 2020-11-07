@@ -1,14 +1,17 @@
 {
 	"name": "zerotwo-discordbot",
 	"description": "zerotwo-discordbot",
-	"main": "index.js",
+	"main": "./dist/index.js",
 	"version": "0.1.1",
 	"scripts": {
-		"start": "cross-env NODE_ENV=production node .",
-		"dev": "cross-env NODE_ENV=development nodemon ."
+		"compile": "rimraf dist && tsc",
+		"start": "node --trace-warnings .",
+		"dev": "cross-env NODE_ENV=development nodemon -e ts --exec \"npm run compile && npm start\"",
+		"prod": "cross-env NODE_ENV=production npm start"
 	},
 	"dependencies": {
 		"@discordjs/opus": "^0.3.3",
+		"@types/node-schedule": "^1.3.1",
 		"cross-env": "^7.0.2",
 		"discord-player": "^2.3.1",
 		"discord.js": "12.4.1",
@@ -22,6 +25,11 @@
 		"ytdl-core-discord": "^1.2.4"
 	},
 	"devDependencies": {
-		"nodemon": "^2.0.6"
+		"@types/mongodb": "^3.5.33",
+		"@types/mongoose": "^5.7.37",
+		"@types/node": "^14.14.6",
+		"nodemon": "^2.0.6",
+		"rimraf": "^3.0.2",
+		"typescript": "^4.0.5"
 	}
 }
