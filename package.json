@@ -4,9 +4,9 @@
 	"main": "./dist/index.js",
 	"version": "0.1.1",
 	"scripts": {
-		"compile": "rimraf dist && tsc",
+		"build": "rimraf dist && tsc",
 		"start": "node --trace-warnings .",
-		"dev": "cross-env NODE_ENV=development nodemon -e ts --exec \"npm run compile && npm start\"",
+		"dev": "cross-env NODE_ENV=development nodemon -e ts --exec \"npm run build && npm start\"",
 		"prod": "cross-env NODE_ENV=production npm start"
 	},
 	"dependencies": {
