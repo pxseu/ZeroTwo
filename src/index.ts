@@ -1,21 +1,17 @@
-"use strict";
-
 require("dotenv").config();
 
 import fs from "fs";
 import { Client, Collection } from "discord.js";
 import database from "./utils/database";
-//const music = require("./utils/music");
-//const database = require("./utils/database");
+import music from "./utils/music";
+import guildStuff from "./utils/guildStuff";
 //const guildStuff = require("./utils/guildStuff");
-//const mainMessageHandler = require("./utils/mainMessageHandler");
 import mainMessageHandler from "./utils/mainMessageHandler";
-import events from "./utils/events";
 
 export const client = new Client();
 
 client.commands = new Collection();
-//client.player = music(client);
+client.player = music();
 
 const commandFiles = fs
 	.readdirSync("./dist/commands")
@@ -26,21 +22,11 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
-client.on(events.READY, () => {
-	console.log(`> Logged in as ${client.user.tag}!`);
-	client.user.setPresence({
-		status: "dnd",
-		activity: {
-			name: "help | pxseu.com",
-			type: "STREAMING",
-			url: "https://www.twitch.tv/monstercat",
-		},
-	});
-});
-
 //guildStuff(client);
-mainMessageHandler();
+(async () => {
+	guildStuff();
+	mainMessageHandler();
+	await database();
 
-database().then(() => {
 	client.login(process.env.BOT_TOKEN);
-});
+})();
