@@ -18,13 +18,13 @@ const mainMessageHandler = () => {
 		if (
 			message.content
 				.toLowerCase()
-				//@ts-ignore
-				.indexOf(guildConf.prefix.toLowerCase()) !== 0
+
+				.indexOf(guildConf.toJSON().prefix.toLowerCase()) !== 0
 		)
 			return;
 		const args = message.content
-			//@ts-ignore
-			.slice(guildConf.prefix.length)
+
+			.slice(guildConf.toJSON().prefix.length)
 			.trim()
 			.split(/ +/g);
 		const commandName = args.shift().toLowerCase();
