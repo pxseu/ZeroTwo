@@ -1,6 +1,6 @@
 "use strict";
 
-import Server from "../../models/server";
+import Server from "../models/server";
 import events from "./events";
 import { nsfwCategories, bypassIds, bannedIds } from "./config";
 import { MessageEmbed, Collection, Message } from "discord.js";
@@ -14,13 +14,16 @@ const mainMessageHandler = () => {
 		const guildConf = await Server.findOne({
 			serverid: message.guild.id,
 		});
+
 		if (
 			message.content
 				.toLowerCase()
+				//@ts-ignore
 				.indexOf(guildConf.prefix.toLowerCase()) !== 0
 		)
 			return;
 		const args = message.content
+			//@ts-ignore
 			.slice(guildConf.prefix.length)
 			.trim()
 			.split(/ +/g);
@@ -33,7 +36,7 @@ const mainMessageHandler = () => {
 		if (!command) return message.react("❌");
 
 		console.log(
-			`${commandName} | summoned by ${message.author.id} in ${message.guild.id}`,
+			`> ${commandName} | summoned by ${message.author.id} in ${message.guild.id}`,
 		);
 
 		if (bannedIds.some((id: string) => id == message.author.id) == true) {
