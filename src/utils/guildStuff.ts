@@ -52,7 +52,7 @@ const guildStuff = () => {
 				if (
 					client.guilds.cache.some(
 						//@ts-ignore
-						(servers) => servers.id == serverDB.serverid,
+						(servers) => servers.id == serverDB.toJSON().serverid,
 					) == false
 				) {
 					await serverDB.deleteOne();
