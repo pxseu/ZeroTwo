@@ -6,8 +6,8 @@
 	"scripts": {
 		"build": "rimraf dist && tsc",
 		"start": "node --trace-warnings .",
-		"dev": "cross-env NODE_ENV=development nodemon -e ts --exec \"npm run build && npm start\"",
-		"prod": "cross-env NODE_ENV=production npm start"
+		"dev": "cross-env NODE_ENV=development nodemon -e ts --exec \"yarn build && yarn start\"",
+		"prod": "cross-env NODE_ENV=production yarn start"
 	},
 	"dependencies": {
 		"@discordjs/opus": "^0.3.3",
@@ -31,5 +31,9 @@
 		"nodemon": "^2.0.6",
 		"rimraf": "^3.0.2",
 		"typescript": "^4.0.5"
+	},
+	"engines": {
+		"node": "14.x.x",
+		"yarn": "1.22.10"
 	}
 }
