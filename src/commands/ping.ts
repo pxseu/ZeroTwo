@@ -22,8 +22,8 @@ module.exports = {
 
 			embed
 				.setDescription(
-					`**Message Latency** (\`\`${Math.floor(ping)}ms\`\`)
-				**Bot Ping** (\`\`${Math.floor(message.client.ws.ping)}ms\`\`)`,
+					`**Message Latency** (\`\`${Math.round(ping)}ms\`\`)
+				**Bot Ping** (\`\`${Math.round(message.client.ws.ping)}ms\`\`)`,
 				)
 				.setColor(color);
 
