@@ -22,8 +22,8 @@ module.exports = {
 
 			embed
 				.setDescription(
-					`**You** > **Discord** (\`\`${Math.floor(ping)}ms\`\`)
-				**We** > **Discord API** (\`\`${Math.floor(message.client.ws.ping)}ms\`\`)`,
+					`**Message Latency** (\`\`${Math.floor(ping)}ms\`\`)
+				*Bot Ping** (\`\`${Math.floor(message.client.ws.ping)}ms\`\`)`,
 				)
 				.setColor(color);
 
