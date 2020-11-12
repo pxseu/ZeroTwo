@@ -5,7 +5,7 @@ const database = async () => {
 		throw error;
 	});
 	mongoose.connection.once("open", () =>
-		console.log("> Connected to database"),
+		console.log(`> Connected to database: ${mongoose.connection.name}`),
 	);
 
 	await mongoose.connect(process.env.MONGODB_URI, {

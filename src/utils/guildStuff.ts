@@ -62,11 +62,15 @@ const guildStuff = () => {
 			});
 		});
 
-		let description = `> Logged in as ${client.user.tag}!\n`;
-		description += `> Server count: ${client.guilds.cache.size}`;
+		let description = `\`\`\`md\n`;
+		description += `# Logged in as ${client.user.tag}!\n`;
+		description += `# Server count: ${client.guilds.cache.size}\n`;
+		description += `# User count: ${client.users.cache.size}\n`;
+		description += `\`\`\``;
 
 		const embed = new MessageEmbed();
 		embed.setColor("RANDOM");
+		embed.setTitle("Bot started!");
 		embed.setDescription(description);
 		embed.setTimestamp();
 

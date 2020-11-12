@@ -32,16 +32,12 @@ module.exports = {
 		);
 		embed.addField(
 			"Joined",
-			moment
-				.unix(member.joinedAt.getMilliseconds() / 1000)
-				.format("llll"),
+			moment.unix(member.joinedAt.getTime() / 1000).format("llll"),
 			true,
 		);
 		embed.addField(
 			"Registered",
-			moment
-				.unix(member.user.createdAt.getMilliseconds() / 1000)
-				.format("llll"),
+			moment.unix(member.user.createdAt.getTime() / 1000).format("llll"),
 			true,
 		);
 		embed.addField(
