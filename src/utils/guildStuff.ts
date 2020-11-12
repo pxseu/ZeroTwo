@@ -54,24 +54,23 @@ const guildStuff = () => {
 			serversInDb.forEach(async (serverDB) => {
 				if (
 					client.guilds.cache.some(
-						//@ts-ignore
 						(servers) => servers.id == serverDB.toJSON().serverid,
 					) == false
 				) {
 					await serverDB.deleteOne();
 				}
 			});
-			let description: string;
-			description += `> Logged in as ${client.user.tag}!\n`;
-			description += `> Server count: ${client.guilds.cache.size}`;
-
-			const embed = new MessageEmbed();
-			embed.setColor("RANDOM");
-			embed.setDescription(description);
-			embed.setTimestamp();
-
-			client.users.cache.get(owner).send(embed);
 		});
+
+		let description = `> Logged in as ${client.user.tag}!\n`;
+		description += `> Server count: ${client.guilds.cache.size}`;
+
+		const embed = new MessageEmbed();
+		embed.setColor("RANDOM");
+		embed.setDescription(description);
+		embed.setTimestamp();
+
+		client.users.cache.get(owner).send(embed);
 	});
 };
 
