@@ -10,7 +10,7 @@ module.exports = {
 			"My Website: [https://www.pxseu.com](https://www.pxseu.com) ✨\n" +
 				"My bot: [https://github.com/pxseu/ZeroTwoBot](https://github.com/pxseu/ZeroTwoBot) 😳",
 		);
-		embed.setFooter("request by Peitho");
+		embed.setFooter("requested by Peitho");
 		embed.setColor("RANDOM");
 
 		message.channel.send(embed);
