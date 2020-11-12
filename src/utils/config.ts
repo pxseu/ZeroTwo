@@ -60,3 +60,5 @@ export const filters = {
 	haas: "Haas",
 	mcompand: "Mcompand",
 };
+
+export const owner = "338718840873811979";

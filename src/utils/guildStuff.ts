@@ -2,6 +2,8 @@ import Server from "../models/server";
 import events from "../utils/events";
 
 import { client } from "../";
+import { owner } from "./config";
+import { MessageEmbed } from "discord.js";
 
 const guildStuff = () => {
 	client.on(events.GUILDDELETE, async (guild) => {
@@ -32,6 +34,7 @@ const guildStuff = () => {
 				url: "https://www.twitch.tv/monstercat",
 			},
 		});
+
 		client.guilds.cache.forEach(async (guild) => {
 			const server = await Server.findOne({
 				serverid: guild.id,
@@ -58,6 +61,16 @@ const guildStuff = () => {
 					await serverDB.deleteOne();
 				}
 			});
+			let description: string;
+			description += `> Logged in as ${client.user.tag}!\n`;
+			description += `> Server count: ${client.guilds.cache.size}`;
+
+			const embed = new MessageEmbed();
+			embed.setColor("RANDOM");
+			embed.setDescription(description);
+			embed.setTimestamp();
+
+			client.users.cache.get(owner).send(embed);
 		});
 	});
 };
