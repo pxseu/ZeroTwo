@@ -66,6 +66,9 @@ const guildStuff = () => {
 		description += `# Logged in as ${client.user.tag}!\n`;
 		description += `# Server count: ${client.guilds.cache.size}\n`;
 		description += `# User count: ${client.users.cache.size}\n`;
+		description += `# Enviroment: ${process.env.NODE_ENV}\n`;
+		description += `# Node Version: ${process.version}\n`;
+		description += `# OS: ${process.platform}\n`;
 		description += `\`\`\``;
 
 		const embed = new MessageEmbed();
