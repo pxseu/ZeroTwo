@@ -32,11 +32,7 @@ export const kissgifs = [
 	"https://i.imgur.com/i1PIph3.gif",
 ];
 
-export const bypassIds = [
-	"338718840873811979",
-	"343627503698706432",
-	"714991222074376303",
-];
+export const bypassIds = ["338718840873811979", "731111236036722698"];
 
 export const bannedIds = [];
 
