@@ -1,3 +1,5 @@
+export const owner = "338718840873811979";
+
 export const commandsCategories = {
 	0: "Commands for bot!",
 	1: "User commands!",
@@ -32,7 +34,7 @@ export const kissgifs = [
 	"https://i.imgur.com/i1PIph3.gif",
 ];
 
-export const bypassIds = ["338718840873811979", "731111236036722698"];
+export const bypassIds = [owner, "731111236036722698"];
 
 export const bannedIds = [];
 
@@ -56,5 +58,3 @@ export const filters = {
 	haas: "Haas",
 	mcompand: "Mcompand",
 };
-
-export const owner = "338718840873811979";
