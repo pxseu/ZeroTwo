@@ -5,7 +5,6 @@ import { Client, Collection } from "discord.js";
 import database from "./utils/database";
 import music from "./utils/music";
 import guildStuff from "./utils/guildStuff";
-//const guildStuff = require("./utils/guildStuff");
 import mainMessageHandler from "./utils/mainMessageHandler";
 
 export const client = new Client();
@@ -22,7 +21,6 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
-//guildStuff(client);
 (async () => {
 	guildStuff();
 	mainMessageHandler();
