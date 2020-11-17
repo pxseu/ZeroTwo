@@ -14,7 +14,7 @@ const guildStuff = () => {
 		).deleteOne();
 	});
 
-	client.on(events.GUILDDELETE, (guild) => {
+	client.on(events.GUILDCREATE, (guild) => {
 		guild.owner.send(
 			`Konnichiwa ( \´ ▽ \` )\nThank you for adding me!\nType zt!help for commands.`,
 		);
