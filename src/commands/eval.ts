@@ -6,7 +6,7 @@ module.exports = {
 	name: "eval",
 	description: `Dev Eval (special peeps (${bypassIds.join(", ")}))`,
 	async execute(message: Message, args: string[]) {
-		if (bypassIds.some((id) => id == message.author.id)) {
+		if (bypassIds.some((id) => id == message.author.id) == false) {
 			const embed = new MessageEmbed();
 			embed.setColor("RANDOM");
 			embed.setDescription(`Only <@${bypassIds.join(">, <@")}>.`);
