@@ -5,8 +5,7 @@ module.exports = {
 	name: "neko",
 	description: "Random neko!",
 	async execute(message: Message) {
-		const endpoints = ["/ngif", "/neko"];
-		const neko = await getImage(randomElement(endpoints));
+		const neko = await getImage("/neko");
 
 		const embed = new MessageEmbed();
 		embed.setColor("RANDOM");

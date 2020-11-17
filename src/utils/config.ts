@@ -58,3 +58,29 @@ export const filters = {
 	haas: "Haas",
 	mcompand: "Mcompand",
 };
+
+export const endpoitsForApis = {
+	"/hug": {
+		"https://nekos.life/api/v2/img": ["/hug", "/cuddle"],
+		"https://asuna.ga/api": ["/hug"],
+	},
+	"/kiss": {
+		"https://nekos.life/api/v2/img": ["/kiss"],
+		"https://asuna.ga/api": ["/kiss"],
+	},
+	"/neko": {
+		"https://nekos.life/api/v2/img": ["/neko", "/ngif"],
+		"https://asuna.ga/api": ["/neko"],
+	},
+	"/slap": {
+		"https://nekos.life/api/v2/img": ["/slap"],
+		"https://asuna.ga/api": ["/slap"],
+	},
+	"/fox": {
+		"https://nekos.life/api/v2/img": ["/fox_girl"],
+	},
+	"/pat": {
+		"https://nekos.life/api/v2/img": ["/pat"],
+		"https://asuna.ga/api": ["/pat"],
+	},
+};

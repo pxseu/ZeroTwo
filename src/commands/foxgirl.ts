@@ -5,7 +5,7 @@ module.exports = {
 	name: "foxgirl",
 	description: "Memes for catgirls!",
 	async execute(message: Message) {
-		const foxgirl = await getImage("/fox_girl");
+		const foxgirl = await getImage("/fox");
 
 		const embed = new MessageEmbed();
 		embed.setColor("RANDOM");
