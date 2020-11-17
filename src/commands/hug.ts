@@ -1,12 +1,11 @@
 import { Message, MessageEmbed } from "discord.js";
-import { getImage, randomElement } from "../utils/apiStuff";
+import { getImage } from "../utils/apiStuff";
 
 module.exports = {
 	name: "hug",
 	description: "Hug!",
 	async execute(message: Message, args: string[]) {
-		const goodEndPoints = ["/hug", "/cuddle"];
-		const hug = await getImage(randomElement(goodEndPoints));
+		const hug = await getImage("/hug");
 
 		const tagged =
 			message.mentions.members.first() ||
