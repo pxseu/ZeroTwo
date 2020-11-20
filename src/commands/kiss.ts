@@ -30,6 +30,7 @@ module.exports = {
 		embed.setColor("RANDOM");
 		embed.setDescription(msgContent);
 		embed.setImage(kiss.url);
+		embed.setFooter(kiss.api);
 		message.channel.send(embed);
 	},
 	type: 6,

@@ -11,6 +11,7 @@ module.exports = {
 		embed.setColor("RANDOM");
 		embed.setDescription(this.description);
 		embed.setImage(gecg.url);
+		embed.setFooter(gecg.api);
 		message.channel.send(embed);
 	},
 	type: 6,

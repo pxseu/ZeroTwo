@@ -7,7 +7,7 @@ module.exports = {
 	async execute(message: Message, args: string[]) {
 		return message.channel.send("No");
 
-		const sex = await getImage("/classic");
+		/* const sex = await getImage("/classic");
 		const tagged =
 			message.mentions.members.first() ||
 			message.guild.members.cache.get(args[0]) ||
@@ -77,7 +77,7 @@ module.exports = {
 					});
 			});
 		}
-		if (!message.deleted) message.delete();
+		if (!message.deleted) message.delete(); */
 	},
 	type: 5,
 	aliases: ["fuck", "seggs", "seks"],

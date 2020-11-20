@@ -1,5 +1,7 @@
-import fetch from "node-fetch";
-import { endpoitsForApis } from "./config";
+import fetch, { Response } from "node-fetch";
+import { DEV_MODE } from "..";
+import { endpoitsForApis, endpoitFileds } from "./config";
+import { messageOwner } from "./guildStuff";
 
 type RequestData = {
 	url: string;
@@ -7,41 +9,67 @@ type RequestData = {
 };
 type Endpoints =
 	/* SFW */
-	| "/fox"
-	| "/kiss"
-	| "/hug"
-	| "/gecg"
-	| "/neko"
-	| "/pat"
-	| "/slap"
-	/* NSFW WRRRR */
+	"/fox" | "/kiss" | "/hug" | "/gecg" | "/neko" | "/pat" | "/slap";
+/* NSFW WRRRR
 	| "/boobs"
 	| "/cum"
-	| "/classic";
+	| "/classic"
+	| "/hneko"; */
 
 const getImage = (endpoint: Endpoints) =>
 	new Promise<RequestData>(async (resolve, reject) => {
 		if (endpoint == undefined) {
-			return reject(new Error("No endpoint defined"));
+			return reject(new Error("No endpoint defined!"));
 		}
-		let randomEndpoint = endpoint.toString();
-		let randomApi = "https://nekos.life/api/v2/img";
+		let randomEndpoint: string,
+			randomApi: string,
+			request: Response,
+			reqdata: RequestData,
+			loopCounter = 0,
+			isError = false;
 
-		if (Object.keys(endpoitsForApis).some((ep) => ep == endpoint)) {
-			const cep = Object.keys(endpoitsForApis[endpoint]);
-			randomApi = cep[Math.floor(Math.random() * cep.length)];
-			const avlbep = endpoitsForApis[endpoint][randomApi];
-			randomEndpoint = avlbep[Math.floor(Math.random() * avlbep.length)];
-		}
+		do {
+			if (Object.keys(endpoitsForApis).some((ep) => ep == endpoint)) {
+				const cep = Object.keys(endpoitsForApis[endpoint]);
+				randomApi = cep[Math.floor(Math.random() * cep.length)];
+				const avlbep = endpoitsForApis[endpoint][randomApi];
+				randomEndpoint =
+					avlbep[Math.floor(Math.random() * avlbep.length)];
+			}
+			if (randomApi == undefined || randomElement == undefined) {
+				return reject(new Error("Endpoint is not found!"));
+			}
 
-		const request = await fetch(`${randomApi}${randomEndpoint}`);
+			DEV_MODE ? console.log(">>> ", randomApi, randomEndpoint) : void 0;
 
-		let data: RequestData = await request.json();
+			try {
+				request = await fetch(`${randomApi}${randomEndpoint}`);
+				reqdata = await request.json();
+			} catch (e) {
+				messageOwner(
+					`Api: [${randomApi}]() has failed with endpoint: ${randomEndpoint}!`,
+					true,
+				);
+			}
 
-		if (request.status != 200 || data == undefined || data.url == undefined)
-			return reject(new Error("Error while fetching data"));
-		data.api = randomApi;
-		resolve(data);
+			isError =
+				request.status != 200 ||
+				reqdata == undefined ||
+				(reqdata[endpoitFileds[randomApi]] as string) == undefined;
+
+			if (isError)
+				messageOwner(
+					`Api: [${randomApi}]() has failed with endpoint: ${randomEndpoint}!`,
+					true,
+				);
+		} while (isError && loopCounter <= 5);
+
+		if (isError) return reject(new Error("Error while fetching data"));
+
+		resolve({
+			url: reqdata[endpoitFileds[randomApi]] as string,
+			api: randomApi,
+		});
 	});
 
 const randomElement = (array: any[]) =>
