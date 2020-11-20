@@ -7,14 +7,13 @@ module.exports = {
 	async execute(message: Message) {
 		return message.channel.send("No");
 
-		const endpoints = ["/lewdkemo", "/nsfw_neko_gif"];
-		const nsfwneko = await getImage(randomElement(endpoints));
+		/* const nsfwneko = await getImage("/hneko");
 
 		const embed = new MessageEmbed();
 		embed.setColor("RANDOM");
 		embed.setDescription(this.description);
 		embed.setImage(nsfwneko.url);
-		message.channel.send(embed);
+		message.channel.send(embed); */
 	},
 	type: 5,
 	aliases: ["nneko"],

@@ -11,6 +11,7 @@ module.exports = {
 		embed.setColor("RANDOM");
 		embed.setDescription(this.description);
 		embed.setImage(foxgirl.url);
+		embed.setFooter(foxgirl.api);
 		message.channel.send(embed);
 	},
 	type: 6,
