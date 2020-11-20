@@ -30,6 +30,7 @@ module.exports = {
 		embed.setColor("RANDOM");
 		embed.setDescription(msgContent);
 		embed.setImage(pat.url);
+		embed.setFooter(pat.api);
 		message.channel.send(embed);
 	},
 	type: 6,

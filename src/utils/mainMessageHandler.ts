@@ -10,7 +10,12 @@ const cooldowns = new Collection();
 
 const mainMessageHandler = () => {
 	client.on(events.MESSAGE, async (message: Message) => {
-		if (!message.guild || message.author.bot) return;
+		if (
+			message.channel.type == "dm" ||
+			!message.guild ||
+			message.author.bot
+		)
+			return;
 		const guildConf = await Server.findOne({
 			serverid: message.guild.id,
 		});
@@ -87,7 +92,6 @@ const mainMessageHandler = () => {
 			);
 
 			if (nsfwCategories.some((type: number) => type == command.type)) {
-				//@ts-ignore
 				if (!message.channel.nsfw) {
 					const embed = new MessageEmbed();
 					embed.setColor("RANDOM");

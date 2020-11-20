@@ -20,6 +20,25 @@ const newServer = (guild: Guild) => {
 	}).save();
 };
 
+export const messageOwner = (content: string, error: boolean = false) => {
+	let description = `\`\`\`md\n`;
+	description += `# Logged in as: ${client.user.tag}!\n`;
+	description += `# Enviroment: ${process.env.NODE_ENV}\n`;
+	description += `# Node Version: ${process.version}\n`;
+	description += `# OS: ${process.platform}\n`;
+	description += `# Message: ${content}\n`;
+	description += `# Message is ${error ? "" : "not "}an error.`;
+	description += `\`\`\``;
+
+	const embed = new MessageEmbed();
+	embed.setColor(error ? "#FF0000" : DEV_MODE ? "#FF00FF" : "#00fFfF");
+	embed.setTitle("New message!");
+	embed.setDescription(description);
+	embed.setTimestamp();
+
+	client.users.cache.get(owner).send(embed);
+};
+
 const guildStuff = () => {
 	client.on(events.GUILDDELETE, async (guild) => {
 		(
@@ -63,22 +82,7 @@ const guildStuff = () => {
 			});
 		});
 
-		let description = `\`\`\`md\n`;
-		description += `# Logged in as: ${client.user.tag}!\n`;
-		description += `# Server count: ${client.guilds.cache.size}\n`;
-		description += `# User count: ${client.users.cache.size}\n`;
-		description += `# Enviroment: ${process.env.NODE_ENV}\n`;
-		description += `# Node Version: ${process.version}\n`;
-		description += `# OS: ${process.platform}\n`;
-		description += `\`\`\``;
-
-		const embed = new MessageEmbed();
-		embed.setColor(DEV_MODE ? "#FF00FF" : "#00FFFF");
-		embed.setTitle("Bot started!");
-		embed.setDescription(description);
-		embed.setTimestamp();
-
-		client.users.cache.get(owner).send(embed);
+		messageOwner(`Bot started!`);
 	});
 };
 

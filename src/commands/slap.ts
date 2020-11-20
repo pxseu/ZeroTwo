@@ -28,6 +28,7 @@ module.exports = {
 				`<@${message.author.id}> slaps <@${tagged.id}>.`,
 			);
 			embed.setImage(slap.url);
+			embed.setFooter(slap.api);
 		}
 		embed.setColor("RANDOM");
 		message.channel.send(embed);

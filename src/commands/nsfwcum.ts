@@ -7,13 +7,13 @@ module.exports = {
 	async execute(message: Message) {
 		return message.channel.send("No");
 
-		const cum = await getImage("/cum");
+		/* const cum = await getImage("/cum");
 		const embed = new MessageEmbed();
 
 		embed.setColor("RANDOM");
 		embed.setDescription(this.description);
 		embed.setImage(cum.url);
-		message.channel.send(embed);
+		message.channel.send(embed); */
 	},
 	type: 5,
 	aliases: ["creampie", "nut"],

@@ -59,28 +59,38 @@ export const filters = {
 	mcompand: "Mcompand",
 };
 
+export const endpoitFileds = {
+	"https://nekos.life/api/v2/img/": "url",
+	"https://asuna.ga/api/": "url",
+	"https://nekobot.xyz/api/image?type=": "message",
+};
+
 export const endpoitsForApis = {
+	"/gecg": {
+		"https://nekos.life/api/v2/img/": ["gecg"],
+	},
 	"/hug": {
-		"https://nekos.life/api/v2/img": ["/hug", "/cuddle"],
-		"https://asuna.ga/api": ["/hug"],
+		"https://nekos.life/api/v2/img/": ["hug", "cuddle"],
+		"https://asuna.ga/api/": ["hug"],
 	},
 	"/kiss": {
-		"https://nekos.life/api/v2/img": ["/kiss"],
-		"https://asuna.ga/api": ["/kiss"],
+		"https://nekos.life/api/v2/img/": ["kiss"],
+		"https://asuna.ga/api/": ["kiss"],
 	},
 	"/neko": {
-		"https://nekos.life/api/v2/img": ["/neko", "/ngif"],
-		"https://asuna.ga/api": ["/neko"],
+		"https://nekos.life/api/v2/img/": ["neko", "ngif"],
+		"https://asuna.ga/api/": ["neko"],
+		"https://nekobot.xyz/api/image?type=": ["neko", "kemo nomimi"],
 	},
 	"/slap": {
-		"https://nekos.life/api/v2/img": ["/slap"],
-		"https://asuna.ga/api": ["/slap"],
+		"https://nekos.life/api/v2/img/": ["slap"],
+		"https://asuna.ga/api/": ["slap"],
 	},
 	"/fox": {
-		"https://nekos.life/api/v2/img": ["/fox_girl"],
+		"https://nekos.life/api/v2/img/": ["fox_girl"],
 	},
 	"/pat": {
-		"https://nekos.life/api/v2/img": ["/pat"],
-		"https://asuna.ga/api": ["/pat"],
+		"https://nekos.life/api/v2/img/": ["pat"],
+		"https://asuna.ga/api/": ["pat"],
 	},
 };
