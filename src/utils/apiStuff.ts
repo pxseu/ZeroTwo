@@ -10,11 +10,6 @@ type RequestData = {
 type Endpoints =
 	/* SFW */
 	"/fox" | "/kiss" | "/hug" | "/gecg" | "/neko" | "/pat" | "/slap";
-/* NSFW WRRRR
-	| "/boobs"
-	| "/cum"
-	| "/classic"
-	| "/hneko"; */
 
 const getImage = (endpoint: Endpoints) =>
 	new Promise<RequestData>(async (resolve, reject) => {
