@@ -1,4 +1,5 @@
 import { Message, MessageEmbed } from "discord.js";
+import { embedColor } from "../utils/config";
 
 module.exports = {
 	name: "links",
@@ -11,7 +12,7 @@ module.exports = {
 				"My bot: [https://github.com/pxseu/ZeroTwoBot](https://github.com/pxseu/ZeroTwoBot) 😳",
 		);
 		embed.setFooter("requested by Peitho");
-		embed.setColor("RANDOM");
+		embed.setColor(embedColor);
 
 		message.channel.send(embed);
 	},

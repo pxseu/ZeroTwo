@@ -1,5 +1,16 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 const Schema = mongoose.Schema;
+
+export type guildConf = Document & {
+	prefix: string;
+	logchannel: string;
+	roleafterver: string;
+	serverid: string;
+	adminRole: string;
+	modRole: string;
+	verification: boolean;
+	logging: boolean;
+};
 
 const serverSchema = new Schema({
 	prefix: {

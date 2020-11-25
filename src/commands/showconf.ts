@@ -19,6 +19,7 @@ module.exports = {
 			"logchannel",
 			"roleafterver",
 		];
+
 		let desc = "";
 		fields.forEach((key) => {
 			desc += `${key}: \`\`${String.fromCharCode(8203)}${clean(

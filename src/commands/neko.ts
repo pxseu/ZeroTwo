@@ -1,5 +1,6 @@
 import { Message, MessageEmbed } from "discord.js";
-import { getImage, randomElement } from "../utils/apiStuff";
+import { getImage } from "../utils/apiStuff";
+import { embedColor } from "../utils/config";
 
 module.exports = {
 	name: "neko",
@@ -8,7 +9,7 @@ module.exports = {
 		const neko = await getImage("/neko");
 
 		const embed = new MessageEmbed();
-		embed.setColor("RANDOM");
+		embed.setColor(embedColor);
 		embed.setDescription(this.description);
 		embed.setImage(neko.url);
 		embed.setFooter(neko.api);

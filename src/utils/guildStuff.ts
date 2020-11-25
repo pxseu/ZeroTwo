@@ -2,7 +2,7 @@ import Server from "../models/server";
 import events from "../utils/events";
 
 import { client, DEV_MODE } from "../";
-import { owner } from "./config";
+import { creator } from "./config";
 import { Guild, MessageEmbed } from "discord.js";
 
 const newServer = (guild: Guild) => {
@@ -20,7 +20,7 @@ const newServer = (guild: Guild) => {
 	}).save();
 };
 
-export const messageOwner = (content: string, error: boolean = false) => {
+export const messageCreator = (content: string, error: boolean = false) => {
 	let description = `\`\`\`md\n`;
 	description += `# Logged in as: ${client.user.tag}!\n`;
 	description += `# Enviroment: ${process.env.NODE_ENV}\n`;
@@ -36,7 +36,7 @@ export const messageOwner = (content: string, error: boolean = false) => {
 	embed.setDescription(description);
 	embed.setTimestamp();
 
-	client.users.cache.get(owner).send(embed);
+	client.users.cache.get(creator).send(embed);
 };
 
 const guildStuff = () => {
@@ -82,7 +82,7 @@ const guildStuff = () => {
 			});
 		});
 
-		messageOwner(`Bot started!`);
+		messageCreator(`Bot started!`);
 	});
 };
 

@@ -1,5 +1,6 @@
 import { MessageEmbed, Message } from "discord.js";
-import { getImage, randomElement } from "../utils/apiStuff";
+import { getImage } from "../utils/apiStuff";
+import { embedColor } from "../utils/config";
 
 module.exports = {
 	name: "nsfwneko",
@@ -8,9 +9,8 @@ module.exports = {
 		return message.channel.send("No");
 
 		/* const nsfwneko = await getImage("/hneko");
-
 		const embed = new MessageEmbed();
-		embed.setColor("RANDOM");
+		embed.setColor(embedColor);
 		embed.setDescription(this.description);
 		embed.setImage(nsfwneko.url);
 		message.channel.send(embed); */

@@ -1,7 +1,7 @@
 import fetch, { Response } from "node-fetch";
 import { DEV_MODE } from "..";
 import { endpoitsForApis, endpoitFileds } from "./config";
-import { messageOwner } from "./guildStuff";
+import { messageCreator } from "./guildStuff";
 
 type RequestData = {
 	url: string;
@@ -46,7 +46,7 @@ const getImage = (endpoint: Endpoints) =>
 				request = await fetch(`${randomApi}${randomEndpoint}`);
 				reqdata = await request.json();
 			} catch (e) {
-				messageOwner(
+				messageCreator(
 					`Api: [${randomApi}]() has failed with endpoint: ${randomEndpoint}!`,
 					true,
 				);
@@ -58,7 +58,7 @@ const getImage = (endpoint: Endpoints) =>
 				(reqdata[endpoitFileds[randomApi]] as string) == undefined;
 
 			if (isError)
-				messageOwner(
+				messageCreator(
 					`Api: [${randomApi}]() has failed with endpoint: ${randomEndpoint}!`,
 					true,
 				);

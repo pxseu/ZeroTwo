@@ -1,24 +1,19 @@
-import { MessageEmbed, Message, Client } from "discord.js";
+import { MessageEmbed, Message } from "discord.js";
+import Server from "../models/server";
 import { bypassIds } from "../utils/config";
 
 module.exports = {
 	name: "setconf",
 	description: "set configuration for server",
-	async execute(
-		message: Message,
-		args: string[],
-		guildConf: any,
-		_,
-		Server: any,
-	) {
+	async execute(message: Message, args: string[]) {
 		if (
 			message.member.roles.cache.some(
-				(role) => role.name == guildConf.adminRole,
+				(role) => role.name == message.guildConf.adminRole,
 			) ||
 			message.member.roles.cache.some(
-				(role) => role.name == guildConf.modRole,
+				(role) => role.name == message.guildConf.modRole,
 			) ||
-			bypassIds.some((id) => id == message.author.id)
+			Object.keys(bypassIds).some((id) => id == message.author.id)
 		) {
 			const [prop, ...value] = args;
 			const confName = value.join(" ");
