@@ -7,7 +7,6 @@ module.exports = {
 	description: "Tells you something about the user.",
 	async execute(message: Message, args: string[]) {
 		let user = message.member.user;
-
 		const embed = new MessageEmbed();
 		embed.setColor("RANDOM");
 
@@ -21,7 +20,7 @@ module.exports = {
 			user = uFetch;
 		}
 
-		let member =
+		const member =
 			user.id == message.author.id
 				? message.member
 				: message.mentions.members.first() ||
