@@ -1,40 +1,34 @@
 import { MessageEmbed, Message } from "discord.js";
+import { fetchUser } from "../utils/fetchUser";
 
 module.exports = {
 	name: "avatar",
 	description: "Show users avatar!",
-	execute(message: Message, args: string[]) {
-		let member =
-			message.mentions.members.first() ||
-			message.guild.members.cache.get(args[0]) ||
-			message.guild.members.cache.find(
-				(r) =>
-					r.user.username.toLowerCase() ===
-					args.join(" ").toLocaleLowerCase(),
-			) ||
-			message.guild.members.cache.find(
-				(ro) =>
-					ro.displayName.toLowerCase() ===
-					args.join(" ").toLocaleLowerCase(),
-			) ||
-			message.member;
+	async execute(message: Message, args: string[]) {
+		let user = message.member.user;
 
 		const embed = new MessageEmbed();
-		embed.setDescription(
-			`${
-				member.user.id == message.author.id
-					? "Your"
-					: `${
-							member.displayName
-								? member.displayName
-								: member.user.username
-					  }'s`
-			} avatar`,
-		);
-		embed.setImage(
-			`${member.user.displayAvatarURL({ dynamic: true })}?size=512`,
-		);
+		embed.setColor("RANDOM");
 
+		if (args.length > 0) {
+			const uFetch = await fetchUser(message, args);
+			if (uFetch == undefined) {
+				embed.setDescription("User not found!");
+				message.channel.send(embed);
+				return;
+			}
+			user = uFetch;
+		}
+
+		const avatarUrl = `${user.displayAvatarURL({
+			dynamic: true,
+		})}?size=4096`;
+
+		embed.setDescription(
+			`${user.id == message.author.id ? "Your" : user.username} avatar`,
+		);
+		embed.setImage(avatarUrl);
+		embed.setFooter(`u wook cute <33`, avatarUrl);
 		message.channel.send(embed);
 	},
 	type: 1,

@@ -1,5 +1,6 @@
 import { Message, MessageEmbed } from "discord.js";
 import { getImage } from "../utils/apiStuff";
+import { fetchUser } from "../utils/fetchUser";
 
 module.exports = {
 	name: "pat",
@@ -7,27 +8,25 @@ module.exports = {
 	async execute(message: Message, args: string[]) {
 		const pat = await getImage("/pat");
 
-		const tagged =
-			message.mentions.members.first() ||
-			message.guild.members.cache.get(args[0]) ||
-			message.guild.members.cache.find(
-				(r) =>
-					r.user.username.toLowerCase() ===
-					args.join(" ").toLocaleLowerCase(),
-			) ||
-			message.guild.members.cache.find(
-				(ro) =>
-					ro.displayName.toLowerCase() ===
-					args.join(" ").toLocaleLowerCase(),
-			);
-
-		const msgContent =
-			tagged != undefined && tagged.id != message.author.id
-				? `<@${message.author.id}> pats <@${tagged.id}> with lots of love.`
-				: `Pats with love have been sent to <@${message.author.id}>.`;
+		let user = message.member.user;
 
 		const embed = new MessageEmbed();
 		embed.setColor("RANDOM");
+
+		if (args.length > 0) {
+			const uFetch = await fetchUser(message, args);
+			if (uFetch == undefined) {
+				embed.setDescription("User not found!");
+				message.channel.send(embed);
+				return;
+			}
+			user = uFetch;
+		}
+		const msgContent =
+			user.id != message.author.id
+				? `<@${message.author.id}> pats <@${user.id}> with lots of love.`
+				: `Pats with love have been sent to <@${message.author.id}>.`;
+
 		embed.setDescription(msgContent);
 		embed.setImage(pat.url);
 		embed.setFooter(pat.api);

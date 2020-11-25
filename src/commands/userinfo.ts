@@ -1,10 +1,26 @@
 import { Message, MessageEmbed } from "discord.js";
 import moment from "moment";
+import { fetchUser } from "../utils/fetchUser";
 
 module.exports = {
 	name: "userinfo",
 	description: "Tells you something about the user.",
-	execute(message: Message, args: string[]) {
+	async execute(message: Message, args: string[]) {
+		let user = message.member.user;
+
+		const embed = new MessageEmbed();
+		embed.setColor("RANDOM");
+
+		if (args.length > 0) {
+			const uFetch = await fetchUser(message, args);
+			if (uFetch == undefined) {
+				embed.setDescription("User not found!");
+				message.channel.send(embed);
+				return;
+			}
+			user = uFetch;
+		}
+
 		let member =
 			message.mentions.members.first() ||
 			message.guild.members.cache.get(args[0]) ||
@@ -17,36 +33,51 @@ module.exports = {
 				(ro) =>
 					ro.displayName.toLowerCase() ===
 					args.join(" ").toLocaleLowerCase(),
-			) ||
-			message.member;
+			);
 
-		if (!member)
-			return message.channel.send(`Couldn't find user ${args.join(" ")}`);
+		const roles = member
+			? member.roles.cache.map((r) => `${r}`).join(" | ")
+			: null;
 
-		const roles = member.roles.cache.map((r) => `${r}`).join(" | ");
-
-		const embed = new MessageEmbed();
+		const avatarUrl = `${user.displayAvatarURL({
+			dynamic: true,
+		})}?size=4096`;
 		embed.setAuthor(
-			member.displayName ? member.displayName : member.user.username,
-			member.user.displayAvatarURL({ dynamic: true }),
+			member?.displayName ? member.displayName : user.username,
+			avatarUrl,
 		);
+		embed.addField("Full Tag", user.tag, true);
+		embed.addField(
+			"Avatar Url",
+			`[Current Avatar Url](${avatarUrl})`,
+			true,
+		);
+
+		embed.addField("** **", "** **");
+
 		embed.addField(
 			"Joined",
-			moment
-				.unix(member.joinedAt.getTime() / 1000)
-				.format("DD/MM/YYYY HH:mm:ss"),
+			member
+				? moment
+						.unix(member.joinedAt.getTime() / 1000)
+						.format("DD/MM/YYYY HH:mm:ss")
+				: "User is not in the guild!",
 			true,
 		);
 		embed.addField(
 			"Registered",
 			moment
-				.unix(member.user.createdAt.getTime() / 1000)
+				.unix(user.createdAt.getTime() / 1000)
 				.format("DD/MM/YYYY HH:mm:ss"),
 			true,
 		);
 		embed.addField(
 			`Roles:`,
-			roles.length > 1024 ? `Too many roles to show.` : roles,
+			member
+				? roles.length > 1024
+					? `Too many roles to show.`
+					: roles
+				: "User is not in the guild!",
 			false,
 		);
 		embed.setTimestamp(Date.now());

@@ -19,7 +19,7 @@ module.exports = {
 				Math.random() * 100000,
 			)}.jpg`,
 		);
-		return message.channel.send(embed);
+		message.channel.send(embed);
 	},
 	type: 6,
 };
