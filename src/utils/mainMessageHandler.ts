@@ -1,8 +1,14 @@
 "use strict";
 
-import Server from "../models/server";
+import Server, { guildConf } from "../models/server";
 import events from "./events";
-import { nsfwCategories, bypassIds, bannedIds } from "./config";
+import {
+	nsfwCategories,
+	bypassIds,
+	bannedIds,
+	embedColorError,
+	embedColorInfo,
+} from "./config";
 import { MessageEmbed, Collection, Message } from "discord.js";
 import { client } from "../index";
 
@@ -16,20 +22,20 @@ const mainMessageHandler = () => {
 			message.author.bot
 		)
 			return;
-		const guildConf = await Server.findOne({
+
+		const guildConf = (await Server.findOne({
 			serverid: message.guild.id,
-		});
+		})) as guildConf;
 
 		if (
 			message.content
 				.toLowerCase()
-
-				.indexOf(guildConf.toJSON().prefix.toLowerCase()) !== 0
+				.indexOf(guildConf.prefix.toLowerCase()) !== 0
 		)
 			return;
 		const args = message.content
 
-			.slice(guildConf.toJSON().prefix.length)
+			.slice(guildConf.prefix.length)
 			.trim()
 			.split(/ +/g);
 		const commandName = args.shift().toLowerCase();
@@ -50,11 +56,15 @@ const mainMessageHandler = () => {
 				`<@${message.author.id}>, 
 				You have been permanetly banned from using this bot.`,
 			);
-			embed.setColor("RANDOM");
+			embed.setColor(embedColorError);
 			return message.reply(embed);
 		}
 
-		if (bypassIds.some((id: string) => id == message.author.id) == false) {
+		if (
+			Object.keys(bypassIds).some(
+				(id: string) => id == message.author.id,
+			) == false
+		) {
 			if (!cooldowns.has(command.name)) {
 				cooldowns.set(command.name, new Collection());
 			}
@@ -78,8 +88,7 @@ const mainMessageHandler = () => {
 								command.name
 							}\` command.`,
 						);
-						embed.setColor("RANDOM");
-
+						embed.setColor(embedColorInfo);
 						return message.reply(embed);
 					}
 				}
@@ -94,7 +103,15 @@ const mainMessageHandler = () => {
 			if (nsfwCategories.some((type: number) => type == command.type)) {
 				if (!message.channel.nsfw) {
 					const embed = new MessageEmbed();
-					embed.setColor("RANDOM");
+					embed.setColor(embedColorError);
+					embed.setDescription(
+						"This command can only be used in channels marked nsfw.",
+					);
+					return message.channel.send(embed);
+				}
+				if (client.nsfw) {
+					const embed = new MessageEmbed();
+					embed.setColor(embedColorError);
 					embed.setDescription(
 						"This command can only be used in channels marked nsfw.",
 					);
@@ -104,10 +121,15 @@ const mainMessageHandler = () => {
 		}
 
 		try {
-			command.execute(message, args, guildConf, client, Server);
+			command.execute(message, args);
 		} catch (error) {
+			const embed = new MessageEmbed();
+			embed.setColor(embedColorError);
+			embed.setDescription(
+				`There was an error trying to execute that command!`,
+			);
+			message.channel.send(embedColorError);
 			console.error(error);
-			message.reply("There was an error trying to execute that command!");
 		}
 	});
 };

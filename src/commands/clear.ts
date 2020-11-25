@@ -6,7 +6,7 @@ module.exports = {
 	description: "clear channel",
 	async execute(message: Message, args: string[]) {
 		if (
-			(bypassIds.some((id) => id == message.author.id) ||
+			(Object.keys(bypassIds).some((id) => id == message.author.id) ||
 				message.member.hasPermission("ADMINISTRATOR")) == false
 		)
 			return message.reply(
@@ -31,7 +31,7 @@ module.exports = {
 				limit: parseInt(amount),
 			})
 			.then((messages) => {
-				//@ts-ignore
+				//@ts-ignore  it's already checekd somewhere else dummy
 				message.channel.bulkDelete(messages);
 				message.channel
 					.send(`Succesfully deleted: ${amount} messages.`)

@@ -6,7 +6,7 @@ module.exports = {
 	description: "kick user",
 	async execute(message: Message, args: string[], guildConf) {
 		if (
-			(bypassIds.some((id) => id == message.author.id) ||
+			(Object.keys(bypassIds).some((id) => id == message.author.id) ||
 				message.member.hasPermission("ADMINISTRATOR")) == false
 		) {
 			return message.reply(

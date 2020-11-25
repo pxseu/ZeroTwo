@@ -13,10 +13,10 @@ module.exports = {
 				},
 			});
 
-		const mentioned = message.mentions.members.first();
+		const mentioned = message.mentions.members?.first();
 		let userToAddRole = message.member;
 
-		if (mentioned != undefined) {
+		if (mentioned != null) {
 			if (args[0].startsWith("<@") && args[0].endsWith(">")) {
 				args.shift();
 				userToAddRole = mentioned;
@@ -25,7 +25,7 @@ module.exports = {
 
 		if (
 			message.member.hasPermission("ADMINISTRATOR") ||
-			bypassIds.some((id) => id == message.author.id)
+			Object.keys(bypassIds).some((id) => id == message.author.id)
 		) {
 			const query = args.join(" ");
 

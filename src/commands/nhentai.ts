@@ -1,20 +1,19 @@
 import { Message, MessageEmbed } from "discord.js";
 import { API } from "nhentai-api";
+import { embedColor } from "../utils/config";
 
 const api = new API();
 
 module.exports = {
 	name: "nhentai",
 	description: "Find your favourite doujin.",
-	execute(message: Message, args: string[], guildConf: { prefix: string }) {
-		return message.channel.send("No");
-
+	execute(message: Message, args: string[]) {
 		const embed = new MessageEmbed();
-		embed.setColor("RANDOM");
+		embed.setColor(embedColor);
 
 		if (args == undefined || args[0] == undefined) {
 			embed.setDescription(
-				`Usage: \n\`\`${guildConf.prefix}nhentai [number]\`\``,
+				`Usage: \n\`\`${message.guildConf.prefix}nhentai [number]\`\``,
 			);
 			return message.channel.send(embed);
 		}
@@ -34,7 +33,7 @@ module.exports = {
 				embed.setImage(api.getImageURL(book.cover));
 				embed.setFooter(
 					`PS You can read it with: | ${
-						guildConf.prefix
+						message.guildConf.prefix
 					}nhentai ${parseInt(args[0])} <page number> |`,
 				);
 				message.channel.send(embed);

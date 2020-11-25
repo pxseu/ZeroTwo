@@ -1,5 +1,6 @@
 import { Message, MessageEmbed } from "discord.js";
 import moment from "moment";
+import { bypassIds } from "../utils/config";
 import { fetchUser } from "../utils/fetchUser";
 
 module.exports = {
@@ -43,6 +44,7 @@ module.exports = {
 		const avatarUrl = `${user.displayAvatarURL({
 			dynamic: true,
 		})}?size=4096`;
+
 		embed.setAuthor(
 			member?.displayName ? member.displayName : user.username,
 			avatarUrl,
@@ -53,9 +55,7 @@ module.exports = {
 			`[Current Avatar Url](${avatarUrl})`,
 			true,
 		);
-
 		embed.addField("** **", "** **");
-
 		embed.addField(
 			"Joined",
 			member
@@ -72,6 +72,13 @@ module.exports = {
 				.format("DD/MM/YYYY HH:mm:ss"),
 			true,
 		);
+
+		if (Object.keys(bypassIds).some((id) => id == user.id)) {
+			embed.addField("** **", "** **");
+			embed.addField("Special user", `Status: ${bypassIds[user.id]}`);
+		}
+
+		embed.addField("** **", "** **");
 		embed.addField(
 			`Roles:`,
 			member

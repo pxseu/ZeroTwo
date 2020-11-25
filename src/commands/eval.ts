@@ -4,12 +4,19 @@ import { Message, MessageEmbed } from "discord.js";
 
 module.exports = {
 	name: "eval",
-	description: `Dev Eval (special peeps (${bypassIds.join(", ")}))`,
+	description: `Dev Eval (special peeps (${Object.keys(bypassIds).join(
+		", ",
+	)}))`,
 	async execute(message: Message, args: string[]) {
-		if (bypassIds.some((id) => id == message.author.id) == false) {
+		if (
+			Object.keys(bypassIds).some((id) => id == message.author.id) ==
+			false
+		) {
 			const embed = new MessageEmbed();
 			embed.setColor("RANDOM");
-			embed.setDescription(`Only <@${bypassIds.join(">, <@")}>.`);
+			embed.setDescription(
+				`Only <@${Object.keys(bypassIds).join(">, <@")}>.`,
+			);
 			message.channel.send(embed);
 			return;
 		}

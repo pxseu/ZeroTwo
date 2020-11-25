@@ -1,6 +1,6 @@
 import { Message, MessageEmbed } from "discord.js";
 import { Document } from "mongoose";
-import { commandsCategories } from "../utils/config";
+import { commandsCategories, embedColor } from "../utils/config";
 
 module.exports = {
 	name: "help",
@@ -8,15 +8,15 @@ module.exports = {
 	execute(message: Message, args: string[], guildConf: Document) {
 		let user = message.member;
 
-		const embed = new MessageEmbed()
-			.setAuthor(
-				user.user.username,
-				user.user.displayAvatarURL({ dynamic: true }),
-			)
-			.setColor("RANDOM")
-			.setThumbnail(user.user.displayAvatarURL())
-			.setFooter(message.guild.name, message.guild.iconURL())
-			.setTimestamp();
+		const embed = new MessageEmbed();
+		embed.setAuthor(
+			user.user.username,
+			user.user.displayAvatarURL({ dynamic: true }),
+		);
+		embed.setColor(embedColor);
+		embed.setThumbnail(user.user.displayAvatarURL());
+		embed.setFooter(message.guild.name, message.guild.iconURL());
+		embed.setTimestamp();
 
 		if (args == undefined || args[0] == undefined) {
 			embed.setTitle("**Categories:**");

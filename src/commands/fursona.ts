@@ -1,4 +1,5 @@
 import { Message, MessageEmbed } from "discord.js";
+import { embedColor } from "../utils/config";
 
 module.exports = {
 	name: "fursona",
@@ -11,7 +12,7 @@ module.exports = {
 			user.user.username,
 			user.user.displayAvatarURL({ dynamic: true }),
 		);
-		embed.setColor("RANDOM");
+		embed.setColor(embedColor);
 		embed.setFooter(message.guild.name, message.guild.iconURL());
 		embed.setTimestamp();
 		embed.setImage(

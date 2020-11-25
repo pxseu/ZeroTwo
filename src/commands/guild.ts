@@ -1,5 +1,6 @@
 import { Message, MessageEmbed } from "discord.js";
 import moment from "moment";
+import { embedColor } from "../utils/config";
 
 module.exports = {
 	name: "guild",
@@ -40,7 +41,7 @@ module.exports = {
 			roles.length > 1024 ? `too many roles to show.` : roles,
 		);
 		embed.setFooter("by Peitho <3 (thamk u cutie)");
-		embed.setColor("#c24aa0");
+		embed.setColor(embedColor);
 		embed.setThumbnail(message.guild.iconURL());
 		message.channel.send(embed);
 	},

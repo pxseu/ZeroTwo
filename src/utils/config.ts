@@ -1,4 +1,8 @@
-export const owner = "338718840873811979";
+export const creator = "338718840873811979";
+
+export const embedColor = "#ff01ff";
+export const embedColorInfo = "#3f3fff";
+export const embedColorError = "#ff3f3f";
 
 export const commandsCategories = Object.freeze({
 	0: "Commands for bot!",
@@ -12,11 +16,11 @@ export const commandsCategories = Object.freeze({
 
 export const nsfwCategories = Object.freeze([5]);
 
-export const bypassIds = Object.freeze([
-	owner,
-	"634774973201907714",
-	"731111236036722698",
-]);
+export const bypassIds = Object.freeze({
+	"338718840873811979": "Owner",
+	"634774973201907714": "Developer",
+	"731111236036722698": "Girlfriend",
+});
 
 export const bannedIds = Object.freeze([]);
 

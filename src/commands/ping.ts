@@ -1,4 +1,5 @@
 import { MessageEmbed, Message } from "discord.js";
+import { embedColor } from "../utils/config";
 
 module.exports = {
 	name: "ping",
@@ -7,6 +8,7 @@ module.exports = {
 		const embed = new MessageEmbed({
 			title: "Ping",
 			description: "Pinging...",
+			color: embedColor,
 		});
 
 		let ping: number;
