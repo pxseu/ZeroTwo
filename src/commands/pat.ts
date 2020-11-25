@@ -1,5 +1,6 @@
 import { Message, MessageEmbed } from "discord.js";
 import { getImage } from "../utils/apiStuff";
+import { embedColor } from "../utils/config";
 import { fetchUser } from "../utils/fetchUser";
 
 module.exports = {
@@ -11,7 +12,7 @@ module.exports = {
 		let user = message.member.user;
 
 		const embed = new MessageEmbed();
-		embed.setColor("RANDOM");
+		embed.setColor(embedColor);
 
 		if (args.length > 0) {
 			const uFetch = await fetchUser(message, args);

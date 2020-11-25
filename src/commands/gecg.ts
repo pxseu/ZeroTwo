@@ -1,5 +1,6 @@
 import { Message, MessageEmbed } from "discord.js";
 import { getImage } from "../utils/apiStuff";
+import { embedColor } from "../utils/config";
 
 module.exports = {
 	name: "gecg",
@@ -7,8 +8,7 @@ module.exports = {
 	async execute(message: Message) {
 		const gecg = await getImage("/gecg");
 		const embed = new MessageEmbed();
-
-		embed.setColor("RANDOM");
+		embed.setColor(embedColor);
 		embed.setDescription(this.description);
 		embed.setImage(gecg.url);
 		embed.setFooter(gecg.api);

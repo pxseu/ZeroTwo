@@ -5,7 +5,10 @@ module.exports = {
 	name: "embed",
 	description: "Embed an image or text",
 	async execute(message: Message, args: string[]) {
-		if (bypassIds.some((id) => id == message.author.id) == false) {
+		if (
+			Object.keys(bypassIds).some((id) => id == message.author.id) ==
+			false
+		) {
 			return message.reply(
 				"You don't have the permision to use this command.",
 			);

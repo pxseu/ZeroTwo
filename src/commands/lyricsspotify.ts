@@ -1,40 +1,41 @@
 import { Message, MessageEmbed } from "discord.js";
 import api from "genius-api";
+import { embedColor, embedColorError } from "../utils/config";
+import { fetchUser } from "../utils/fetchUser";
 const genius = new api(process.env.GENIUS_TOKEN);
 
 module.exports = {
 	name: "lyricsspotify",
 	description: "Show lyrics to the spotufy song you're listening.",
 	async execute(message: Message, args: string[]) {
-		let user =
-			message.mentions.members.first() ||
-			message.guild.members.cache.get(args[0]) ||
-			message.guild.members.cache.find(
-				(r) =>
-					r.user.username.toLowerCase() ===
-					args.join(" ").toLocaleLowerCase(),
-			) ||
-			message.guild.members.cache.find(
-				(ro) =>
-					ro.displayName.toLowerCase() ===
-					args.join(" ").toLocaleLowerCase(),
-			) ||
-			message.member;
+		let user = message.member.user;
+
+		const embed = new MessageEmbed();
+
+		if (args.length > 0) {
+			const uFetch = await fetchUser(message, args);
+			if (uFetch == undefined) {
+				embed.setColor(embedColorError);
+				embed.setDescription("User not found!");
+				message.channel.send(embed);
+				return;
+			}
+			user = uFetch;
+		}
 
 		if (!user.presence.activities.length) {
-			const embed = new MessageEmbed()
-				.setAuthor(
-					user.user.username,
-					user.user.displayAvatarURL({ dynamic: true }),
-				)
-				.setColor("GREEN")
-				.setThumbnail(user.user.displayAvatarURL())
-				.addField(
-					"**No song playing on spotify!**",
-					"You or this user is not playing any song!",
-				)
-				.setFooter(message.guild.name, message.guild.iconURL())
-				.setTimestamp();
+			embed.setAuthor(
+				user.username,
+				user.displayAvatarURL({ dynamic: true }),
+			);
+			embed.setColor("GREEN");
+			embed.setThumbnail(user.displayAvatarURL());
+			embed.addField(
+				"**No song playing on spotify!**",
+				"You or this user is not playing any song!",
+			);
+			embed.setFooter(message.guild.name, message.guild.iconURL());
+			embed.setTimestamp();
 			message.channel.send(embed);
 			return;
 		}
@@ -68,37 +69,36 @@ module.exports = {
 							}
 						}
 
-						const embed = new MessageEmbed()
-							.setAuthor(
-								user.user.username,
-								user.user.displayAvatarURL({ dynamic: true }),
-							)
-							.setColor("RANDOM")
-							.setThumbnail(user.user.displayAvatarURL())
-							.setTitle("**Results:**")
-							.setDescription(descriptionFunsies)
-							.setFooter(
-								message.guild.name,
-								message.guild.iconURL(),
-							)
-							.setTimestamp();
+						embed.setAuthor(
+							user.username,
+							user.displayAvatarURL({ dynamic: true }),
+						);
+						embed.setColor(embedColor);
+						embed.setThumbnail(user.displayAvatarURL());
+						embed.setTitle("**Results:**");
+						embed.setDescription(descriptionFunsies);
+						embed.setFooter(
+							message.guild.name,
+							message.guild.iconURL(),
+						);
+						embed.setTimestamp();
 						return message.channel.send(embed);
 					});
 			}
 		});
-		const embed = new MessageEmbed()
-			.setAuthor(
-				user.user.username,
-				user.user.displayAvatarURL({ dynamic: true }),
-			)
-			.setColor("GREEN")
-			.setThumbnail(user.user.displayAvatarURL())
-			.addField(
-				"**No song playing on spotify!**",
-				"You or this user is not playing any song!",
-			)
-			.setFooter(message.guild.name, message.guild.iconURL())
-			.setTimestamp();
+
+		embed.setAuthor(
+			user.username,
+			user.displayAvatarURL({ dynamic: true }),
+		);
+		embed.setColor("GREEN");
+		embed.setThumbnail(user.displayAvatarURL());
+		embed.addField(
+			"**No song playing on spotify!**",
+			"You or this user is not playing any song!",
+		);
+		embed.setFooter(message.guild.name, message.guild.iconURL());
+		embed.setTimestamp();
 		message.channel.send(embed);
 	},
 	type: 4,

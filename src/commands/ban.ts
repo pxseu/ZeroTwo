@@ -5,14 +5,12 @@ module.exports = {
 	name: "ban",
 	description: "Ban a user!",
 	async execute(message: Message, args: string[]) {
-		if (!message.guild) return;
-
 		if (
-			bypassIds.some((id) => id == message.author.id) ||
+			Object.keys(bypassIds).some((id) => id == message.author.id) ||
 			message.member.hasPermission("ADMINISTRATOR")
 		) {
 			let user =
-				message.mentions.members.first() ||
+				message.mentions.members?.first() ||
 				message.guild.members.cache.get(args[0]) ||
 				message.guild.members.cache.find(
 					(r) =>

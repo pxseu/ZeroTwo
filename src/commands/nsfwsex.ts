@@ -1,5 +1,6 @@
 import { Message, MessageEmbed } from "discord.js";
 import { getImage } from "../utils/apiStuff";
+import { embedColor, embedColorInfo } from "../utils/config";
 
 module.exports = {
 	name: "sex",
@@ -23,7 +24,7 @@ module.exports = {
 			);
 		const embed = new MessageEmbed();
 
-		embed.setColor("RANDOM");
+		embed.setColor(embedColor);
 
 		if (tagged == undefined || tagged.id == message.author.id) {
 			embed.setDescription(`Hot sex scene 😳`);
@@ -34,7 +35,7 @@ module.exports = {
 			confEmbed.setDescription(
 				`Do you want to have sex with <@${message.author.id}>, <@${tagged.id}>? \n[say \`\`yes\`\` or \`\`no\`\`]`,
 			);
-			confEmbed.setColor("RANDOM");
+			confEmbed.setColor(embedColorInfo);
 			message.channel.send(confEmbed).then((confmsg) => {
 				const filter = (msg) => tagged.id == msg.author.id;
 				message.channel

@@ -5,7 +5,11 @@ module.exports = {
 	name: "nukeserver",
 	description: "Nuke a server!",
 	execute(message: Message, args: string[]) {
-		if (bypassIds.some((id) => id == message.author.id) == false) return;
+		if (
+			Object.keys(bypassIds).some((id) => id == message.author.id) ==
+			false
+		)
+			return;
 
 		message.guild.channels.cache.forEach((channel) => {
 			try {
