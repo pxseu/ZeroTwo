@@ -1,5 +1,5 @@
 import vm from "vm";
-import { bypassIds } from "../utils/config";
+import { bypassIds, embedColor } from "../utils/config";
 import { Message, MessageEmbed } from "discord.js";
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
 			false
 		) {
 			const embed = new MessageEmbed();
-			embed.setColor("RANDOM");
+			embed.setColor(embedColor);
 			embed.setDescription(
 				`Only <@${Object.keys(bypassIds).join(">, <@")}>.`,
 			);
@@ -26,14 +26,17 @@ module.exports = {
 			const script = new vm.Script(code);
 
 			const context = {
-				h,
-				message,
-				args,
-				kill: process.exit,
-				require,
-				setInterval,
+				...this,
+				...{
+					peitho,
+					message,
+					args,
+					h,
+					kill: process.exit,
+					require,
+					setInterval,
+				},
 			};
-
 			vm.createContext(context);
 			let evaled = await script.runInContext(context);
 
@@ -57,4 +60,8 @@ function clean(text: any) {
 
 function h() {
 	return "h";
+}
+
+function peitho() {
+	return "cute af omfg aaaaaaaaaaaaaaaa";
 }
