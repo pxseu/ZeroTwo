@@ -10,11 +10,8 @@ export const commandsCategories = Object.freeze({
 	2: "Utility commands!",
 	3: "Fun commands!",
 	4: "Music commands!",
-	5: "NSFW (for horny bastards)!",
 	6: "Cute stuff here!",
 });
-
-export const nsfwCategories = Object.freeze([5]);
 
 export const bypassIds = Object.freeze({
 	"338718840873811979": "Owner",

@@ -12,7 +12,6 @@ export const client = new Client();
 
 client.commands = new Collection();
 client.player = music();
-client.nsfw = JSON.parse(process.env.ENABLE_NSFW ?? "false");
 
 const commandFiles = fs
 	.readdirSync("./dist/commands")
