@@ -1,11 +1,10 @@
 import { Message, MessageEmbed } from "discord.js";
-import { Document } from "mongoose";
 import { commandsCategories, embedColor } from "../utils/config";
 
 module.exports = {
 	name: "help",
 	description: `Please enter a number from 0-6`,
-	execute(message: Message, args: string[], guildConf: Document) {
+	execute(message: Message, args: string[]) {
 		let user = message.member;
 
 		const embed = new MessageEmbed();
@@ -43,11 +42,13 @@ module.exports = {
 					.filter((command) => command.type == cattegory)
 					.forEach((command) => {
 						embed.addField(
-							`${guildConf.toJSON().prefix}${command.name}`,
+							`${message.guildConf.prefix}${command.name}`,
 							command.description +
 								(command.aliases
-									? `\nAliases: \`\`${command.aliases.join(
-											"``, ``",
+									? `\nAliases: \`\`${
+											message.guildConf.prefix
+									  }${command.aliases.join(
+											"``, ``" + message.guildConf.prefix,
 									  )}\`\``
 									: ""),
 						);
