@@ -3,7 +3,6 @@
 import Server, { guildConf } from "../models/server";
 import events from "./events";
 import {
-	nsfwCategories,
 	bypassIds,
 	bannedIds,
 	embedColorError,
@@ -26,6 +25,8 @@ const mainMessageHandler = () => {
 		const guildConf = (await Server.findOne({
 			serverid: message.guild.id,
 		})) as guildConf;
+
+		message.guildConf = guildConf;
 
 		if (
 			message.content
@@ -99,25 +100,6 @@ const mainMessageHandler = () => {
 				() => timestamps.delete(message.author.id),
 				cooldownAmount,
 			);
-
-			if (nsfwCategories.some((type: number) => type == command.type)) {
-				if (!message.channel.nsfw) {
-					const embed = new MessageEmbed();
-					embed.setColor(embedColorError);
-					embed.setDescription(
-						"This command can only be used in channels marked nsfw.",
-					);
-					return message.channel.send(embed);
-				}
-				if (client.nsfw) {
-					const embed = new MessageEmbed();
-					embed.setColor(embedColorError);
-					embed.setDescription(
-						"This command can only be used in channels marked nsfw.",
-					);
-					return message.channel.send(embed);
-				}
-			}
 		}
 
 		try {

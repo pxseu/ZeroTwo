@@ -13,7 +13,7 @@ module.exports = {
 				"You don't have the permision to use this command.",
 			);
 		}
-		let user =
+		let member =
 			message.mentions.members.first() ||
 			message.guild.members.cache.get(args[0]) ||
 			message.guild.members.cache.find(
@@ -27,11 +27,11 @@ module.exports = {
 					args.join(" ").toLocaleLowerCase(),
 			);
 
-		if (!user)
+		if (!member)
 			return message.reply(
 				"Couldn' get a Discord user with this userID!",
 			);
-		const currentUser = user.user;
+		const currentUser = member.user;
 
 		if (currentUser.id === message.author.id)
 			return message.channel.send("You can't kick yourself");
