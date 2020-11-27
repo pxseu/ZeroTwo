@@ -1,4 +1,4 @@
-# [pxseu.com](https://www.pxseu.com)
+# [Zero Two Bot](https://github.com/pxseu/ZeroTwoBot)
 
 ### About
 
