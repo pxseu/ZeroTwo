@@ -37,7 +37,7 @@ module.exports = {
 			return message.channel.send("You can't kick yourself");
 		if (!message.guild.member(currentUser).bannable)
 			return message.reply(
-				"You can't kick this user because you or the bot has not sufficient permissions!",
+				"You can't kick this user because you or the bot does not have sufficient permissions!",
 			);
 		await message.mentions.members.first().kick();
 		message.react("☑️");
