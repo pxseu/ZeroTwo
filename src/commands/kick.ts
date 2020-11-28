@@ -10,7 +10,7 @@ module.exports = {
 				message.member.hasPermission("ADMINISTRATOR")) == false
 		) {
 			return message.reply(
-				"You don't have the permision to use this command.",
+				"You don't have the permission to use this command.",
 			);
 		}
 		let member =
@@ -29,7 +29,7 @@ module.exports = {
 
 		if (!member)
 			return message.reply(
-				"Couldn' get a Discord user with this userID!",
+				"Couldn't get a Discord user with this userID!",
 			);
 		const currentUser = member.user;
 
@@ -37,7 +37,7 @@ module.exports = {
 			return message.channel.send("You can't kick yourself");
 		if (!message.guild.member(currentUser).bannable)
 			return message.reply(
-				"You can't kick this user because you the bot has not sufficient permissions!",
+				"You can't kick this user because you or the bot has not sufficient permissions!",
 			);
 		await message.mentions.members.first().kick();
 		message.react("☑️");
