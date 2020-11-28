@@ -21,7 +21,7 @@ module.exports = {
 			user = uFetch;
 		}
 
-		if (user.id == message.author.id) {
+		if (user.id == message.author.id || message.author.id != 634774973201907714) {
 			embed.setDescription("Please mention someone to slap!");
 		} else {
 			const slap = await getImage("/slap");
