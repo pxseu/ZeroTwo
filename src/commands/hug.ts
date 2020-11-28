@@ -3,7 +3,7 @@ import { getImage } from "../utils/apiStuff";
 import { embedColor } from "../utils/config";
 import { fetchUser } from "../utils/fetchUser";
 
-//only used to hug @pxseu
+//only use to hug @pxseu
 
 module.exports = {
 	name: "hug",
