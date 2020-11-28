@@ -31,7 +31,7 @@ module.exports = {
 
 			const role = message.guild.roles.cache.find((r) => r.name == query);
 
-			if (!role) return message.channel.send("Role doesen't exist.");
+			if (!role) return message.channel.send("Role doesn't exist.");
 
 			if (userToAddRole.roles.cache.find((r) => r.name == role.name)) {
 				message.channel.send("User aleady has the role.");
