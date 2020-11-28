@@ -10,19 +10,19 @@ module.exports = {
 				message.member.hasPermission("ADMINISTRATOR")) == false
 		)
 			return message.reply(
-				"You don't have the permision to use this command.",
+				"You don't have the permission to use this command.",
 			);
 
 		const amount = args.join(" ");
 		if (!amount)
 			return message.reply(
-				"You haven't given an amount of messages which should be deleted!",
+				"You haven't given an amount of messages that should be deleted!",
 			);
 		if (isNaN(parseInt(amount)))
-			return message.reply("The amount parameter isn`t a number!");
+			return message.reply("The amount parameter isn't a number!");
 		if (parseInt(amount) > 100)
 			return message.reply(
-				"You can`t delete more than 100 messages at once!",
+				"You can't delete more than 100 messages at once!",
 			);
 		if (parseInt(amount) < 1)
 			return message.reply("You have to delete at least 1 message!");
