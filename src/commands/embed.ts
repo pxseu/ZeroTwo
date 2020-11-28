@@ -10,7 +10,7 @@ module.exports = {
 			false
 		) {
 			return message.reply(
-				"You don't have the permision to use this command.",
+				"You don't have the permission to use this command.",
 			);
 		}
 		const option = args[0];
@@ -56,7 +56,7 @@ function noOption(message: Message) {
 
 function embedtxt(message: Message, args: string[]) {
 	const txt = args.join(" ");
-	if (txt == undefined) return message.reply("Message cannot bee empty.");
+	if (txt == undefined) return message.reply("Message cannot be empty.");
 	const embed = new MessageEmbed();
 	embed.setColor("RANDOM");
 	embed.setDescription(txt);
