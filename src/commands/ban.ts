@@ -33,7 +33,7 @@ module.exports = {
 				return message.channel.send("You can't ban yourself");
 			if (!message.guild.member(currentUser).bannable)
 				return message.reply(
-					"You can't ban this user because you or the bot has not sufficient permissions!",
+					"You can't kick this user because you or the bot does not have sufficient permissions!",
 				);
 			await message.guild.member(currentUser).ban();
 			message.react("☑️");
