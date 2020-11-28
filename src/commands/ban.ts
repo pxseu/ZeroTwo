@@ -25,7 +25,7 @@ module.exports = {
 
 			if (!user)
 				return message.reply(
-					"Couldn' get a Discord user with this userID!",
+					"Couldn't get a Discord user with this userID!",
 				);
 			const currentUser = user.user;
 
@@ -33,12 +33,12 @@ module.exports = {
 				return message.channel.send("You can't ban yourself");
 			if (!message.guild.member(currentUser).bannable)
 				return message.reply(
-					"You can't ban this user because you the bot has not sufficient permissions!",
+					"You can't ban this user because you or the bot has not sufficient permissions!",
 				);
 			await message.guild.member(currentUser).ban();
 			message.react("☑️");
 		} else {
-			message.reply("You don't have the permision to use this command.");
+			message.reply("You don't have the permission to use this command.");
 		}
 	},
 	type: 2,
