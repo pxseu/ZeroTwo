@@ -55,7 +55,7 @@ const guildStuff = () => {
 		client.user.setPresence({
 			status: "dnd",
 			activity: {
-				name: "help | pxseu.com",
+				name: "zt!help | pxseu.com",
 				type: "STREAMING",
 				url: "https://www.twitch.tv/monstercat",
 			},
