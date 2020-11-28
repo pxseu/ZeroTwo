@@ -7,7 +7,7 @@ module.exports = {
 	execute(message: Message) {
 		const embed = new MessageEmbed();
 		embed.setColor(embedColor);
-		embed.setTitle(`Ricardo has been summoned by <@${message.author.id}>.`);
+		embed.setDescription(`Ricardo has been summoned by <@${message.author.id}>.`);
 		embed.setImage(
 			"https://media.giphy.com/media/UtcBRO8cxulRzkrVLc/giphy.gif",
 		);
