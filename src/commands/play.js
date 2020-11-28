@@ -22,7 +22,7 @@ module.exports = {
 				message.member.voice.channel.leave();
 
 				embed.setDescription(
-					`This song provider is not supported. \[<@${message.member.id}>\]`
+					`This song provider is not supported, \[<@${message.member.id}>\]`
 				);
 
 				return message.channel.send(embed);
@@ -30,11 +30,11 @@ module.exports = {
 
 			if (result.type === "playlist") {
 				embed.setDescription(
-					`${result.tracks.length} songs added to the queue \[<@${message.member.id}>\]`
+					`${result.tracks.length} songs added to the queue, \[<@${message.member.id}>\]`
 				);
 			} else {
 				embed.setDescription(
-					`\`${result.name}\` added to the queue \[<@${message.member.id}>\]`
+					`\`${result.name}\` added to the queue, \[<@${message.member.id}>\]`
 				);
 			}
 
@@ -47,7 +47,7 @@ module.exports = {
 			if (!result) {
 				message.member.voice.channel.leave();
 				embed.setDescription(
-					`This song provider is not supported. \[<@${message.member.id}>\]`
+					`This song provider is not supported, \[<@${message.member.id}>\]`
 				);
 
 				return message.channel.send(embed);
@@ -55,7 +55,7 @@ module.exports = {
 
 			if (result.type === "playlist") {
 				embed.setDescription(
-					`\`${result.tracks.length}\` songs added to the queue \[<@${message.member.id}>\]\nCurrently playing ${result.tracks[0].name}`
+					`\`${result.tracks.length}\` song(s) has been added to the queue, \[<@${message.member.id}>\]\nCurrently playing ${result.tracks[0].name}`
 				);
 			} else {
 				embed.setDescription(
