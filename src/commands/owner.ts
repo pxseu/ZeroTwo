@@ -13,5 +13,5 @@ module.exports = {
 		message.channel.send(embed);
 	},
 	type: 0,
-	aliases: ["daddy", "mybigboi"],
+	aliases: ["daddy", "mybigboi"], //ngl this kinda cringe
 };
