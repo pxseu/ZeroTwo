@@ -27,7 +27,7 @@ export const messageCreator = (content: string, error: boolean = false) => {
 	description += `# Node Version: ${process.version}\n`;
 	description += `# OS: ${process.platform}\n`;
 	description += `# Message: ${content}\n`;
-	description += `# Message is ${error ? "" : "not "}an error.`;
+	description += `# Message is ${error ? "" : "not "}an error.\n`;
 	description += `\`\`\``;
 
 	const embed = new MessageEmbed();
