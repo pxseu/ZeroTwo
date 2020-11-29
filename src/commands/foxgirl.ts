@@ -14,6 +14,6 @@ module.exports = {
 		embed.setFooter(foxgirl.api);
 		message.channel.send(embed);
 	},
-	type: 6,
+	type: 5,
 	aliases: ["kitsune", "fox_girl"],
 };
