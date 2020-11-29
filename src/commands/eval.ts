@@ -25,7 +25,18 @@ module.exports = {
 			const code = args.join(" ");
 			const script = new vm.Script(code);
 
-			const context = {};
+			const context = {
+				...this,
+				...{
+					peitho,
+					message,
+					args,
+					h,
+					kill: process.exit,
+					require,
+					setInterval,
+				},
+			};
 			vm.createContext(context);
 			let evaled = await script.runInContext(context);
 
