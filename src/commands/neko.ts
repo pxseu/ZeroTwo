@@ -15,6 +15,6 @@ module.exports = {
 		embed.setFooter(neko.api);
 		message.channel.send(embed);
 	},
-	type: 6,
+	type: 5,
 	aliases: ["catgirl", "catgirls", "nekos"],
 };

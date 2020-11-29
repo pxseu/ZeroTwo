@@ -34,6 +34,6 @@ module.exports = {
 		embed.setFooter(kiss.api);
 		message.channel.send(embed);
 	},
-	type: 6,
+	type: 5,
 	aliases: ["makeout", "kims", "buzi"],
 };

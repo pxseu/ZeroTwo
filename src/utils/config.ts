@@ -1,6 +1,8 @@
+export const DEV_MODE = process.env.NODE_ENV != "production";
+
 export const creator = "338718840873811979";
 
-export const embedColor = "#ff01ff";
+export const embedColor = DEV_MODE ? "#6ab04c" : "#ff01ff";
 export const embedColorInfo = "#3f3fff";
 export const embedColorError = "#ff3f3f";
 
@@ -10,13 +12,16 @@ export const commandsCategories = Object.freeze({
 	2: "Utility commands!",
 	3: "Fun commands!",
 	4: "Music commands!",
-	6: "Cute stuff here!",
+	5: "Cute stuff here!",
 });
 
 export const bypassIds = Object.freeze({
+	/* Important */
 	"338718840873811979": "Owner",
 	"634774973201907714": "Developer",
 	"731111236036722698": "Girlfriend",
+	/* Less important */
+	"305765073689903104": "Menel",
 });
 
 export const bannedIds = Object.freeze([]);

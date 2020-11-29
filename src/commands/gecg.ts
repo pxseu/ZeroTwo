@@ -14,5 +14,5 @@ module.exports = {
 		embed.setFooter(gecg.api);
 		message.channel.send(embed);
 	},
-	type: 6,
+	type: 5,
 };

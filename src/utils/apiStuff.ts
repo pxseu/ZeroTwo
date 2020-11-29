@@ -1,5 +1,5 @@
 import fetch, { Response } from "node-fetch";
-import { DEV_MODE } from "..";
+import { DEV_MODE } from "./config";
 import { endpoitsForApis, endpoitFileds } from "./config";
 import { messageCreator } from "./guildStuff";
 
