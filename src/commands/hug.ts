@@ -36,6 +36,6 @@ module.exports = {
 		embed.setFooter(hug.api);
 		message.channel.send(embed);
 	},
-	type: 6,
+	type: 5,
 	aliases: ["cuddle", "cuddleing", "furhug", "tuli", "tulimy"],
 };

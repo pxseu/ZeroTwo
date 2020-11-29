@@ -1,8 +1,8 @@
 import Server from "../models/server";
 import events from "../utils/events";
 
-import { client, DEV_MODE } from "../";
-import { creator } from "./config";
+import { client } from "../";
+import { creator, DEV_MODE } from "./config";
 import { Guild, MessageEmbed } from "discord.js";
 
 const newServer = (guild: Guild) => {

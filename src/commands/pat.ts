@@ -33,5 +33,5 @@ module.exports = {
 		embed.setFooter(pat.api);
 		message.channel.send(embed);
 	},
-	type: 6,
+	type: 5,
 };

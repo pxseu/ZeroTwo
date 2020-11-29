@@ -7,7 +7,6 @@ import music from "./utils/music";
 import guildStuff from "./utils/guildStuff";
 import mainMessageHandler from "./utils/mainMessageHandler";
 
-export const DEV_MODE = process.env.NODE_ENV != "production";
 export const client = new Client();
 
 client.commands = new Collection();

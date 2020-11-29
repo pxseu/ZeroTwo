@@ -22,5 +22,5 @@ module.exports = {
 		);
 		message.channel.send(embed);
 	},
-	type: 6,
+	type: 5,
 };
