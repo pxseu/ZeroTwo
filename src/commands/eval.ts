@@ -28,7 +28,6 @@ module.exports = {
 			const context = {
 				...this,
 				...{
-					peitho,
 					message,
 					args,
 					h,
@@ -60,9 +59,4 @@ function clean(text: any) {
 
 function h() {
 	return "h";
-}
-
-function peitho() {
-	return "cute af omfg aaaaaaaaaaaaaaaa";
-	//no u
 }

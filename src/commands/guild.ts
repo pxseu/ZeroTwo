@@ -4,7 +4,7 @@ import { embedColor } from "../utils/config";
 
 module.exports = {
 	name: "guild",
-	description: "Get data from the guild! | **by Peitho**",
+	description: "Get data from the guild!",
 	execute(message: Message) {
 		const embed = new MessageEmbed();
 
@@ -40,7 +40,6 @@ module.exports = {
 			"Roles:",
 			roles.length > 1024 ? `too many roles to show.` : roles,
 		);
-		embed.setFooter("by Peitho <3 (thamk u cutie)");
 		embed.setColor(embedColor);
 		embed.setThumbnail(message.guild.iconURL());
 		message.channel.send(embed);
