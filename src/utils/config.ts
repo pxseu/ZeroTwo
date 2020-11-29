@@ -67,7 +67,7 @@ export const endpoitsForApis = Object.freeze({
 	"/neko": {
 		"https://nekos.life/api/v2/img/": ["neko", "ngif"],
 		"https://asuna.ga/api/": ["neko"],
-		"https://nekobot.xyz/api/image?type=": ["neko", "kemonomimi"], // love you peitho
+		"https://nekobot.xyz/api/image?type=": ["neko", "kemonomimi"],
 	},
 	"/slap": {
 		"https://nekos.life/api/v2/img/": ["slap"],
