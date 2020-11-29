@@ -1,6 +1,6 @@
 import { Message, MessageEmbed } from "discord.js";
 import moment from "moment";
-import { bypassIds } from "../utils/config";
+import { bypassIds, embedColor, embedColorStaff } from "../utils/config";
 import { fetchUser } from "../utils/fetchUser";
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
 	async execute(message: Message, args: string[]) {
 		let user = message.member.user;
 		const embed = new MessageEmbed();
-		embed.setColor("RANDOM");
+		embed.setColor(embedColor);
 
 		if (args.length > 0) {
 			const uFetch = await fetchUser(message, args);
@@ -76,6 +76,7 @@ module.exports = {
 		if (Object.keys(bypassIds).some((id) => id == user.id)) {
 			embed.addField("** **", "** **");
 			embed.addField("Special user", `Status: ${bypassIds[user.id]}`);
+			embed.setColor(embedColorStaff);
 		}
 
 		embed.addField("** **", "** **");
@@ -94,5 +95,5 @@ module.exports = {
 	},
 	type: 1,
 	cooldown: 5,
-	aliases: ["whois"]
+	aliases: ["whois"],
 };
