@@ -11,7 +11,6 @@ module.exports = {
 			"My Website: [https://www.pxseu.com](https://www.pxseu.com) ✨\n" +
 				"My bot: [https://github.com/pxseu/ZeroTwoBot](https://github.com/pxseu/ZeroTwoBot) 😳",
 		);
-		embed.setFooter("requested by Peitho");
 		embed.setColor(embedColor);
 
 		message.channel.send(embed);
