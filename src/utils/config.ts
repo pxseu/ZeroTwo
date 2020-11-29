@@ -19,7 +19,7 @@ export const commandsCategories = Object.freeze({
 export const bypassIds = Object.freeze({
 	/* Important */
 	"338718840873811979": "Owner",
-	"634774973201907714": "Developer",
+	"634774973201907714": "Girlfriend",
 	"731111236036722698": "Girlfriend",
 	/* Less important */
 	"305765073689903104": "Menel",
