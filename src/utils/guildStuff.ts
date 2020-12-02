@@ -4,6 +4,7 @@ import events from "../utils/events";
 import { client } from "../";
 import { creator, DEV_MODE } from "./config";
 import { Guild, MessageEmbed } from "discord.js";
+import { startStatus } from "./status";
 
 const newServer = (guild: Guild) => {
 	let desc = "Konnichiwa ( ´ ▽ ` )\n";
@@ -52,14 +53,7 @@ const guildStuff = () => {
 
 	client.on(events.READY, () => {
 		console.log(`> Logged in as ${client.user.tag}!`);
-		client.user.setPresence({
-			status: "dnd",
-			activity: {
-				name: "zt!help | pxseu.com",
-				type: "STREAMING",
-				url: "https://www.twitch.tv/monstercat",
-			},
-		});
+		startStatus();
 
 		client.guilds.cache.forEach(async (guild) => {
 			const server = await Server.findOne({
