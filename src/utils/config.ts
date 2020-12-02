@@ -1,3 +1,5 @@
+import type { PresenceData } from "discord.js";
+
 export const DEV_MODE = process.env.NODE_ENV != "production";
 
 export const creator = "338718840873811979";
@@ -81,3 +83,23 @@ export const endpoitsForApis = Object.freeze({
 		"https://asuna.ga/api/": ["pat"],
 	},
 });
+
+export const botStatuses = [
+	{
+		name: "zt!help 📋",
+		type: "LISTENING",
+	},
+	{
+		name: "on pxseu.com 🌌",
+		type: "STREAMING",
+		url: "https://www.twitch.tv/monstercat",
+	},
+	{
+		name: "your cute face ❤",
+		type: "WATCHING",
+	},
+	{
+		name: "cuteness! 💕",
+		type: "COMPETING",
+	},
+] as PresenceData["activity"][];

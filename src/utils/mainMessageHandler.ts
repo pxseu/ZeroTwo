@@ -1,5 +1,3 @@
-"use strict";
-
 import Server, { guildConf } from "../models/server";
 import events from "./events";
 import {
