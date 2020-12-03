@@ -1,5 +1,5 @@
 import { client } from "../";
-import { botStatuses } from "./config";
+import { botStatuses, DEV_MODE } from "./config";
 import type { PresenceData } from "discord.js";
 
 export function startStatus() {
@@ -10,7 +10,12 @@ export function startStatus() {
 		});
 	};
 
-	setStatus({ name: "the bot start! 🛠", type: "WATCHING" });
+	if (DEV_MODE) {
+		setStatus({ type: "WATCHING", name: "development 🤖" });
+		return;
+	}
+
+	setStatus({ type: "WATCHING", name: "the bot start! 🛠" });
 
 	let iterator = 0;
 	setInterval(() => {

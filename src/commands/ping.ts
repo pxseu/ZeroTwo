@@ -32,7 +32,7 @@ module.exports = {
 			msg.edit(embed).then((msg) => msg.delete({ timeout: 15 * 1000 }));
 		});
 
-		if (!message.deleted) message.delete();
+		if (!message.deleted) message.delete().catch((O_o) => {});
 	},
 	type: 0,
 };
