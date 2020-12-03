@@ -7,6 +7,7 @@ import music from "./utils/music";
 import guildStuff from "./utils/guildStuff";
 import mainMessageHandler from "./utils/mainMessageHandler";
 import { startWeb } from "./web";
+import https from "https";
 
 export const client = new Client();
 
@@ -33,3 +34,16 @@ process.on("uncaughtException", function (err) {
 	await client.login(process.env.BOT_TOKEN);
 	await startWeb();
 })();
+
+setInterval(() => {
+	https
+		.request(
+			{
+				host: "pxseu-discordbot.herokuapp.com",
+				port: 443,
+				protocol: "https",
+			},
+			(data) => {},
+		)
+		.end();
+}, 1 * 60 * 100);
