@@ -56,7 +56,7 @@ export const endpoitFileds = Object.freeze({
 
 export const endpoitsForApis = Object.freeze({
 	"/gecg": {
-		"https://nekos.life/api/v2/img/": ["gecg"],
+		"https://nekos.life/api/v2/img/": ["ge cg"],
 	},
 	"/hug": {
 		"https://nekos.life/api/v2/img/": ["hug", "cuddle"],
@@ -86,20 +86,21 @@ export const endpoitsForApis = Object.freeze({
 
 export const botStatuses = [
 	{
-		name: "zt!help 📋",
 		type: "LISTENING",
+		name: "zt!help 📋",
 	},
 	{
-		name: "on pxseu.com 🌌",
 		type: "STREAMING",
+		name: "on pxseu.com 🌌",
+
 		url: "https://www.twitch.tv/monstercat",
 	},
 	{
-		name: "your cute face ❤",
 		type: "WATCHING",
+		name: "your cute face ❤",
 	},
 	{
+		type: "COMPETING" /* in */,
 		name: "cuteness! 💕",
-		type: "COMPETING",
 	},
 ] as PresenceData["activity"][];

@@ -21,6 +21,10 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
+process.on("uncaughtException", function (err) {
+	console.log("Caught exception: " + err);
+});
+
 (async () => {
 	guildStuff();
 	mainMessageHandler();
