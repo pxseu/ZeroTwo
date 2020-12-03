@@ -41,7 +41,7 @@ setInterval(() => {
 			{
 				host: "pxseu-discordbot.herokuapp.com",
 				port: 443,
-				protocol: "https",
+				protocol: "https:",
 			},
 			(data) => {},
 		)
