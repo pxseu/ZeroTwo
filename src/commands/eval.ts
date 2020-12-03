@@ -4,9 +4,7 @@ import { Message, MessageEmbed } from "discord.js";
 
 module.exports = {
 	name: "eval",
-	description: `Dev Eval (special peeps (${Object.keys(bypassIds).join(
-		", ",
-	)}))`,
+	description: `Dev Eval`,
 	async execute(message: Message, args: string[]) {
 		if (
 			Object.keys(bypassIds).some((id) => id == message.author.id) ==
@@ -15,7 +13,9 @@ module.exports = {
 			const embed = new MessageEmbed();
 			embed.setColor(embedColor);
 			embed.setDescription(
-				`Only <@${Object.keys(bypassIds).join(">, <@")}>.`,
+				`${Object.keys(bypassIds)
+					.map((id) => `<@${id}>`)
+					.join(", ")}.`,
 			);
 			message.channel.send(embed);
 			return;
@@ -26,14 +26,12 @@ module.exports = {
 			const script = new vm.Script(code);
 
 			const context = {
-				...this,
+				...globalThis,
 				...{
 					message,
 					args,
 					h,
 					kill: process.exit,
-					require,
-					setInterval,
 				},
 			};
 			vm.createContext(context);
