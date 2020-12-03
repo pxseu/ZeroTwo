@@ -23,7 +23,7 @@ export const bypassIds = Object.freeze({
 	"338718840873811979": "Owner",
 	/* Less important */
 	"305765073689903104": "Menel",
-	/* Even more less important */
+	/* Even less important */
 	"294936456252882946": "Przekonał @pxseu",
 });
 
