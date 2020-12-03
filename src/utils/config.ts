@@ -56,7 +56,7 @@ export const endpoitFileds = Object.freeze({
 
 export const endpoitsForApis = Object.freeze({
 	"/gecg": {
-		"https://nekos.life/api/v2/img/": ["ge cg"],
+		"https://nekos.life/api/v2/img/": ["gecg"],
 	},
 	"/hug": {
 		"https://nekos.life/api/v2/img/": ["hug", "cuddle"],
