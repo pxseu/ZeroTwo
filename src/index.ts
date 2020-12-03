@@ -32,18 +32,5 @@ process.on("uncaughtException", function (err) {
 	mainMessageHandler();
 	await database();
 	await client.login(process.env.BOT_TOKEN);
-	await startWeb();
+	//await startWeb();
 })();
-
-setInterval(() => {
-	https
-		.request(
-			{
-				host: "pxseu-discordbot.herokuapp.com",
-				port: 443,
-				protocol: "https:",
-			},
-			(data) => {},
-		)
-		.end();
-}, 1 * 60 * 100);
