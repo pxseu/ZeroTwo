@@ -1,4 +1,4 @@
-import { client } from "../";
+import { client } from "..";
 import { MessageEmbed } from "discord.js";
 import { creator, DEV_MODE } from "./config";
 
