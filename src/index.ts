@@ -6,6 +6,7 @@ import database from "./utils/database";
 import music from "./utils/music";
 import guildStuff from "./utils/guildStuff";
 import mainMessageHandler from "./utils/mainMessageHandler";
+import { startWeb } from "./web";
 
 export const client = new Client();
 
@@ -29,6 +30,6 @@ process.on("uncaughtException", function (err) {
 	guildStuff();
 	mainMessageHandler();
 	await database();
-
-	client.login(process.env.BOT_TOKEN);
+	await client.login(process.env.BOT_TOKEN);
+	await startWeb();
 })();
