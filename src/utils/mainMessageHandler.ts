@@ -7,7 +7,7 @@ import {
 	embedColorInfo,
 } from "./config";
 import { MessageEmbed, Collection, Message } from "discord.js";
-import { client } from "../index";
+import { client } from "..";
 
 const cooldowns = new Collection();
 
