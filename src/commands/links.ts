@@ -17,4 +17,4 @@ module.exports = {
 	},
 	type: 0,
 	aliases: ["link", "website", "homepage"],
-};
+} as Command;

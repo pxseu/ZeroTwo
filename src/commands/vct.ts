@@ -21,4 +21,4 @@ module.exports = {
 		vctest(message);
 	},
 	type: 0,
-};
+} as Command;

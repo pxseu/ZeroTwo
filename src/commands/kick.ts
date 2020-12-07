@@ -43,4 +43,4 @@ module.exports = {
 		message.react("☑️");
 	},
 	type: 2,
-};
+} as Command;

@@ -36,4 +36,4 @@ module.exports = {
 	},
 	type: 5,
 	aliases: ["makeout", "kims", "buzi"],
-};
+} as Command;

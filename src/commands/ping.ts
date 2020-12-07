@@ -35,4 +35,4 @@ module.exports = {
 		if (!message.deleted) message.delete().catch((O_o) => {});
 	},
 	type: 0,
-};
+} as Command;

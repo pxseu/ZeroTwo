@@ -103,4 +103,4 @@ module.exports = {
 	},
 	type: 4,
 	cooldown: 5,
-};
+} as Command;

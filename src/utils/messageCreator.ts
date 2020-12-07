@@ -17,5 +17,12 @@ export const messageCreator = (content: string, error: boolean = false) => {
 	embed.setDescription(description);
 	embed.setTimestamp();
 
-	client.users.cache.get(creator).send(embed);
+	client.users
+		.fetch(creator)
+		.then((c) => {
+			c.send(embed);
+		})
+		.catch(() => {
+			console.log(`> CANNOT MESSAGE OWNER`);
+		});
 };

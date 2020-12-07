@@ -9,4 +9,4 @@ module.exports = {
 		message.channel.send("Jebać disa.");
 	},
 	type: 3,
-};
+} as Command;

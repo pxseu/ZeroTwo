@@ -42,4 +42,4 @@ module.exports = {
 		}
 	},
 	type: 2,
-};
+} as Command;

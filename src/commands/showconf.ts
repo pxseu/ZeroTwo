@@ -30,7 +30,7 @@ module.exports = {
 		message.channel.send(embed);
 	},
 	type: 0,
-};
+} as Command;
 
 function clean(text: any) {
 	if (typeof text === "string")
