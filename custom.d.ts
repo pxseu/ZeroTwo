@@ -1,5 +1,7 @@
 import type { guildConf } from "./src/models/server";
 import type { Client } from "discord.js";
+import { messageCreator } from "./src/utils/messageCreator";
+import { botStaff } from "./src/models/botStaff";
 
 declare global {
 	type Command = {
@@ -13,11 +15,12 @@ declare global {
 }
 declare module "discord.js" {
 	export interface Client {
-		commands: Collection<unknown, Command>;
+		commands: Collection<string, Command>;
 		player: any;
 	}
 	export interface Message {
 		guildConf: guildConf;
+		staff: botStaff | null;
 	}
 }
 
