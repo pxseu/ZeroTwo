@@ -22,7 +22,6 @@ module.exports = {
 		}
 
 		if (user.id == message.author.id) {
-			// YOU CAN'T SLAP YOURSELF CUTIE
 			embed.setDescription("Please mention someone to slap!");
 		} else {
 			const slap = await getImage("/slap");
@@ -35,4 +34,4 @@ module.exports = {
 		message.channel.send(embed);
 	},
 	type: 3,
-};
+} as Command;

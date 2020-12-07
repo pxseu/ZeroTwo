@@ -127,4 +127,4 @@ module.exports = {
 		}
 	},
 	type: 0,
-};
+} as Command;

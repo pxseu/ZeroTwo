@@ -96,4 +96,4 @@ module.exports = {
 	type: 1,
 	cooldown: 5,
 	aliases: ["whois"],
-};
+} as Command;

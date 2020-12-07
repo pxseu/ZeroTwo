@@ -45,7 +45,7 @@ module.exports = {
 		}
 	},
 	type: 0,
-};
+} as Command;
 
 function clean(text: any) {
 	if (typeof text === "string")

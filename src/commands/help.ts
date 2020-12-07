@@ -65,7 +65,7 @@ module.exports = {
 		message.channel.send(embed);
 	},
 	type: 0,
-};
+} as Command;
 
 function getCommandType(string = "") {
 	try {

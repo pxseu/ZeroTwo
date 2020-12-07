@@ -19,4 +19,4 @@ module.exports = {
 		}
 	},
 	type: 3,
-};
+} as Command;

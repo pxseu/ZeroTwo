@@ -14,4 +14,4 @@ module.exports = {
 	},
 	type: 0,
 	aliases: ["daddy", "mybigboi"], //ngl this kinda cringe
-};
+} as Command;

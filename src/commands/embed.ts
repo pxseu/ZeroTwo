@@ -39,7 +39,7 @@ module.exports = {
 		message.delete().catch((O_o) => {});
 	},
 	type: 2,
-};
+} as Command;
 
 function noOption(message: Message) {
 	const embed = new MessageEmbed();
