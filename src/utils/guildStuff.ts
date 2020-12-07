@@ -1,4 +1,4 @@
-import Server from "../models/server";
+import Server, { guildConf } from "../models/server";
 import events from "../utils/events";
 
 import { client } from "../";
@@ -15,7 +15,7 @@ const newServer = (guild: Guild) => {
 	const embed = new MessageEmbed();
 	embed.setDescription(desc);
 	embed.setColor(DEV_MODE ? "#FF00FF" : "#00FFFF");
-	guild.owner.send(embed);
+	//guild.owner.send(embed);
 
 	new Server({
 		serverid: guild.id,
@@ -50,13 +50,16 @@ const guildStuff = () => {
 			serversInDb.forEach(async (serverDB) => {
 				if (
 					client.guilds.cache.some(
-						(servers) => servers.id == serverDB.toJSON().serverid,
+						(server) =>
+							server.id == (serverDB as guildConf).serverid,
 					) == false
 				) {
 					await serverDB.deleteOne();
 				}
 			});
 		});
+
+		console.log(`> SERVING IN: ${client.guilds.cache.size}`);
 
 		messageCreator(`Bot started!`);
 	});
