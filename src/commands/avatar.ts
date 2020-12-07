@@ -33,4 +33,4 @@ module.exports = {
 	},
 	type: 1,
 	aliases: ["pfp", "icon"],
-};
+} as Command;

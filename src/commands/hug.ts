@@ -3,8 +3,6 @@ import { getImage } from "../utils/apiStuff";
 import { embedColor } from "../utils/config";
 import { fetchUser } from "../utils/fetchUser";
 
-//only use to hug @pxseu
-
 module.exports = {
 	name: "hug",
 	description: "Hug!",
@@ -38,4 +36,4 @@ module.exports = {
 	},
 	type: 5,
 	aliases: ["cuddle", "cuddleing", "furhug", "tuli", "tulimy"],
-};
+} as Command;

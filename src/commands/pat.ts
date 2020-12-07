@@ -34,4 +34,4 @@ module.exports = {
 		message.channel.send(embed);
 	},
 	type: 5,
-};
+} as Command;

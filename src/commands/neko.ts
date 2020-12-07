@@ -17,4 +17,4 @@ module.exports = {
 	},
 	type: 5,
 	aliases: ["catgirl", "catgirls", "nekos"],
-};
+} as Command;

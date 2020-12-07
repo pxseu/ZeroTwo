@@ -20,4 +20,4 @@ module.exports = {
 	},
 	type: 3,
 	cooldown: 10,
-};
+} as Command;
