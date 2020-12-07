@@ -12,7 +12,7 @@ export const mentionBotCheck = (message: Message) => {
 		let dsc = "Hewwo!\n";
 		dsc += "My name is Zero Two and I'm your friendly discord bot!\n";
 		dsc += `My prefix is \`${prefix}\`!\n`;
-		dsc += `Use \`${prefix}help\` to list all commands!`;
+		dsc += `Use \`${prefix} help\` to list all commands!`;
 		embed.setDescription(dsc);
 		embed.setColor(embedColorInfo);
 		embed.setThumbnail(message.client.user.avatarURL({ dynamic: true }));

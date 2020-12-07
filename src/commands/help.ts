@@ -25,7 +25,7 @@ module.exports = {
 				description += `${key}. `;
 				description += `\`\`${commandsCategories[key]}\`\`\n`;
 			});
-			description += `\nUsage: \`\`zt!help [category number]\`\``;
+			description += `\nUsage: \`\`${message.guildConf.prefix} help [category number]\`\``;
 
 			embed.setDescription(description);
 		} else {
@@ -42,14 +42,14 @@ module.exports = {
 					.filter((command) => command.type == cattegory)
 					.forEach((command) => {
 						embed.addField(
-							`${message.guildConf.prefix}${command.name}`,
+							`${message.guildConf.prefix} ${command.name}`,
 							command.description +
 								(command.aliases
 									? `\nAliases: \`\`${
 											message.guildConf.prefix
-									  }${command.aliases.join(
+									  } ${command.aliases.join(
 											"``, ``" + message.guildConf.prefix,
-									  )}\`\``
+									  )} \`\``
 									: ""),
 						);
 					});

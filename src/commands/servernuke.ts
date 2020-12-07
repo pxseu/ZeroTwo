@@ -5,6 +5,8 @@ module.exports = {
 	name: "nukeserver",
 	description: "Nuke a server!",
 	execute(message: Message, args: string[]) {
+		return;
+
 		if (
 			Object.keys(bypassIds).some((id) => id == message.author.id) ==
 			false
