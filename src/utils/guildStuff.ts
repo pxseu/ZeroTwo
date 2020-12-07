@@ -15,7 +15,7 @@ const newServer = (guild: Guild) => {
 	const embed = new MessageEmbed();
 	embed.setDescription(desc);
 	embed.setColor(DEV_MODE ? "#FF00FF" : "#00FFFF");
-	//guild.owner.send(embed);
+	guild.owner.send(embed);
 
 	new Server({
 		serverid: guild.id,
