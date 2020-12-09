@@ -6,7 +6,7 @@ export const fetchUser = (message: Message, args: string[]) =>
 			reject("Args are emtpy.");
 		}
 		const userInput = args.join(" ").toLocaleLowerCase();
-		const regexMention = userInput.match(/<@!?(\d{18})>/gi);
+		const regexMention = userInput.match(/<@!?\d{18}>/gi);
 		const regexId = userInput.match(/(\d{18})/gi);
 
 		if (regexMention) {
