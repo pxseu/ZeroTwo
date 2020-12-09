@@ -25,11 +25,16 @@ const mainMessageHandler = () => {
 
 		if (mentionBotCheck(message)) return;
 
-		const prefix = `${DEV_MODE ? "d" : ""}${guildConf.prefix}`;
-
-		if (message.content.toLowerCase().indexOf(prefix.toLowerCase()) !== 0)
+		if (
+			message.content
+				.toLowerCase()
+				.indexOf(guildConf.prefix.toLowerCase()) !== 0
+		)
 			return;
-		const args = message.content.slice(prefix.length).trim().split(/ +/g);
+		const args = message.content
+			.slice(guildConf.prefix.length)
+			.trim()
+			.split(/ +/g);
 		const commandName = args.shift().toLowerCase();
 		const command =
 			client.commands.get(commandName) ||

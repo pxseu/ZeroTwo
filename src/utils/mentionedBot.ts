@@ -1,18 +1,16 @@
 import { MessageEmbed } from "discord.js";
 import { Message } from "discord.js";
-import { DEV_MODE, embedColorInfo } from "./config";
+import { embedColorInfo } from "./config";
 
 export const mentionBotCheck = (message: Message) => {
 	const regexp = new RegExp(`^<@!?${message.client.user.id}>$`, "gi");
 
 	if (message.content.match(regexp)) {
-		const prefix = `${DEV_MODE ? "d" : ""}${message.guildConf.prefix}`;
-
 		const embed = new MessageEmbed();
 		let dsc = "Hewwo!\n";
 		dsc += "My name is Zero Two and I'm your friendly discord bot!\n";
-		dsc += `My prefix is \`${prefix}\`!\n`;
-		dsc += `Use \`${prefix} help\` to list all commands!`;
+		dsc += `My prefix is \`${message.guildConf.prefix}\`!\n`;
+		dsc += `Use \`${message.guildConf.prefix} help\` to list all commands!`;
 		embed.setDescription(dsc);
 		embed.setColor(embedColorInfo);
 		embed.setThumbnail(message.client.user.avatarURL({ dynamic: true }));
