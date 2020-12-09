@@ -24,6 +24,7 @@ module.exports = {
 			`\`\`${message.guild.memberCount}\`\``,
 			true,
 		);
+		embed.addField("Owner:", `\`\`<@${message.guild.owner.id}>\`\``, true);
 		embed.addField("**\u200B**", "**\u200B**");
 		embed.addField("Server ID:", `\`\`${message.guild.id}\`\``, true);
 		embed.addField(
@@ -38,8 +39,9 @@ module.exports = {
 		embed.addField("**\u200B**", "**\u200B**");
 		embed.addField(
 			"Roles:",
-			roles.length > 1024 ? `too many roles to show.` : roles,
+			roles.length > 1024 ? `Too many roles to show.` : roles,
 		);
+
 		embed.setColor(embedColor);
 		embed.setThumbnail(message.guild.iconURL());
 		message.channel.send(embed);
