@@ -1,10 +1,13 @@
 import Server, { guildConf } from "../models/server";
 import events from "./events";
-import { bannedIds, embedColorError, DEV_MODE } from "./config";
+import { bypassIds, embedColorError } from "./config";
 import { MessageEmbed, Collection, Message } from "discord.js";
 import { client } from "..";
-import { mentionBotCheck } from "./mentionedBot";
+import { mentionOnlyCheck } from "./mentionedBot";
 import { rateLimit } from "./rateLimit";
+import { getValues, prefixOrRegex } from "./prefixOrRegex";
+import { banCheck } from "./isBanned";
+import { bypass } from "./bypass";
 
 export const cooldowns = new Collection();
 
@@ -20,44 +23,27 @@ const mainMessageHandler = () => {
 		const guildConf = (await Server.findOne({
 			serverid: message.guild.id,
 		})) as guildConf;
-
 		message.guildConf = guildConf;
 
-		if (mentionBotCheck(message)) return;
+		const prfxOrRgx = prefixOrRegex(message);
+		if (prfxOrRgx == null) return;
+		if (mentionOnlyCheck(message)) return;
 
-		if (
-			message.content
-				.toLowerCase()
-				.indexOf(guildConf.prefix.toLowerCase()) !== 0
-		)
-			return;
-		const args = message.content
-			.slice(guildConf.prefix.length)
-			.trim()
-			.split(/ +/g);
-		const commandName = args.shift().toLowerCase();
-		const command =
-			client.commands.get(commandName) ||
-			client.commands.find(
-				(cmd) => cmd.aliases && cmd.aliases.includes(commandName),
-			);
+		const [args, commandName, command] = getValues(
+			message,
+			prfxOrRgx.match,
+		);
+
 		if (!command) return message.react("❌");
 
 		console.log(
 			`> ${commandName} > summoned by ${message.author.id} in ${message.guild.id}`,
 		);
 
-		if (bannedIds.some((id: string) => id == message.author.id) == true) {
-			const embed = new MessageEmbed();
-			embed.setDescription(
-				`<@${message.author.id}>, 
-				You have been permanetly banned from using this bot.`,
-			);
-			embed.setColor(embedColorError);
-			return message.reply(embed);
+		if (!bypass(message)) {
+			if (banCheck(message)) return;
+			if (rateLimit(message, command)) return;
 		}
-
-		if (rateLimit(message, command)) return;
 
 		try {
 			command.execute(message, args);
