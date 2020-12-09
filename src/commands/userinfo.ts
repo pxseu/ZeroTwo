@@ -28,7 +28,9 @@ module.exports = {
 			user.id == message.author.id
 				? message.member
 				: message.guild.members.cache.get(
-						regexMention[0]?.match(/\d+/gim)[0],
+						regexMention
+							? regexMention[0]?.match(/\d+/gim)[0]
+							: undefined,
 				  ) ||
 				  message.guild.members.cache.get(args[0]) ||
 				  message.guild.members.cache.find(
