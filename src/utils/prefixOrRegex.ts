@@ -10,14 +10,14 @@ type returnVals = [string[], string, Command];
 
 export const prefixOrRegex = (message: Message): prefixOrRegexReturn | null => {
 	const regexp = new RegExp(`<@!?${message.client.user.id}>`, "gi");
-	const lowerCaseMessage = message.content.toLowerCase();
+	const lowerCaseMessage = message.content.toLowerCase().trim();
 
 	if (lowerCaseMessage.indexOf(message.guildConf.prefix.toLowerCase()) == 0) {
 		return { match: message.guildConf.prefix /* , type: "prefix"  */ };
 	}
 	const regexMatch = lowerCaseMessage.match(regexp);
 
-	if (regexMatch) {
+	if (regexMatch && lowerCaseMessage.startsWith(regexMatch[0])) {
 		return { match: regexMatch[0] /* , type: "mention" */ };
 	}
 	return null;

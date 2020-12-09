@@ -6,12 +6,24 @@ export const fetchUser = (message: Message, args: string[]) =>
 			reject("Args are emtpy.");
 		}
 		const userInput = args.join(" ").toLocaleLowerCase();
-		if (userInput.match(/^(\d{18})?$/)) {
-			const user = await message.client.users.fetch(userInput);
+		const regexMention = userInput.match(/<@!?(\d{18})>/gi);
+		const regexId = userInput.match(/(\d{18})/gi);
+
+		if (regexMention) {
+			const user = await message.client.users.fetch(
+				regexMention[0].match(/\d+/gim)[0],
+			);
 			resolve(user);
+			return;
 		}
+
+		if (regexId) {
+			const user = await message.client.users.fetch(regexId[0]);
+			resolve(user);
+			return;
+		}
+
 		const member =
-			message.mentions.members.first() ||
 			message.guild.members.cache.find(
 				(r) => r.user.username.toLowerCase() === userInput,
 			) ||
