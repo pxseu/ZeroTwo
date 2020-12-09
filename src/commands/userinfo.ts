@@ -2,6 +2,7 @@ import { Message, MessageEmbed } from "discord.js";
 import moment from "moment";
 import { bypassIds, embedColor, embedColorStaff } from "../utils/config";
 import { fetchUser } from "../utils/fetchUser";
+import { prefixOrRegex } from "../utils/prefixOrRegex";
 
 module.exports = {
 	name: "userinfo",
@@ -21,10 +22,14 @@ module.exports = {
 			user = uFetch;
 		}
 
+		const regexMention = args.join(" ").match(/<@!?(\d{18})>/gi);
+
 		const member =
 			user.id == message.author.id
 				? message.member
-				: message.mentions.members.first() ||
+				: message.guild.members.cache.get(
+						regexMention[0]?.match(/\d+/gim)[0],
+				  ) ||
 				  message.guild.members.cache.get(args[0]) ||
 				  message.guild.members.cache.find(
 						(r) =>
@@ -55,6 +60,7 @@ module.exports = {
 			`[Current Avatar Url](${avatarUrl})`,
 			true,
 		);
+		embed.addField("Bot", user.bot ? "Yes" : "No", true);
 		embed.addField("** **", "** **");
 		embed.addField(
 			"Joined",
