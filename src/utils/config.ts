@@ -28,7 +28,6 @@ export const bypassIds = Object.freeze({
 });
 
 export const bannedIds = Object.freeze([
-	"301389772767887364"
 ]);
 
 export const filters = Object.freeze({
