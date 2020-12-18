@@ -1,13 +1,15 @@
 {
 	"compilerOptions": {
-		"target": "es2018",
+		"strict": false,
+		"moduleResolution": "node",
+		"target": "es2019",
 		"module": "commonjs",
 		"outDir": "dist",
 		"sourceMap": true,
 		"esModuleInterop": true,
 		"allowJs": false,
+		"alwaysStrict": true,
 		"skipLibCheck": true,
-		"strict": false,
 	},
 	"exclude": [
 		"node_modules"
