@@ -4,7 +4,7 @@ import { creator, DEV_MODE } from "./config";
 
 export const messageCreator = (content: string, error: boolean = false) => {
 	let description = `\`\`\`md\n`;
-	description += `# Logged in as: ${client.user.tag}!\n`;
+	description += `# Logged in as: ${client.user?.tag}!\n`;
 	description += `# Enviroment: ${process.env.NODE_ENV}\n`;
 	description += `# Node Version: ${process.version}\n`;
 	description += `# OS: ${process.platform}\n`;

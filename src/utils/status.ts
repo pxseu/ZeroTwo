@@ -4,7 +4,7 @@ import type { PresenceData } from "discord.js";
 
 export function startStatus() {
 	const setStatus = (activity: PresenceData["activity"]) => {
-		client.user.setPresence({
+		client.user?.setPresence({
 			status: "dnd",
 			activity,
 		});
