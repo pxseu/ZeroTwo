@@ -69,7 +69,7 @@ const slashCommands = async () => {
 			"( ͡o ꒳ ͡o )",
 			" (U ᵕ U❁)",
 		];
-		console.log(interaction.data);
+		/* console.log(interaction.data); */
 		const user = await client.users.fetch(interaction.member.user.id);
 		const description = interaction.data.options
 			? uwuFaces[interaction.data.options[0].value - 1]
@@ -97,7 +97,7 @@ const slashCommands = async () => {
 			},
 		});
 		console.log(
-			`>  SLASH_COMMAND ${interaction.id}> summoned by ${interaction.member.user.id} in ${interaction.guild_id}`
+			`> SLASH_COMMAND ${interaction.id} > summoned by ${interaction.member.user.id} in ${interaction.guild_id}`
 		);
 	});
 };
