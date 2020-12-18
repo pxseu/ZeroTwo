@@ -6,10 +6,10 @@ type prefixOrRegexReturn = {
 	/* type: "mention" | "prefix"; */
 };
 
-type returnVals = [string[], string, Command];
+type returnVals = [string[], string, Command | undefined] | null;
 
 export const prefixOrRegex = (message: Message): prefixOrRegexReturn | null => {
-	const regexp = new RegExp(`<@!?${message.client.user.id}>`, "gi");
+	const regexp = new RegExp(`<@!?${message.client.user?.id}>`, "gi");
 	const lowerCaseMessage = message.content.toLowerCase().trim();
 
 	if (lowerCaseMessage.indexOf(message.guildConf.prefix.toLowerCase()) == 0) {
@@ -23,20 +23,12 @@ export const prefixOrRegex = (message: Message): prefixOrRegexReturn | null => {
 	return null;
 };
 
-export const getValues = (
-	message: Message,
-	prefixOrRegexMatch: string,
-): returnVals => {
-	const args = message.content
-		.slice(prefixOrRegexMatch.length)
-		.trim()
-		.split(/ +/g);
-	const commandName = args.shift().toLowerCase();
+export const getValues = (message: Message, prefixOrRegexMatch: string): returnVals => {
+	const args = message.content.slice(prefixOrRegexMatch.length).trim().split(/ +/g);
+	const commandName = args.shift()!.toLowerCase();
 	const command =
 		client.commands.get(commandName) ||
-		client.commands.find(
-			(cmd) => cmd.aliases && cmd.aliases.includes(commandName),
-		);
+		client.commands.find((cmd) => !!cmd.aliases && cmd.aliases.includes(commandName));
 
 	return [args, commandName, command];
 };

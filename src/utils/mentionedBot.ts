@@ -13,11 +13,11 @@ export const mentionOnlyCheck = (message: Message) => {
 		dsc += `Use \`${message.guildConf.prefix} help\` to list all commands!`;
 		embed.setDescription(dsc);
 		embed.setColor(embedColorInfo);
-		embed.setThumbnail(message.client.user.avatarURL({ dynamic: true }));
+		embed.setThumbnail(message.client.user.avatarURL({ dynamic: true })?.toString());
 		embed.setFooter(`You're pretty!`);
 		embed.setAuthor(
-			message.member.user.username,
-			message.member.user.avatarURL({ dynamic: true }),
+			message.member?.user.username,
+			message.member?.user.avatarURL({ dynamic: true })?.toString()
 		);
 		embed.setTimestamp();
 
