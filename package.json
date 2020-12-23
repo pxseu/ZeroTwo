@@ -6,7 +6,7 @@
 	"scripts": {
 		"build": "rimraf dist && tsc",
 		"start": "node --trace-warnings .",
-		"dev": "cross-env NODE_ENV=development nodemon -e ts --exec \"yarn build && yarn start\"",
+		"dev": "cross-env NODE_ENV=development tsc-watch --onSuccess \"yarn start\"",
 		"prod": "cross-env NODE_ENV=production yarn start"
 	},
 	"dependencies": {
@@ -35,8 +35,8 @@
 		"@types/morgan": "^1.9.2",
 		"@types/node": "^14.14.7",
 		"@types/node-fetch": "^2.5.7",
-		"nodemon": "^2.0.6",
 		"rimraf": "^3.0.2",
+		"tsc-watch": "^4.2.9",
 		"typescript": "^4.0.5"
 	},
 	"engines": {
