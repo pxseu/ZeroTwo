@@ -1,17 +1,16 @@
+import { TextChannel } from "discord.js";
 import { MessageEmbed, Message } from "discord.js";
 import { bypassIds } from "../utils/config";
 
 module.exports = {
 	name: "embed",
 	description: "Embed an image or text",
-	async execute(message: Message, args: string[]) {
-		if (
-			Object.keys(bypassIds).some((id) => id == message.author.id) ==
-			false
-		) {
-			return message.reply(
-				"You don't have the permission to use this command.",
-			);
+	async execute(message, args) {
+		if (Object.keys(bypassIds).some((id) => id == message.author.id) == false) {
+			{
+				message.reply("You don't have the permission to use this command.");
+				return;
+			}
 		}
 		const option = args[0];
 		args.shift();
@@ -36,7 +35,7 @@ module.exports = {
 				noOption(message);
 				break;
 		}
-		message.delete().catch((O_o) => {});
+		message.delete().catch(console.error);
 	},
 	type: 2,
 } as Command;
@@ -49,7 +48,7 @@ function noOption(message: Message) {
 			"``img`` ``<image url>``\n" +
 			"``txt`` ``<just plain text lol>``\n" +
 			"``txtin`` ``<channelid>`` ``<plaintext>``\n" +
-			"``imgin`` ``<channelid>`` ``<img url>``",
+			"``imgin`` ``<channelid>`` ``<img url>``"
 	);
 	message.channel.send(embed);
 }
@@ -65,8 +64,7 @@ function embedtxt(message: Message, args: string[]) {
 
 function embedimg(message: Message, args: string[]) {
 	const imgurl = args.join(" ");
-	if (!validURL(imgurl))
-		return message.reply("This is not a valid image url!");
+	if (!validURL(imgurl)) return message.reply("This is not a valid image url!");
 	const embed = new MessageEmbed();
 	embed.setColor("RANDOM");
 	embed.setDescription(`[Image url](${imgurl})`);
@@ -76,43 +74,46 @@ function embedimg(message: Message, args: string[]) {
 
 function embedtxtin(message: Message, args: string[]) {
 	const channel = message.guild.channels.cache.get(args[0]);
-	if (channel == undefined)
-		return message.reply("Channel id cannot be empty.");
+	if (channel == undefined) return message.reply("Channel id cannot be empty.");
 	args.shift();
 	const txt = args.join(" ");
 	if (txt == undefined) return message.reply("Message cannot be empty.");
 	const embed = new MessageEmbed();
 	embed.setColor("RANDOM");
 	embed.setDescription(txt);
-	//@ts-ignore
-	channel.send(embed);
+	if (channel.type != "text" && channel.type != "news") {
+		message.channel.send("Not a valid text channel.");
+		return;
+	}
+	(channel as TextChannel).send(embed);
 }
 
 function embedimgin(message: Message, args: string[]) {
 	const channel = message.guild.channels.cache.get(args[0]);
-	if (channel == undefined)
-		return message.reply("Channel id cannot be empty.");
+	if (channel == undefined) return message.reply("Channel id cannot be empty.");
 	args.shift();
 	const imgurl = args.join(" ");
-	if (!validURL(imgurl))
-		return message.reply("This is not a valid image url!");
+	if (!validURL(imgurl)) return message.reply("This is not a valid image url!");
 	const embed = new MessageEmbed();
 	embed.setColor("RANDOM");
 	embed.setDescription(`[Image url](${imgurl})`);
 	embed.setImage(imgurl);
-	//@ts-ignore
-	channel.send(embed);
+	if (channel.type != "text" && channel.type != "news") {
+		message.channel.send("Not a valid text channel.");
+		return;
+	}
+	(channel as TextChannel).send(embed);
 }
 
-function validURL(str) {
-	var pattern = new RegExp(
+function validURL(str: string) {
+	const pattern = new RegExp(
 		"^(https?:\\/\\/)?" +
 			"((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" +
 			"((\\d{1,3}\\.){3}\\d{1,3}))" +
 			"(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" +
 			"(\\?[;&a-z\\d%_.~+=-]*)?" +
 			"(\\#[-a-z\\d_]*)?$",
-		"i",
+		"i"
 	);
 	return !!pattern.test(str);
 }

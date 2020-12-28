@@ -1,10 +1,10 @@
-import { MessageEmbed, Message } from "discord.js";
+import { MessageEmbed } from "discord.js";
 import { fetchUser } from "../utils/fetchUser";
 
 module.exports = {
 	name: "avatar",
 	description: "Show users avatar!",
-	async execute(message: Message, args: string[]) {
+	async execute(message, args) {
 		let user = message.member.user;
 
 		const embed = new MessageEmbed();
@@ -24,9 +24,7 @@ module.exports = {
 			dynamic: true,
 		})}?size=4096`;
 
-		embed.setDescription(
-			`${user.id == message.author.id ? "Your" : user.username} avatar`,
-		);
+		embed.setDescription(`${user.id == message.author.id ? "Your" : user.username} avatar`);
 		embed.setImage(avatarUrl);
 		embed.setFooter(`u wook cute <33`, avatarUrl);
 		message.channel.send(embed);

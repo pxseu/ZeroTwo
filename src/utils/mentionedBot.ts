@@ -2,7 +2,7 @@ import { MessageEmbed } from "discord.js";
 import { Message } from "discord.js";
 import { embedColorInfo } from "./config";
 
-export const mentionOnlyCheck = (message: Message) => {
+export const mentionOnlyCheck = (message: Message): boolean => {
 	const regexp = new RegExp(`^<@!?${message.client.user.id}>$`, "gi");
 
 	if (message.content.match(regexp)) {

@@ -1,24 +1,20 @@
-import { Message } from "discord.js";
-
 module.exports = {
 	name: "vct",
 	description: "Test bot connection",
-	execute(message: Message) {
-		function vctest(message) {
-			if (message.member.voice.channel) {
-				message.member.voice.channel
-					.join()
-					.then((connection) => {
-						message.reply(
-							"I have successfully connected to the channel!",
-						);
-					})
-					.catch(console.log);
-			} else {
-				message.reply("You need to join a voice channel first!");
-			}
+	execute(message) {
+		if (!message.member.voice.channel) {
+			message.reply("You need to join a voice channel first!");
+			return;
 		}
-		vctest(message);
+		message.member.voice.channel
+			.join()
+
+			.then((con) => {
+				message.reply("I have successfully connected to the channel!");
+				con.disconnect();
+			})
+
+			.catch(console.log);
 	},
 	type: 0,
 } as Command;

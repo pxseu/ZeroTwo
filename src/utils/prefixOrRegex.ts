@@ -25,7 +25,7 @@ export const prefixOrRegex = (message: Message): prefixOrRegexReturn | null => {
 
 export const getValues = (message: Message, prefixOrRegexMatch: string): returnVals => {
 	const args = message.content.slice(prefixOrRegexMatch.length).trim().split(/ +/g);
-	const commandName = args.shift()!.toLowerCase();
+	const commandName = args.shift().toLowerCase();
 	const command =
 		client.commands.get(commandName) ||
 		client.commands.find((cmd) => !!cmd.aliases && cmd.aliases.includes(commandName));

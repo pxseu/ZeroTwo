@@ -1,12 +1,11 @@
 import { MessageEmbed } from "discord.js";
-import { Message } from "discord.js";
 import botStaff, { botStaffType } from "../models/botStaff";
 import { embedColor, embedColorError } from "../utils/config";
 
 module.exports = {
 	name: "staff",
 	description: "Manage staff.",
-	async execute(message: Message, args: string[]) {
+	async execute(message, args) {
 		message.react("❌");
 		return;
 
@@ -19,7 +18,7 @@ module.exports = {
 		embed.setFooter(`You're pretty!`);
 		embed.setAuthor(
 			message.member.user.username,
-			message.member.user.avatarURL({ dynamic: true }),
+			message.member.user.avatarURL({ dynamic: true })
 		);
 		embed.setTimestamp();
 
@@ -46,9 +45,7 @@ module.exports = {
 		}
 
 		if (cuStaff.permLvl < 10) {
-			embed.setDescription(
-				`Your permission level: ${cuStaff.permLvl} is too low!`,
-			);
+			embed.setDescription(`Your permission level: ${cuStaff.permLvl} is too low!`);
 			embed.setColor(embedColorError);
 			message.channel.send(embed);
 			return;
@@ -74,7 +71,7 @@ module.exports = {
 
 			case "remove":
 				{
-					const id = args[1];
+					/* const id = args[1]; */
 				}
 				break;
 			default:

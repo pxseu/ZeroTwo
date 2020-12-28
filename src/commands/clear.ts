@@ -1,47 +1,48 @@
 import { bypassIds } from "../utils/config";
-import { Message } from "discord.js";
 
 module.exports = {
 	name: "clear",
 	description: "clear channel",
-	async execute(message: Message, args: string[]) {
+	async execute(message, args) {
 		if (
 			(Object.keys(bypassIds).some((id) => id == message.author.id) ||
 				message.member.hasPermission("ADMINISTRATOR")) == false
-		)
-			return message.reply(
-				"You don't have the permission to use this command.",
-			);
+		) {
+			message.reply("You don't have the permission to use this command.");
+			return;
+		}
 
 		const amount = args.join(" ");
-		if (!amount)
-			return message.reply(
-				"You haven't given an amount of messages that should be deleted!",
-			);
-		if (isNaN(parseInt(amount)))
-			return message.reply("The amount parameter isn't a number!");
-		if (parseInt(amount) > 100)
-			return message.reply(
-				"You can't delete more than 100 messages at once!",
-			);
-		if (parseInt(amount) < 1)
-			return message.reply("You have to delete at least 1 message!");
+		if (!amount) {
+			message.reply("You haven't given an amount of messages that should be deleted!");
+			return;
+		}
+		if (isNaN(parseInt(amount))) {
+			message.reply("The amount parameter isn't a number!");
+			return;
+		}
+		if (parseInt(amount) > 100) {
+			message.reply("You can't delete more than 100 messages at once!");
+			return;
+		}
+		if (parseInt(amount) < 1) {
+			message.reply("You have to delete at least 1 message!");
+			return;
+		}
 		await message.channel.messages
 			.fetch({
 				limit: parseInt(amount),
 			})
 			.then((messages) => {
-				//@ts-ignore  it's already checekd somewhere else dummy
+				if (message.channel.type == "dm") return;
 				message.channel.bulkDelete(messages);
-				message.channel
-					.send(`Succesfully deleted: ${amount} messages.`)
-					.then((msg) => {
-						setTimeout(() => {
-							msg.delete();
-						}, 4000);
-					});
+				message.channel.send(`Succesfully deleted: ${amount} messages.`).then((msg) => {
+					setTimeout(() => {
+						msg.delete();
+					}, 4000);
+				});
 			});
-		return 0;
+		return;
 	},
 	type: 2,
 	aliases: ["purge"],

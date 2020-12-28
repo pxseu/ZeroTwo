@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from "discord.js";
+import { MessageEmbed } from "discord.js";
 import { getImage } from "../utils/apiStuff";
 import { embedColor } from "../utils/config";
 import { fetchUser } from "../utils/fetchUser";
@@ -6,7 +6,7 @@ import { fetchUser } from "../utils/fetchUser";
 module.exports = {
 	name: "kiss",
 	description: "Kiss!",
-	async execute(message: Message, args: string[]) {
+	async execute(message, args) {
 		const kiss = await getImage("/kiss");
 
 		let user = message.member.user;

@@ -2,7 +2,7 @@ import { client } from "..";
 import { MessageEmbed } from "discord.js";
 import { creator, DEV_MODE } from "./config";
 
-export const messageCreator = (content: string, error: boolean = false) => {
+export const messageCreator = (content: string, error = false): void => {
 	let description = `\`\`\`md\n`;
 	description += `# Logged in as: ${client.user?.tag}!\n`;
 	description += `# Enviroment: ${process.env.NODE_ENV}\n`;

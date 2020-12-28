@@ -2,7 +2,7 @@ import { client } from "../";
 import { botStatuses, DEV_MODE } from "./config";
 import type { PresenceData } from "discord.js";
 
-export function startStatus() {
+export function startStatus(): void {
 	const setStatus = (activity: PresenceData["activity"]) => {
 		client.user?.setPresence({
 			status: "dnd",
