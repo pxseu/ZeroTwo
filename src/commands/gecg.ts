@@ -1,11 +1,11 @@
-import { Message, MessageEmbed } from "discord.js";
+import { MessageEmbed } from "discord.js";
 import { getImage } from "../utils/apiStuff";
 import { embedColor } from "../utils/config";
 
 module.exports = {
 	name: "gecg",
 	description: "Memes for catgirls!",
-	async execute(message: Message) {
+	async execute(message) {
 		const gecg = await getImage("/gecg");
 		const embed = new MessageEmbed();
 		embed.setColor(embedColor);

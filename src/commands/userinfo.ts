@@ -1,13 +1,12 @@
-import { Message, MessageEmbed } from "discord.js";
+import { MessageEmbed } from "discord.js";
 import moment from "moment";
 import { bypassIds, embedColor, embedColorStaff } from "../utils/config";
 import { fetchUser } from "../utils/fetchUser";
-import { prefixOrRegex } from "../utils/prefixOrRegex";
 
 module.exports = {
 	name: "userinfo",
 	description: "Tells you something about the user.",
-	async execute(message: Message, args: string[]) {
+	async execute(message, args) {
 		let user = message.member.user;
 		const embed = new MessageEmbed();
 		embed.setColor(embedColor);
@@ -28,57 +27,38 @@ module.exports = {
 			user.id == message.author.id
 				? message.member
 				: message.guild.members.cache.get(
-						regexMention
-							? regexMention[0]?.match(/\d+/gim)[0]
-							: undefined,
+						regexMention ? regexMention[0]?.match(/\d+/gim)[0] : undefined
 				  ) ||
 				  message.guild.members.cache.get(args[0]) ||
 				  message.guild.members.cache.find(
-						(r) =>
-							r.user.username.toLowerCase() ===
-							args.join(" ").toLocaleLowerCase(),
+						(r) => r.user.username.toLowerCase() === args.join(" ").toLocaleLowerCase()
 				  ) ||
 				  message.guild.members.cache.find(
-						(ro) =>
-							ro.displayName.toLowerCase() ===
-							args.join(" ").toLocaleLowerCase(),
+						(ro) => ro.displayName.toLowerCase() === args.join(" ").toLocaleLowerCase()
 				  );
 
-		const roles = member
-			? member.roles.cache.map((r) => `${r}`).join(" | ")
-			: null;
+		const roles = member ? member.roles.cache.map((r) => `${r}`).join(" | ") : null;
 
 		const avatarUrl = `${user.displayAvatarURL({
 			dynamic: true,
 		})}?size=4096`;
 
-		embed.setAuthor(
-			member?.displayName ? member.displayName : user.username,
-			avatarUrl,
-		);
+		embed.setAuthor(member?.displayName ? member.displayName : user.username, avatarUrl);
 		embed.addField("Full Tag", user.tag, true);
-		embed.addField(
-			"Avatar Url",
-			`[Current Avatar Url](${avatarUrl})`,
-			true,
-		);
+		embed.addField("Avatar Url", `[Current Avatar Url](${avatarUrl})`, true);
 		embed.addField("Bot", user.bot ? "Yes" : "No", true);
 		embed.addField("** **", "** **");
 		embed.addField(
 			"Joined",
 			member
-				? moment
-						.unix(member.joinedAt.getTime() / 1000)
-						.format("DD/MM/YYYY HH:mm:ss")
+				? moment.unix(member.joinedAt.getTime() / 1000).format("DD/MM/YYYY HH:mm:ss")
 				: "User is not in the guild!",
-			true,
+			true
 		);
 		embed.addField(
 			"Registered",
-			moment
-				.unix(user.createdAt.getTime() / 1000)
-				.format("DD/MM/YYYY HH:mm:ss"),
-			true,
+			moment.unix(user.createdAt.getTime() / 1000).format("DD/MM/YYYY HH:mm:ss"),
+			true
 		);
 
 		if (Object.keys(bypassIds).some((id) => id == user.id)) {
@@ -95,7 +75,7 @@ module.exports = {
 					? `Too many roles to show.`
 					: roles
 				: "User is not in the guild!",
-			false,
+			false
 		);
 		embed.setTimestamp(Date.now());
 

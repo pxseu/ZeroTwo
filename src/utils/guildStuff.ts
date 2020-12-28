@@ -7,7 +7,7 @@ import { Guild, MessageEmbed } from "discord.js";
 import { startStatus } from "./status";
 import { messageCreator } from "./messageCreator";
 
-const newServer = (guild: Guild) => {
+const newServer = (guild: Guild): void => {
 	let desc = "Konnichiwa ( ´ ▽ ` )\n";
 	desc += "Thank you for adding me!\n";
 	desc += "Type zt!help for commands.";
@@ -22,7 +22,7 @@ const newServer = (guild: Guild) => {
 	}).save();
 };
 
-const guildStuff = () => {
+const guildStuff = (): void => {
 	client.on(events.GUILDDELETE, async (guild) => {
 		(
 			await Server.findOne({
@@ -50,8 +50,7 @@ const guildStuff = () => {
 			serversInDb.forEach(async (serverDB) => {
 				if (
 					client.guilds.cache.some(
-						(server) =>
-							server.id == (serverDB as guildConf).serverid,
+						(server) => server.id == (serverDB as guildConf).serverid
 					) == false
 				) {
 					await serverDB.deleteOne();

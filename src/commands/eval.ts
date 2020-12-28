@@ -1,21 +1,19 @@
 import vm from "vm";
 import { bypassIds, embedColor } from "../utils/config";
-import { Message, MessageEmbed } from "discord.js";
+import { MessageEmbed } from "discord.js";
+import { inspect } from "util";
 
 module.exports = {
 	name: "eval",
 	description: `Dev Eval`,
-	async execute(message: Message, args: string[]) {
-		if (
-			Object.keys(bypassIds).some((id) => id == message.author.id) ==
-			false
-		) {
+	async execute(message, args) {
+		if (Object.keys(bypassIds).some((id) => id == message.author.id) == false) {
 			const embed = new MessageEmbed();
 			embed.setColor(embedColor);
 			embed.setDescription(
 				`${Object.keys(bypassIds)
 					.map((id) => `<@${id}>`)
-					.join(", ")}.`,
+					.join(", ")}.`
 			);
 			message.channel.send(embed);
 			return;
@@ -37,8 +35,7 @@ module.exports = {
 			vm.createContext(context);
 			let evaled = await script.runInContext(context);
 
-			if (typeof evaled !== "string")
-				evaled = require("util").inspect(evaled);
+			if (typeof evaled !== "string") evaled = inspect(evaled);
 			message.channel.send(clean(evaled), { code: "xl" });
 		} catch (err) {
 			message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
@@ -47,6 +44,7 @@ module.exports = {
 	type: 0,
 } as Command;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function clean(text: any) {
 	if (typeof text === "string")
 		return text

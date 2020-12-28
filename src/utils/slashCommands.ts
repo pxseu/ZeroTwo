@@ -1,8 +1,10 @@
 import { client } from "..";
 
-const slashCommands = async () => {
+const slashCommands = async (): Promise<void> => {
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	//@ts-ignore
 	const slashCommandsList = await client.api
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		//@ts-ignore
 		.applications(client.user.id)
 		.commands.get();
@@ -42,16 +44,20 @@ const slashCommands = async () => {
 	};
 
 	if (slashCommandsList.length == 0) {
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		//@ts-ignore
 		client.api
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			//@ts-ignore
 			.applications(client.user.id)
 			.commands.post({
 				data,
 			});
 	} else {
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		//@ts-ignore
 		client.api
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			//@ts-ignore
 			.applications(client.user.id)
 			.commands(slashCommandsList[0].id)
@@ -60,6 +66,7 @@ const slashCommands = async () => {
 			});
 	}
 
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	//@ts-ignore
 	client.ws.on("INTERACTION_CREATE", async (interaction) => {
 		const uwuFaces = [
@@ -74,6 +81,7 @@ const slashCommands = async () => {
 		const description = interaction.data.options
 			? uwuFaces[interaction.data.options[0].value - 1]
 			: uwuFaces[Math.floor(Math.random() * uwuFaces.length)];
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		//@ts-ignore
 		client.api.interactions(interaction.id, interaction.token).callback.post({
 			data: {

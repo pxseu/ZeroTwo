@@ -1,13 +1,13 @@
 import type { guildConf } from "./src/models/server";
 import type { Client } from "discord.js";
-import { messageCreator } from "./src/utils/messageCreator";
 import { botStaff } from "./src/models/botStaff";
+import { Message } from "discord.js";
 
 declare global {
 	type Command = {
 		name: string;
 		description?: string;
-		execute: Function | any;
+		execute: (message: Message, args: string[]) => void | Promise<void>;
 		aliases?: string[];
 		type: number;
 		cooldown?: number;
@@ -16,7 +16,7 @@ declare global {
 declare module "discord.js" {
 	export interface Client {
 		commands: Collection<string, Command>;
-		player: any;
+		/* player: any; */
 	}
 	export interface Message {
 		guildConf: guildConf;

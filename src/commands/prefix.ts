@@ -1,22 +1,17 @@
-import { MessageEmbed, Message } from "discord.js";
-import {
-	bypassIds,
-	embedColor,
-	embedColorError,
-	embedColorInfo,
-} from "../utils/config";
+import { MessageEmbed } from "discord.js";
+import { bypassIds, embedColor, embedColorError, embedColorInfo } from "../utils/config";
 
 module.exports = {
 	name: "prefix",
 	description: "Set the prefix for the bot",
-	async execute(message: Message, args: string[]) {
+	async execute(message, args) {
 		const embed = new MessageEmbed();
 		embed.setTitle("Prefix!");
 		embed.setColor(embedColorInfo);
 		embed.setThumbnail(message.client.user.avatarURL({ dynamic: true }));
 		embed.setAuthor(
 			message.member.user.username,
-			message.member.user.avatarURL({ dynamic: true }),
+			message.member.user.avatarURL({ dynamic: true })
 		);
 		embed.setTimestamp();
 
@@ -42,12 +37,10 @@ module.exports = {
 		}
 
 		const newPrefix = args.join(" ");
-		const regex = /^[*\:$\!\-_\.,\?\/=\+a-zA-Z]{1,8}$/gim;
+		const regex = /^[*:$!\-_.,?/=+a-zA-Z]{1,8}$/gim;
 
 		if (!newPrefix.match(regex)) {
-			embed.setDescription(
-				`Prefix must match this pattern:\n\`${regex}\``,
-			);
+			embed.setDescription(`Prefix must match this pattern:\n\`${regex}\``);
 			embed.setColor(embedColorError);
 			message.channel.send(embed);
 			return;
