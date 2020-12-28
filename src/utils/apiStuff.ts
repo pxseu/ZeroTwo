@@ -12,8 +12,8 @@ type Endpoints =
 	/* SFW */
 	"/fox" | "/kiss" | "/hug" | "/gecg" | "/neko" | "/pat" | "/slap";
 
-const randEl = (array: any[]) =>
-	array[Math.floor(Math.random() * array.length)];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const randEl = (array: any[]) => array[Math.floor(Math.random() * array.length)];
 
 const getEp = (endpoint: Endpoints): [string, string] => {
 	const cep = Object.keys(endpoitsForApis[endpoint]);
@@ -29,8 +29,13 @@ const parseApiUrl = (urlStr: string) => {
 	return `${url.protocol}//${url.hostname}`;
 };
 
-const getImage = (endpoint: Endpoints) =>
-	new Promise<RequestData>(async (resolve, reject) => {
+interface returnData {
+	url: string;
+	api: string;
+}
+
+const getImage = (endpoint: Endpoints): Promise<returnData> =>
+	new Promise<RequestData>((resolve, reject) => {
 		if (endpoint == undefined) return reject("No endpoint defined!");
 
 		if (!Object.keys(endpoitsForApis).some((ep) => ep == endpoint))
@@ -47,8 +52,12 @@ const getImage = (endpoint: Endpoints) =>
 			[randomApi, randomEndpoint] = getEp(endpoint);
 
 			try {
-				request = await fetch(`${randomApi}${randomEndpoint}`);
-				reqdata = await request.json();
+				fetch(`${randomApi}${randomEndpoint}`).then((data) => {
+					request = data;
+					data.json().then((jsonData) => {
+						reqdata = jsonData;
+					});
+				});
 
 				isError =
 					request.status != 200 ||
@@ -58,16 +67,9 @@ const getImage = (endpoint: Endpoints) =>
 				isError = true;
 			}
 
-			if (DEV_MODE)
-				console.log(
-					`>> API > ${randomApi}${randomEndpoint} > ERROR: ${isError}`,
-				);
+			if (DEV_MODE) console.log(`>> API > ${randomApi}${randomEndpoint} > ERROR: ${isError}`);
 
-			if (isError)
-				messageCreator(
-					`Api: [${randomApi}${randomEndpoint}]() has failed!`,
-					true,
-				);
+			if (isError) messageCreator(`Api: [${randomApi}${randomEndpoint}]() has failed!`, true);
 
 			loopCounter++;
 		} while (isError && loopCounter <= 5);

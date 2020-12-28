@@ -3,7 +3,6 @@ import morgan from "morgan";
 import cors from "cors";
 import { client } from "..";
 import router from "./routes";
-import { DEV_MODE } from "../utils/config";
 
 const PORT = parseInt(process.env.PORT ?? "8080");
 const app = express();
@@ -15,8 +14,7 @@ app.use((req, _, next) => {
 	req.client = client;
 	req.auth =
 		req.headers.authorization ??
-		((req.query.auth as string) != "" &&
-			(req.query.auth as string) != undefined)
+		((req.query.auth as string) != "" && (req.query.auth as string) != undefined)
 			? (req.query.auth as string)
 			: null ?? null;
 	next();
@@ -33,7 +31,7 @@ app.get("/", (_, res) => {
 
 app.use(router);
 
-export const startWeb = async () => {
+export const startWeb = async (): Promise<void> => {
 	app.listen(PORT, () => {
 		console.log(`> Web listening on: ${PORT}`);
 	});

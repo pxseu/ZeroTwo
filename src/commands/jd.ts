@@ -1,11 +1,10 @@
-import { Message } from "discord.js";
-
 module.exports = {
 	name: "jd",
 	description: "Jebac Disa",
-	execute(message: Message) {
+	execute(message) {
 		if (!message.member.voice.channel) {
-			return message.reply("You need to join a voice channel first!");
+			message.reply("You need to join a voice channel first!");
+			return;
 		}
 
 		message.member.voice.channel
