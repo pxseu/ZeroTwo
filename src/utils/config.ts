@@ -27,8 +27,7 @@ export const bypassIds = Object.freeze({
 	"294936456252882946": "Przekonał @pxseu",
 });
 
-export const bannedIds = Object.freeze([
-]);
+export const bannedIds = Object.freeze([]);
 
 export const filters = Object.freeze({
 	bassboost: "Bassboost",
@@ -107,3 +106,19 @@ export const botStatuses = [
 		name: "cuteness! 💕",
 	},
 ] as PresenceData["activity"][];
+
+export const warnGifs = Object.freeze([
+	"https://media.tenor.com/images/db94377ee10e67006d5ba5346fd0ee08/tenor.gif",
+	"https://media.tenor.com/images/3a2f78e1097e5536ca9834004d64fa01/tenor.gif",
+	"https://media.tenor.com/images/7f6ad3947216af3c388750b80635eb36/tenor.gif",
+	"https://media.tenor.com/images/e9a427760fc32eb4d87602e8bbf86fff/tenor.gif",
+	"https://media.tenor.com/images/5233f16377321b03a04c5236318d90eb/tenor.gif",
+	"https://media.tenor.com/images/823652a01fa06322d698d7b452c25469/tenor.gif",
+	"https://media.tenor.com/images/14eb32039f976c2bd9bb9eaa7b7f6473/tenor.gif",
+	"https://media.tenor.com/images/980305a1555488b0b2982908f26d900d/tenor.gif",
+	"https://media.tenor.com/images/921ec266a989d9e8553aafe16f1f6c9d/tenor.gif",
+	"https://media.tenor.com/images/7e5a85cfbfef35505b41b62b41822935/tenor.gif",
+	"https://media.tenor.com/images/51de84b66a36efa877c8fb034422c1fb/tenor.gif",
+	"https://media.tenor.com/images/8aadd110ebcb4e714843a614fcbe2ee2/tenor.gif",
+	"https://media.tenor.com/images/07778c672663d144c8ae4359de86db0f/tenor.gif",
+]);
