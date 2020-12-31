@@ -1,29 +1,23 @@
-const { MessageEmbed } = require("discord.js");
-const { filters } = require("../utils/config");
+import { filters } from "../utils/config";
 
 module.exports = {
 	name: "filter",
 	description: "filter",
 	execute(message, args) {
-		const embed = new MessageEmbed();
-		embed.setColor("RANDOM");
-
 		if (!message.member.voice.channel) {
-			embed.setDescription(`You're not in a voice channel`);
-			return message.channel.send(embed);
+			message.error("You're not in a voice channel.");
+			return;
 		}
 
-		if (!message.client.player.isPlaying(message.guild.id)) {
-			embed.setDescription(`No music playing on this server`);
-			return message.channel.send(embed);
+		if (!message.client.player.isPlaying(message)) {
+			message.error("No music playing on this server.");
+			return;
 		}
 
 		const filter = args[0];
 		if (!filter) {
-			embed.setDescription(
-				`Please specify a valid filter to enable or disable`
-			);
-			return message.channel.send(embed);
+			message.error("Please specify a valid filter to enable or disable");
+			return;
 		}
 
 		const filterToUpdate = Object.values(filters).find(
@@ -31,21 +25,16 @@ module.exports = {
 		);
 
 		if (!filterToUpdate) {
-			embed.setDescription(`This filter doesn't exist`);
-			return message.channel.send(embed);
+			message.error("This filter doesn't exist");
+			return;
 		}
 
-		const filterRealName = Object.keys(filters).find(
-			(f) => filters[f] === filterToUpdate
-		);
+		const filterRealName = Object.keys(filters).find((f) => filters[f] === filterToUpdate);
 
-		const queueFilters = message.client.player.getQueue(message.guild.id)
-			.filters;
+		const queueFilters = message.client.player.getQueue(message).filters;
 		const filtersUpdated = {};
-		filtersUpdated[filterRealName] = queueFilters[filterRealName]
-			? false
-			: true;
-		message.client.player.setFilters(message.guild.id, filtersUpdated);
+		filtersUpdated[filterRealName] = queueFilters[filterRealName] ? false : true;
+		message.client.player.setFilters(message, filtersUpdated);
 
 		if (filtersUpdated[filterRealName]) {
 			embed.setDescription(
@@ -60,4 +49,4 @@ module.exports = {
 	},
 	type: 4,
 	aliases: ["setfilter"],
-};
+} as Command;
