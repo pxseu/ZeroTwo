@@ -5,7 +5,7 @@ export const DEV_MODE = process.env.NODE_ENV != "production";
 export const creator = "338718840873811979";
 
 export const embedColor = DEV_MODE ? "#6ab04c" : "#ff01ff";
-export const embedColorInfo = "#3f3fff";
+export const embedColorInfo = "#7070ff";
 export const embedColorError = "#ff3f3f";
 export const embedColorStaff = "#F0E68C";
 

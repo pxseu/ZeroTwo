@@ -1,3 +1,5 @@
+import "./utils/extenders";
+
 import { config } from "dotenv";
 import fs from "fs";
 import { Client, Collection } from "discord.js";
@@ -5,8 +7,7 @@ import database from "./utils/database";
 import guildStuff from "./utils/guildStuff";
 import mainMessageHandler from "./utils/mainMessageHandler";
 import slashCommands from "./utils/slashCommands";
-
-/* import music from "./utils/music"; */
+import player from "./utils/player";
 /* import { startWeb } from "./web"; */
 
 config();
@@ -14,7 +15,7 @@ config();
 export const client = new Client();
 
 client.commands = new Collection();
-/* client.player = music(); */
+client.player = player(client);
 
 const commandFiles = fs.readdirSync("./dist/commands").filter((file) => file.endsWith(".js"));
 
