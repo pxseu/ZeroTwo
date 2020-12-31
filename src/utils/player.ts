@@ -44,14 +44,6 @@ const playerCreate = (client: Client): Player => {
 		message.error({ text: error, title: "Player error: " });
 	});
 
-	/* player.on("searchResults", (message, query, tracks) => {});
-    player.on("searchInvalidResponse", (message, query, tracks) => {});
-    player.on("searchCancel", (message) => {});
-    player.on("queueEnd", (message) => {});
-    player.on("playlistAdd", (message, queue, playlist) => {});
-    
-    
-     */
 	return player;
 };
 
