@@ -1,11 +1,10 @@
 import Server, { guildConf } from "../models/server";
 import events from "../utils/events";
-
-import { client } from "../";
 import { DEV_MODE } from "./config";
 import { Guild, MessageEmbed } from "discord.js";
 import { startStatus } from "./status";
 import { messageCreator } from "./messageCreator";
+import { Client } from "discord.js";
 
 const newServer = (guild: Guild): void => {
 	let desc = "Konnichiwa ( ´ ▽ ` )\n";
@@ -22,7 +21,7 @@ const newServer = (guild: Guild): void => {
 	}).save();
 };
 
-const guildStuff = (): void => {
+const guildStuff = (client: Client): void => {
 	client.on(events.GUILDDELETE, async (guild) => {
 		(
 			await Server.findOne({
@@ -46,13 +45,9 @@ const guildStuff = (): void => {
 				newServer(guild);
 			}
 
-			const serversInDb = await Server.find();
+			const serversInDb = (await Server.find()) as guildConf[];
 			serversInDb.forEach(async (serverDB) => {
-				if (
-					client.guilds.cache.some(
-						(server) => server.id == (serverDB as guildConf).serverid
-					) == false
-				) {
+				if (client.guilds.cache.some((server) => server.id == serverDB.serverid) == false) {
 					await serverDB.deleteOne();
 				}
 			});

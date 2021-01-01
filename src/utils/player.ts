@@ -19,7 +19,7 @@ const playerCreate = (client: Client): Player => {
 	});
 
 	player.on("channelEmpty", (message) => {
-		message.error("I left the channel because it was emtpy!");
+		message.info("I left the channel because it was emtpy!");
 	});
 
 	player.on("botDisconnect", (message) => {
@@ -34,7 +34,7 @@ const playerCreate = (client: Client): Player => {
 	});
 
 	player.on("noResults", (message) => {
-		message.error({
+		message.info({
 			title: "No results!",
 			text: "I couldn't find any results for your search querry!",
 		});
