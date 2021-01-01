@@ -30,8 +30,8 @@ process.on("uncaughtException", function (err) {
 });
 
 (async () => {
-	guildStuff();
-	mainMessageHandler();
+	guildStuff(client);
+	mainMessageHandler(client);
 	await database();
 	await client.login(process.env.BOT_TOKEN);
 	await slashCommands();

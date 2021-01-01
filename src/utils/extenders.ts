@@ -13,8 +13,8 @@ Message.prototype.error = async function (message): Promise<void> {
 
 	if (typeof message == "object") {
 		const { title, text, footer } = message;
-		embed.setTitle(title);
-		embed.setDescription(text);
+		if (title) embed.setTitle(title);
+		if (text) embed.setDescription(text);
 		if (footer) embed.setFooter(footer);
 	} else {
 		embed.setTitle("Error");
@@ -35,8 +35,8 @@ Message.prototype.info = async function (message): Promise<void> {
 
 	if (typeof message == "object") {
 		const { title, text, footer } = message;
-		embed.setTitle(title);
-		embed.setDescription(text);
+		if (title) embed.setTitle(title);
+		if (text) embed.setDescription(text);
 		if (footer) embed.setFooter(footer);
 	} else {
 		embed.setDescription(message);

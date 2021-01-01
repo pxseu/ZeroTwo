@@ -2,22 +2,23 @@ import Server, { guildConf } from "../models/server";
 import events from "./events";
 import { embedColorError } from "./config";
 import { MessageEmbed, Collection, Message } from "discord.js";
-import { client } from "..";
 import { mentionOnlyCheck } from "./mentionedBot";
 import { rateLimit } from "./rateLimit";
 import { getValues, prefixOrRegex } from "./prefixOrRegex";
 import { banCheck } from "./isBanned";
 import { bypass } from "./bypass";
+import { Client } from "discord.js";
 
 export const cooldowns = new Collection<string, Collection<string, number>>();
 
-const mainMessageHandler = (): void => {
+const mainMessageHandler = (client: Client): void => {
 	client.on(events.MESSAGE, async (message: Message) => {
 		if (message.channel.type == "dm" || !message.guild || message.author.bot) return;
 
 		const guildConf = (await Server.findOne({
 			serverid: message.guild.id,
 		})) as guildConf;
+
 		message.guildConf = guildConf;
 
 		const prfxOrRgx = prefixOrRegex(message);
