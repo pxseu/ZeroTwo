@@ -5,8 +5,8 @@ import { Message } from "discord.js";
 import { Player } from "discord-player";
 
 interface messageContent {
-	title: string;
-	text: string;
+	title?: string;
+	text?: string;
 	footer?: string;
 }
 
