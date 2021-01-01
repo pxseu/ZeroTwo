@@ -34,52 +34,46 @@ interface returnData {
 	api: string;
 }
 
-const getImage = (endpoint: Endpoints): Promise<returnData> =>
-	new Promise<RequestData>((resolve, reject) => {
-		if (endpoint == undefined) return reject("No endpoint defined!");
+const getImage = async (endpoint: Endpoints): Promise<returnData> => {
+	if (endpoint == undefined) throw "No endpoint defined!";
 
-		if (!Object.keys(endpoitsForApis).some((ep) => ep == endpoint))
-			return reject("Endpoint is not found!");
+	if (!Object.keys(endpoitsForApis).some((ep) => ep == endpoint)) throw "Endpoint is not found!";
 
-		let randomEndpoint: string,
-			randomApi: string,
-			request: Response,
-			reqdata: RequestData,
-			loopCounter = 0,
-			isError = false;
+	let randomEndpoint: string,
+		randomApi: string,
+		request: Response,
+		reqdata: RequestData,
+		loopCounter = 0,
+		isError = false;
 
-		do {
-			[randomApi, randomEndpoint] = getEp(endpoint);
+	do {
+		[randomApi, randomEndpoint] = getEp(endpoint);
 
-			try {
-				fetch(`${randomApi}${randomEndpoint}`).then((data) => {
-					request = data;
-					data.json().then((jsonData) => {
-						reqdata = jsonData;
-					});
-				});
+		try {
+			request = await fetch(`${randomApi}${randomEndpoint}`);
+			reqdata = await request.json();
 
-				isError =
-					request.status != 200 ||
-					reqdata == undefined ||
-					(reqdata[endpoitFileds[randomApi]] as string) == undefined;
-			} catch (e) {
-				isError = true;
-			}
+			isError =
+				request.status != 200 ||
+				reqdata == undefined ||
+				(reqdata[endpoitFileds[randomApi]] as string) == undefined;
+		} catch (e) {
+			isError = true;
+		}
 
-			if (DEV_MODE) console.log(`>> API > ${randomApi}${randomEndpoint} > ERROR: ${isError}`);
+		if (DEV_MODE) console.log(`>> API > ${randomApi}${randomEndpoint} > ERROR: ${isError}`);
 
-			if (isError) messageCreator(`Api: [${randomApi}${randomEndpoint}]() has failed!`, true);
+		if (isError) messageCreator(`Api: [${randomApi}${randomEndpoint}]() has failed!`, true);
 
-			loopCounter++;
-		} while (isError && loopCounter <= 5);
+		loopCounter++;
+	} while (isError && loopCounter <= 5);
 
-		if (isError) return reject("Unable to fetch!");
+	if (isError) throw "Unable to fetch!";
 
-		resolve({
-			url: reqdata[endpoitFileds[randomApi]] as string,
-			api: `Image by: ${parseApiUrl(randomApi)}`,
-		});
-	});
+	return {
+		url: reqdata[endpoitFileds[randomApi]] as string,
+		api: `Image by: ${parseApiUrl(randomApi)}`,
+	};
+};
 
 export { getImage };
