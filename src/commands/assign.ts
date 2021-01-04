@@ -8,7 +8,7 @@ module.exports = {
 			message.channel.send({
 				embed: {
 					title: "Assign a role.",
-					description: `\`\`You can assign the roles by ${message.guildConf.prefix}assign [roleName]\`\``,
+					description: `\`\`You can assign the roles by ${message.guildConf.prefix} assign [roleName]\`\``,
 				},
 			});
 			return;
