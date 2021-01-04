@@ -10,7 +10,7 @@ module.exports = {
 			!Object.keys(bypassIds).some((id) => id == message.author.id) &&
 			!message.member.hasPermission("ADMINISTRATOR")
 		) {
-			message.reply("You don't have the permission to use this command.");
+			message.error("You don't have the permission to use this command.");
 			return;
 		}
 
