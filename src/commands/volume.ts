@@ -19,7 +19,7 @@ module.exports = {
 			return;
 		}
 
-		if (isValidNumber(message, args)) {
+		if (isInvalid(message, args)) {
 			message.error("Please enter a valid number.");
 			return;
 		}
@@ -30,18 +30,17 @@ module.exports = {
 	type: 4,
 } as Command;
 
-function isValidNumber(message: Message, args: string[]): boolean {
-	let isValid = false;
+function isInvalid(message: Message, args: string[]): boolean {
+	let isValid = true;
 	try {
-		isValid = !(
+		isValid =
 			isNaN(parseInt(args.join(" "))) ||
 			100 < parseInt(args.join(" ")) ||
 			parseInt(args.join(" ")) <= 0 ||
 			message.content.includes("-") ||
 			message.content.includes("+") ||
 			message.content.includes(",") ||
-			message.content.includes(".")
-		);
+			message.content.includes(".");
 	} catch (_) {
 		_;
 	}

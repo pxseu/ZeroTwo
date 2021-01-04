@@ -37,9 +37,9 @@ module.exports = {
 		}
 
 		const newPrefix = args.join(" ");
-		const regex = /^[*:$!\-_.,?/=+a-zA-Z]{1,8}$/gim;
+		const regex = /^[*:$!-_.,?/=+a-zA-Z]{1,8}$/gi;
 
-		if (!newPrefix.match(regex)) {
+		if (!regex.test(newPrefix)) {
 			embed.setDescription(`Prefix must match this pattern:\n\`${regex}\``);
 			embed.setColor(embedColorError);
 			message.channel.send(embed);
