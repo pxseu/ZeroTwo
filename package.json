@@ -13,7 +13,7 @@
 	"dependencies": {
 		"@discordjs/opus": "^0.3.3",
 		"cors": "^2.8.5",
-		"cross-env": "^7.0.2",
+		"cross-env": "^7.0.3",
 		"discord-player": "^3.2.0",
 		"discord.js": "^12.5.1",
 		"discordjs-prompter": "^2.0.4",
