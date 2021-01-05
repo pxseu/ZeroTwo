@@ -1,5 +1,9 @@
 # [Zero Two Bot](https://github.com/pxseu/ZeroTwoBot)
 
+[![forthebadge](https://forthebadge.com/images/badges/0-percent-optimized.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/ctrl-c-ctrl-v.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://forthebadge.com)
+
 ### About
 
 This repo contains the full content of my discord bot for free! (under a license)
