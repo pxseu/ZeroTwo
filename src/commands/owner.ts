@@ -1,17 +1,21 @@
-import { MessageEmbed } from "discord.js";
-import { embedColorInfo } from "../utils/config";
-
 module.exports = {
 	name: "owner",
 	description: "Owner!",
-	execute(message) {
-		const embed = new MessageEmbed();
-		embed.setColor(embedColorInfo);
-		embed.setDescription(
-			`My owner is \`\`pxseu#0001\`\` (338718840873811979)\n[My owners website](https://www.pxseu.com)`
-		);
-		message.channel.send(embed);
+	async execute(message) {
+		const app = await message.client.fetchApplication();
+		const owner = await message.client.users.fetch(app.owner.id);
+
+		message.info(`My owner is \`${clean(owner.tag)}\` (${owner.id})`);
 	},
 	type: 0,
-	aliases: ["daddy", "mybigboi"], //ngl this kinda cringe
+	aliases: [],
 } as Command;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function clean(text: any) {
+	if (typeof text === "string")
+		return text
+			.replace(/`/g, "`" + String.fromCharCode(8203))
+			.replace(/@/g, "@" + String.fromCharCode(8203));
+	else return text;
+}

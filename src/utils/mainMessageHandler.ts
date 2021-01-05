@@ -1,4 +1,4 @@
-import Server, { guildConf } from "../models/server";
+import { findOrCreate } from "../models/server";
 import events from "./events";
 import { embedColorError } from "./config";
 import { MessageEmbed, Collection, Message } from "discord.js";
@@ -15,11 +15,7 @@ const mainMessageHandler = (client: Client): void => {
 	client.on(events.MESSAGE, async (message: Message) => {
 		if (message.channel.type == "dm" || !message.guild || message.author.bot) return;
 
-		const guildConf = (await Server.findOne({
-			serverid: message.guild.id,
-		})) as guildConf;
-
-		message.guildConf = guildConf;
+		message.guildConf = await findOrCreate(message.guild.id);
 
 		const prfxOrRgx = prefixOrRegex(message);
 		if (prfxOrRgx == null) return;
