@@ -19,7 +19,6 @@ Install the dependencies and devDependencies and start the bot.
 $ nano .env
 BOT_TOKEN = < your bot token >
 MONGODB_URI = < your mongodb >
-YTAPI_TOKEN =< youtube api token >
 GENIUS_TOKEN = < genius api token >
 $ npm install
 $ npm run dev
@@ -31,7 +30,6 @@ And for production please do:
 $ nano .env
 BOT_TOKEN = < your bot token >
 MONGODB_URI = < your mongodb >
-YTAPI_TOKEN =< youtube api token >
 GENIUS_TOKEN = < genius api token >
 $ npm install
 $ npm run build
