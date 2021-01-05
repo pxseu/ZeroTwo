@@ -11,7 +11,6 @@ module.exports = {
 			return;
 		}
 
-		//@ts-expect-error Again wrong typings
 		message.client.player.setRepeatMode(message, false);
 		message.client.player.skip(message);
 		message.react("⏭️");

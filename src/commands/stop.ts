@@ -11,7 +11,6 @@ module.exports = {
 			return;
 		}
 
-		//@ts-expect-error the types are wrong
 		message.client.player.setRepeatMode(message, false);
 		message.client.player.setLoopMode(message, false);
 		message.client.player.stop(message);
