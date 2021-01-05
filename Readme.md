@@ -33,6 +33,3 @@ $ npm install
 $ npm run build
 $ npm run prod
 ```
-
-Most of the commands are stolen from online sources.
-Yes Milki you were right.
