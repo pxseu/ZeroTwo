@@ -19,7 +19,7 @@ export function startStatus(): void {
 
 	let iterator = 0;
 	setInterval(() => {
-		setStatus(botStatuses[iterator]);
+		setStatus(botStatuses[iterator](client));
 		iterator = iterator == botStatuses.length - 1 ? 0 : iterator + 1;
 	}, 15000);
 }

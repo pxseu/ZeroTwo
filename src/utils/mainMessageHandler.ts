@@ -1,7 +1,6 @@
 import { findOrCreate } from "../models/server";
 import events from "./events";
-import { embedColorError } from "./config";
-import { MessageEmbed, Collection, Message } from "discord.js";
+import { Collection, Message } from "discord.js";
 import { mentionOnlyCheck } from "./mentionedBot";
 import { rateLimit } from "./rateLimit";
 import { getValues, prefixOrRegex } from "./prefixOrRegex";
@@ -33,12 +32,9 @@ const mainMessageHandler = (client: Client): void => {
 		}
 
 		try {
-			command.execute(message, args);
+			await command.execute(message, args);
 		} catch (error) {
-			const embed = new MessageEmbed();
-			embed.setColor(embedColorError);
-			embed.setDescription(`There was an error trying to execute that command!`);
-			message.channel.send(embedColorError);
+			message.error(`There was an error trying to execute that command!`, 3000);
 			console.error(error);
 		}
 	});
