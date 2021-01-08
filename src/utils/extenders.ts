@@ -2,7 +2,7 @@ import { MessageEmbed } from "discord.js";
 import { Message } from "discord.js";
 import { embedColorError, embedColorInfo } from "./config";
 
-Message.prototype.error = async function (message): Promise<void> {
+Message.prototype.error = async function (message, deleteAfter): Promise<void> {
 	const embed = new MessageEmbed();
 	embed.setColor(embedColorError);
 	embed.setTimestamp();
@@ -12,19 +12,22 @@ Message.prototype.error = async function (message): Promise<void> {
 	);
 
 	if (typeof message == "object") {
-		const { title, text, footer } = message;
+		const { title, text, footer, thumbnail } = message;
 		if (title) embed.setTitle(title);
 		if (text) embed.setDescription(text);
 		if (footer) embed.setFooter(footer);
+		if (thumbnail) embed.setThumbnail(thumbnail);
 	} else {
 		embed.setTitle("Error");
 		embed.setDescription(message);
 	}
 
-	return this.channel.send(embed);
+	this.channel.send(embed).then((msg: Message) => {
+		if (deleteAfter && msg.deleted && !msg.deletable) msg.delete();
+	});
 };
 
-Message.prototype.info = async function (message): Promise<void> {
+Message.prototype.info = async function (message, deleteAfter): Promise<void> {
 	const embed = new MessageEmbed();
 	embed.setColor(embedColorInfo);
 	embed.setTimestamp();
@@ -33,14 +36,17 @@ Message.prototype.info = async function (message): Promise<void> {
 		this.member.user.displayAvatarURL({ dynamic: true })
 	);
 
-	if (typeof message == "object") {
-		const { title, text, footer } = message;
+	if (typeof message === "object") {
+		const { title, text, footer, thumbnail } = message;
 		if (title) embed.setTitle(title);
 		if (text) embed.setDescription(text);
 		if (footer) embed.setFooter(footer);
+		if (thumbnail) embed.setThumbnail(thumbnail);
 	} else {
 		embed.setDescription(message);
 	}
 
-	return this.channel.send(embed);
+	this.channel.send(embed).then((msg: Message) => {
+		if (deleteAfter && msg.deleted && !msg.deletable) msg.delete();
+	});
 };

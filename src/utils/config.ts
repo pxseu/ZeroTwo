@@ -1,4 +1,5 @@
 import type { PresenceData } from "discord.js";
+import { Client } from "discord.js";
 
 export const DEV_MODE = process.env.NODE_ENV != "production";
 
@@ -87,25 +88,30 @@ export const endpoitsForApis = Object.freeze({
 });
 
 export const botStatuses = [
-	{
+	() => ({
 		type: "LISTENING",
 		name: "zt!help 📋",
-	},
-	{
+	}),
+	() => ({
 		type: "STREAMING",
 		name: "on pxseu.com 🌌",
 
 		url: "https://www.twitch.tv/monstercat",
-	},
-	{
+	}),
+	() => ({
 		type: "WATCHING",
 		name: "your cute face ❤",
-	},
-	{
+	}),
+	() => ({
 		type: "COMPETING" /* in */,
 		name: "cuteness! 💕",
-	},
-] as PresenceData["activity"][];
+	}),
+
+	(client) => ({
+		type: "PLAYING",
+		name: `with ${client.guilds.cache.size} servers!`,
+	}),
+] as ((client: Client) => PresenceData["activity"])[];
 
 export const warnGifs = Object.freeze([
 	"https://media.tenor.com/images/db94377ee10e67006d5ba5346fd0ee08/tenor.gif",

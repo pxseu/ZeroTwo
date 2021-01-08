@@ -1,5 +1,4 @@
-import { Message, Collection, MessageEmbed } from "discord.js";
-import { embedColorInfo } from "./config";
+import { Message, Collection } from "discord.js";
 import { cooldowns } from "./mainMessageHandler";
 
 export const rateLimit = (message: Message, command: Command): boolean => {
@@ -18,19 +17,12 @@ export const rateLimit = (message: Message, command: Command): boolean => {
 			if (now < expirationTime) {
 				const timeLeft = (expirationTime - now) / 1000;
 
-				const embed = new MessageEmbed();
-				embed.setDescription(
+				message.info(
 					`<@${message.author.id}>, 
-                        Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${
-						command.name
-					}\` command.`
+				Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`,
+					2000
 				);
-				embed.setColor(embedColorInfo);
-				message.reply(embed).then((msg) => {
-					setTimeout(() => {
-						if (!msg.deleted) msg.delete().catch(console.error);
-					}, 2000);
-				});
+
 				return true;
 			}
 		}

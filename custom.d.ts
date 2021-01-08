@@ -8,6 +8,7 @@ interface messageContent {
 	title?: string;
 	text?: string;
 	footer?: string;
+	thumbnail?: string;
 }
 
 declare global {
@@ -28,8 +29,8 @@ declare module "discord.js" {
 	export interface Message {
 		guildConf: guildConf;
 		staff: botStaff | null;
-		error(message: messageContent | string): Promise<void>;
-		info(message: messageContent | string): Promise<void>;
+		error(message: messageContent | string, deleteAfter?: number): Promise<void>;
+		info(message: messageContent | string, deleteAfter?: number): Promise<void>;
 	}
 }
 
