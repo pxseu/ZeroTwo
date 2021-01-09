@@ -35,7 +35,7 @@ module.exports = {
 				noOption(message);
 				break;
 		}
-		message.delete().catch(console.error);
+		message.delete();
 	},
 	type: 2,
 } as Command;

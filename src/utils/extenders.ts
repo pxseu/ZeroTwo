@@ -23,7 +23,7 @@ Message.prototype.error = async function (message, deleteAfter): Promise<void> {
 	}
 
 	this.channel.send(embed).then((msg: Message) => {
-		if (deleteAfter && msg.deleted && !msg.deletable) msg.delete();
+		if (deleteAfter && msg.deleted && !msg.deletable) msg.delete().catch(console.error);
 	});
 };
 
@@ -47,6 +47,6 @@ Message.prototype.info = async function (message, deleteAfter): Promise<void> {
 	}
 
 	this.channel.send(embed).then((msg: Message) => {
-		if (deleteAfter && msg.deleted && !msg.deletable) msg.delete();
+		if (deleteAfter && msg.deleted && !msg.deletable) msg.delete().catch(console.error);
 	});
 };
