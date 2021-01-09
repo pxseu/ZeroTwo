@@ -1,3 +1,4 @@
+import { Util } from "discord.js";
 import { MessageEmbed } from "discord.js";
 import { unix } from "moment";
 import { embedColor } from "../utils/config";
@@ -12,16 +13,16 @@ module.exports = {
 
 		embed.setTitle("Guild Info:");
 		embed.addField("**\u200B**", "**\u200B**");
-		embed.addField("Guild name:", `\`\`${clean(message.guild.name)}\`\``, true);
-		embed.addField("Members:", `\`\`${message.guild.memberCount}\`\``, true);
-		embed.addField("Owner:", `\`\`<@${message.guild.owner.id}>\`\``, true);
+		embed.addField("Guild name:", `\`${Util.escapeMarkdown(message.guild.name)}\``, true);
+		embed.addField("Members:", `\`${message.guild.memberCount}\``, true);
+		embed.addField("Owner:", `\`<@${message.guild.owner.id}>\``, true);
 		embed.addField("**\u200B**", "**\u200B**");
-		embed.addField("Server ID:", `\`\`${message.guild.id}\`\``, true);
+		embed.addField("Server ID:", `\`${message.guild.id}\``, true);
 		embed.addField(
 			"Creation date:",
-			`\`\`${clean(
+			`\`${Util.escapeMarkdown(
 				unix(message.guild.createdAt.getTime() / 1000).format("DD/MM/YYYY HH:mm:ss")
-			)}\`\``,
+			)}\``,
 			true
 		);
 		embed.addField("**\u200B**", "**\u200B**");
@@ -34,12 +35,3 @@ module.exports = {
 	type: 1,
 	cooldown: 5,
 } as Command;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function clean(text: any) {
-	if (typeof text === "string")
-		return text
-			.replace(/`/g, "`" + String.fromCharCode(8203))
-			.replace(/@/g, "@" + String.fromCharCode(8203));
-	else return text;
-}

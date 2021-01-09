@@ -20,9 +20,9 @@ module.exports = {
 
 			Object.keys(commandsCategories).forEach(function eachKey(key) {
 				description += `${key}. `;
-				description += `\`\`${commandsCategories[key]}\`\`\n`;
+				description += `\`${commandsCategories[key]}\`\n`;
 			});
-			description += `\nUsage: \`\`${message.guildConf.prefix} help [category number]\`\``;
+			description += `\nUsage: \`${message.guildConf.prefix} help [category number]\``;
 
 			embed.setDescription(description);
 		} else {
@@ -40,11 +40,11 @@ module.exports = {
 							`${message.guildConf.prefix} ${command.name}`,
 							command.description +
 								(command.aliases
-									? `\nAliases: \`\`${
+									? `\nAliases: \`${
 											message.guildConf.prefix
 									  } ${command.aliases.join(
 											"``, ``" + message.guildConf.prefix
-									  )} \`\``
+									  )} \``
 									: "")
 						);
 					});
