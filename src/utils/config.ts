@@ -109,7 +109,7 @@ export const botStatuses = [
 
 	(client) => ({
 		type: "PLAYING",
-		name: `with ${client.guilds.cache.size} servers!`,
+		name: `with ${client.guilds.cache.size} servers! 🎮`,
 	}),
 ] as ((client: Client) => PresenceData["activity"])[];
 
