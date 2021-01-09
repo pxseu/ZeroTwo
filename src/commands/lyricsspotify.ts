@@ -23,66 +23,48 @@ module.exports = {
 			user = uFetch;
 		}
 
-		if (!user.presence.activities.length) {
-			embed.setAuthor(user.username, user.displayAvatarURL({ dynamic: true }));
-			embed.setColor("GREEN");
-			embed.setThumbnail(user.displayAvatarURL());
-			embed.addField(
-				"**No song playing on spotify!**",
-				"You or this user is not playing any song!"
-			);
-			embed.setFooter(message.guild.name, message.guild.iconURL());
-			embed.setTimestamp();
-			message.channel.send(embed);
-			return;
-		}
-		user.presence.activities.forEach((activity) => {
-			if (
+		const spotify = user.presence.activities.find(
+			(activity) =>
 				activity.type === "LISTENING" &&
 				activity.name === "Spotify" &&
 				activity.assets !== null
-			) {
-				const trackName = activity.details;
-				let trackAuthor = activity.state;
-				trackAuthor = trackAuthor.replace(/;/g, " ");
-
-				genius.search(`${trackName} by ${trackAuthor}`).then((response) => {
-					let descriptionFunsies = "";
-					if (response.hits == undefined || response.hits.length === 0) {
-						descriptionFunsies = "No song found!";
-					} else {
-						console.log(response.hits);
-						let loopCount = 0;
-						for (const result of response.hits) {
-							if (loopCount == 5) break;
-							loopCount++;
-							descriptionFunsies += `**[${result.result.full_title}](${result.result.url})**`;
-							descriptionFunsies += "\n\n";
-						}
-					}
-
-					embed.setAuthor(user.username, user.displayAvatarURL({ dynamic: true }));
-					embed.setColor(embedColor);
-					embed.setThumbnail(user.displayAvatarURL());
-					embed.setTitle("**Results:**");
-					embed.setDescription(descriptionFunsies);
-					embed.setFooter(message.guild.name, message.guild.iconURL());
-					embed.setTimestamp();
-					return message.channel.send(embed);
-				});
-			}
-		});
-
-		embed.setAuthor(user.username, user.displayAvatarURL({ dynamic: true }));
-		embed.setColor("GREEN");
-		embed.setThumbnail(user.displayAvatarURL());
-		embed.addField(
-			"**No song playing on spotify!**",
-			"You or this user is not playing any song!"
 		);
-		embed.setFooter(message.guild.name, message.guild.iconURL());
-		embed.setTimestamp();
-		message.channel.send(embed);
+
+		if (!spotify) {
+			message.error({
+				title: "**No song playing on spotify!**",
+				text: "You or this user is not playing any song!",
+			});
+			return;
+		}
+
+		const trackName = spotify.details;
+		let trackAuthor = spotify.state;
+		trackAuthor = trackAuthor.replace(/;/g, " ");
+
+		genius.search(`${trackName} by ${trackAuthor}`).then((response) => {
+			let descriptionFunsies = "";
+			if (response.hits == undefined || response.hits.length === 0) {
+				descriptionFunsies = "No song found!";
+			} else {
+				let loopCount = 0;
+				for (const result of response.hits) {
+					if (loopCount == 5) break;
+					loopCount++;
+					descriptionFunsies += `**[${result.result.full_title}](${result.result.url})**`;
+					descriptionFunsies += "\n\n";
+				}
+			}
+
+			embed.setAuthor(user.username, user.displayAvatarURL({ dynamic: true }));
+			embed.setColor(embedColor);
+			embed.setThumbnail(user.displayAvatarURL());
+			embed.setTitle("**Results:**");
+			embed.setDescription(descriptionFunsies);
+			embed.setFooter(message.guild.name, message.guild.iconURL());
+			embed.setTimestamp();
+			message.channel.send(embed);
+		});
 	},
 	type: 4,
 	cooldown: 5,

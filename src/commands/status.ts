@@ -1,6 +1,7 @@
 import { Activity } from "discord.js";
 import { MessageEmbed } from "discord.js";
-import { embedColor, embedColorInfo } from "../utils/config";
+import { embedColor } from "../utils/config";
+import { fetchUser } from "../utils/fetchUser";
 
 interface syncId extends Activity {
 	syncID: string;
@@ -10,39 +11,35 @@ module.exports = {
 	name: "status",
 	description: "Shows status of users",
 	async execute(message, args) {
-		const user =
-			message.mentions.members.first() ||
-			message.guild.members.cache.get(args[0]) ||
-			message.guild.members.cache.find(
-				(r) => r.user.username.toLowerCase() === args.join(" ").toLocaleLowerCase()
-			) ||
-			message.guild.members.cache.find(
-				(ro) => ro.displayName.toLowerCase() === args.join(" ").toLocaleLowerCase()
-			) ||
-			message.member;
+		let user = message.member.user;
+
+		if (args.length > 0) {
+			const uFetch = await fetchUser(message, args);
+			if (uFetch == undefined) {
+				message.error("User not found!");
+				return;
+			}
+			user = uFetch;
+		}
 
 		if (!user.presence.activities.length) {
-			const sembed = new MessageEmbed();
-			sembed.setAuthor(user.user.username, user.user.displayAvatarURL({ dynamic: true }));
-			sembed.setColor(embedColorInfo);
-			sembed.setThumbnail(user.user.displayAvatarURL());
-			sembed.addField("**No Status**", "This user does not have any custom status!");
-			sembed.setFooter(message.guild.name, message.guild.iconURL());
-			sembed.setTimestamp();
-			message.channel.send(sembed);
-			return undefined;
+			message.error({
+				title: "**No Status**",
+				text: "This user does not have any custom status!",
+			});
+			return;
 		}
 
 		user.presence.activities.forEach((activity) => {
 			if (activity.type === "CUSTOM_STATUS") {
 				const embed = new MessageEmbed();
-				embed.setAuthor(user.user.username, user.user.displayAvatarURL({ dynamic: true }));
+				embed.setAuthor(user.username, user.displayAvatarURL({ dynamic: true }));
 				embed.setColor(embedColor);
 				embed.addField(
 					"**Status**",
 					`**Custom status** -\n${activity.emoji || "No Emoji"} | ${activity.state}`
 				);
-				embed.setThumbnail(user.user.displayAvatarURL());
+				embed.setThumbnail(user.displayAvatarURL());
 				embed.setFooter(message.guild.name, message.guild.iconURL());
 				embed.setTimestamp();
 				message.channel.send(embed);
@@ -50,10 +47,10 @@ module.exports = {
 				const name1 = activity.name;
 				const details1 = activity.details;
 				const state1 = activity.state;
-				const image = user.user.displayAvatarURL({ dynamic: true });
+				const image = user.displayAvatarURL({ dynamic: true });
 
 				const sembed = new MessageEmbed();
-				sembed.setAuthor(`${user.user.username}'s Activity`);
+				sembed.setAuthor(`${user.username}'s Activity`);
 				sembed.setColor(embedColor);
 				sembed.setThumbnail(image);
 				sembed.addField("**Type**", "Playing");
@@ -86,7 +83,7 @@ module.exports = {
 				embed.addField("Album", trackAlbum, true);
 				embed.addField("Author", trackAuthor, false);
 				embed.addField("Listen to Track", `${trackURL}`, false);
-				embed.setFooter(user.displayName, user.user.displayAvatarURL({ dynamic: true }));
+				embed.setFooter(user.username, user.displayAvatarURL({ dynamic: true }));
 				message.channel.send(embed);
 			}
 		});
