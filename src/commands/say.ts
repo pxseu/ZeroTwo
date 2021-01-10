@@ -2,11 +2,17 @@ import { Util } from "discord.js";
 
 module.exports = {
 	name: "say",
+	description: "Same something with the bot!",
 	execute(message, args) {
 		const text = args.join(" ");
 
 		if (!text) {
 			message.error("No text was provided!");
+			return;
+		}
+
+		if (text.trim().toLowerCase() == "i am stupid") {
+			message.info("We know.");
 			return;
 		}
 
