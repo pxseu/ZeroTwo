@@ -39,12 +39,13 @@ module.exports = {
 						embed.addField(
 							`${message.guildConf.prefix} ${command.name}`,
 							command.description +
-								(command.aliases
-									? `\nAliases: \`${
-											message.guildConf.prefix
-									  } ${command.aliases.join(
-											"``, ``" + message.guildConf.prefix
-									  )} \``
+								(command.aliases && command.aliases.length > 0
+									? `\nAliases: ${command.aliases
+											.map(
+												(alias) =>
+													`\`${message.guildConf.prefix} ${alias}\``
+											)
+											.join(", ")}`
 									: "")
 						);
 					});
