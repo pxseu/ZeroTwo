@@ -35,14 +35,15 @@ module.exports = {
 					kill: process.exit,
 				},
 			};
+
 			vm.createContext(context);
 			let evaled = await script.runInContext(context);
 
 			if (typeof evaled !== "string") evaled = inspect(evaled);
 
-			tooLongMessage(message, Util.escapeMarkdown(evaled));
+			isTooLong(message, Util.escapeMarkdown(evaled));
 		} catch (err) {
-			tooLongMessage(message, `Error: \n${Util.escapeMarkdown(String(err))}`);
+			isTooLong(message, `Error: \n${Util.escapeMarkdown(String(err))}`);
 		}
 	},
 	type: 0,
@@ -65,12 +66,14 @@ class FetchErrors extends Error {
 	}
 }
 
-async function tooLongMessage(message: Message, text: string): Promise<void> {
+async function isTooLong(message: Message, text: string): Promise<void> {
 	if (text.length < 2001) {
 		message.channel.send(text, { code: "xl" });
 		return;
 	}
+
 	message.channel.startTyping();
+
 	try {
 		const response = await fetch("https://www.imperialb.in/api/postCode", {
 			method: "POST",
@@ -83,21 +86,17 @@ async function tooLongMessage(message: Message, text: string): Promise<void> {
 			}),
 		});
 
-		console.log(response);
-
 		if (!response.ok || response.status != 200) {
 			throw new FetchErrors("Failed to fetch.");
 		}
 
 		const api: imperialResponse = await response.json();
 
-		console.log(api);
-
 		if (!api.success || !api.formattedLink) {
 			throw new FetchErrors("Invalid response from the api.");
 		}
 
-		message.channel.send(`Message was too long: <${api.formattedLink}>`);
+		message.info(`Message was too long: <${api.formattedLink}>`);
 	} catch (error) {
 		if (error.type == "invalid-json") {
 			message.error("Failed to parse the response.");

@@ -10,5 +10,4 @@ module.exports = {
 		message.info(`My owner is \`${Util.escapeMarkdown(owner.tag)}\` (${owner.id})`);
 	},
 	type: 0,
-	aliases: [],
 } as Command;
