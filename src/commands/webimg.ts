@@ -31,7 +31,6 @@ module.exports = {
 			return;
 		}
 
-		await page.waitForNavigation();
 		const screenshot = await page.screenshot({ fullPage: true });
 		await browser.close();
 
