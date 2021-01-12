@@ -2,7 +2,7 @@ import fetch from "./fetchWrapper";
 import { Response } from "node-fetch";
 import { DEV_MODE } from "./config";
 import { endpoitsForApis, endpoitFileds } from "./config";
-import { messageCreator } from "./messageCreator";
+import { messageCreator } from "./logMessage";
 
 type RequestData = {
 	url: string;
