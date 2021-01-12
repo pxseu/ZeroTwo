@@ -13,6 +13,8 @@ module.exports = {
 			return;
 		}
 
+		await message.channel.startTyping();
+
 		const browser = await puppeteer.launch({
 			headless: true,
 			args: ["--no-sandbox", "--disable-setuid-sandbox"],
@@ -25,6 +27,7 @@ module.exports = {
 			await page.goto(url, { timeout: 10 * 1000 });
 		} catch (e) {
 			message.error("Failed to load the page.");
+			message.channel.stopTyping();
 			return;
 		}
 
@@ -40,6 +43,7 @@ module.exports = {
 		embed.setImage("attachment://uwu.png");
 
 		message.channel.send(embed);
+		message.channel.stopTyping();
 	},
 	type: 2,
 } as Command;
