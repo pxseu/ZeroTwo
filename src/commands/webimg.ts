@@ -13,7 +13,7 @@ module.exports = {
 			return;
 		}
 
-		await message.channel.startTyping();
+		message.channel.startTyping();
 
 		const browser = await puppeteer.launch({
 			headless: true,
