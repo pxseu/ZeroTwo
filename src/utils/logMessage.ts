@@ -1,6 +1,6 @@
 import { client } from "..";
-import { MessageEmbed } from "discord.js";
-import { creator, DEV_MODE } from "./config";
+import { MessageEmbed, WebhookClient } from "discord.js";
+import { DEV_MODE } from "./config";
 import { Util } from "discord.js";
 
 export const messageCreator = (content: string, error = false): void => {
@@ -16,12 +16,15 @@ export const messageCreator = (content: string, error = false): void => {
 	embed.setDescription(`\`\`\`md\n${Util.cleanCodeBlockContent(description)}\`\`\``);
 	embed.setTimestamp();
 
-	client.users
-		.fetch(creator)
-		.then((c) => {
-			c.send(embed);
-		})
-		.catch(() => {
-			console.log(`> CANNOT MESSAGE OWNER`);
+	try {
+		const webhookClient = new WebhookClient(process.env.WEBHOOK_ID, process.env.WEBHOOK_TOKEN);
+
+		webhookClient.send({
+			username: client.user.username,
+			avatarURL: client.user.avatarURL({ dynamic: true }),
+			embeds: [embed],
 		});
+	} catch (e) {
+		console.error("> INVALID WEBHOOK TOKEN");
+	}
 };

@@ -6,7 +6,7 @@ import { Util } from "discord.js";
 import { Message } from "discord.js";
 import { Imperial } from "imperial-node";
 
-const { postCode } = new Imperial(process.env.IMPERIAL_TOKEN);
+const wrapper = new Imperial(process.env.IMPERIAL_TOKEN);
 
 module.exports = {
 	name: "eval",
@@ -63,10 +63,13 @@ async function isTooLong(message: Message, text: string): Promise<void> {
 	message.channel.startTyping();
 
 	try {
-		const response = await postCode(text);
+		const response = await wrapper.postCode(text, { instantDelete: true, longerUrls: true });
+
 		message.info(`Message was too long: <${response.formattedLink}>`);
 	} catch (error) {
+		console.error(error);
 		message.error(error.message ?? "Unknown");
 	}
+
 	message.channel.stopTyping();
 }

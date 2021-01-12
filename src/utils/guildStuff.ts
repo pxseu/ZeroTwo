@@ -1,7 +1,7 @@
 import Server, { guildConf } from "../models/server";
 import events from "../utils/events";
 import { startStatus } from "./status";
-import { messageCreator } from "./messageCreator";
+import { messageCreator } from "./logMessage";
 import { Client } from "discord.js";
 
 const guildStuff = (client: Client): void => {
