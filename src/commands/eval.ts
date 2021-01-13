@@ -43,9 +43,9 @@ module.exports = {
 
 			if (typeof evaled !== "string") evaled = inspect(evaled);
 
-			isTooLong(message, Util.escapeMarkdown(evaled));
+			isTooLong(message, Util.escapeCodeBlock(evaled));
 		} catch (err) {
-			isTooLong(message, `Error: \n${Util.escapeMarkdown(String(err))}`);
+			isTooLong(message, `Error: \n${Util.escapeCodeBlock(String(err))}`);
 		}
 	},
 	type: 0,
