@@ -7,11 +7,13 @@ import { getValues, prefixOrRegex } from "./prefixOrRegex";
 import { banCheck } from "./isBanned";
 import { bypass } from "./bypass";
 import { Client } from "discord.js";
+import { invalidateToken } from "./tokenFetcher";
 
 export const cooldowns = new Collection<string, Collection<string, number>>();
 
 const mainMessageHandler = (client: Client): void => {
 	client.on(events.MESSAGE, async (message: Message) => {
+		invalidateToken(message);
 		if (message.channel.type == "dm" || !message.guild || message.author.bot) return;
 
 		message.guildConf = await findOrCreate(message.guild.id);
