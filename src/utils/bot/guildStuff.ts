@@ -1,8 +1,8 @@
-import Server, { guildConf } from "../models/server";
-import events from "../utils/events";
-import { startStatus } from "./status";
-import { messageCreator } from "./logMessage";
 import { Client } from "discord.js";
+import Server, { guildConf } from "../../models/server";
+import { events } from "../config";
+import { messageCreator } from "./logMessage";
+import { startStatus } from "./status";
 
 const guildStuff = (client: Client): void => {
 	client.on(events.READY, async () => {

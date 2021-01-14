@@ -1,5 +1,6 @@
 import { MessageEmbed } from "discord.js";
-import { commandsCategories, embedColor } from "../utils/config";
+import { commandsCategories } from "../utils/commands/cattegoriers";
+import { embedColor } from "../utils/config";
 
 module.exports = {
 	name: "help",

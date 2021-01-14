@@ -1,8 +1,8 @@
 import fetch from "./fetchWrapper";
 import { Response } from "node-fetch";
-import { DEV_MODE } from "./config";
-import { endpoitsForApis, endpoitFileds } from "./config";
-import { messageCreator } from "./logMessage";
+import { DEV_MODE } from "../config";
+import { endpoitsForApis, endpoitFileds } from "../config";
+import { messageCreator } from "../bot/logMessage";
 
 type RequestData = {
 	url: string;

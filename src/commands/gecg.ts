@@ -1,5 +1,5 @@
 import { MessageEmbed } from "discord.js";
-import { getImage } from "../utils/apiStuff";
+import { getImage } from "../utils/api/apiStuff";
 import { embedColor } from "../utils/config";
 
 module.exports = {

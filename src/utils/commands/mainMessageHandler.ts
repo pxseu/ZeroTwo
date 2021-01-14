@@ -1,13 +1,12 @@
-import { findOrCreate } from "../models/server";
-import events from "./events";
-import { Collection, Message } from "discord.js";
-import { mentionOnlyCheck } from "./mentionedBot";
-import { rateLimit } from "./rateLimit";
-import { getValues, prefixOrRegex } from "./prefixOrRegex";
-import { banCheck } from "./isBanned";
+import { Client, Collection, Message } from "discord.js";
+import { findOrCreate } from "../../models/server";
 import { bypass } from "./bypass";
-import { Client } from "discord.js";
-import { invalidateToken } from "./tokenFetcher";
+import { events } from "../config";
+import { banCheck } from "./isBanned";
+import { mentionOnlyCheck } from "./mentionedBot";
+import { getValues, prefixOrRegex } from "./prefixOrRegex";
+import { rateLimit } from "./rateLimit";
+import { invalidateToken } from "../api/tokenFetcher";
 
 export const cooldowns = new Collection<string, Collection<string, number>>();
 

@@ -1,5 +1,5 @@
-import { client } from "../";
-import { botStatuses, DEV_MODE } from "./config";
+import { client } from "../..";
+import { botStatuses, DEV_MODE } from "../config";
 import type { PresenceData } from "discord.js";
 
 export function startStatus(): void {

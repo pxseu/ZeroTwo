@@ -10,15 +10,6 @@ export const embedColorInfo = "#7070ff";
 export const embedColorError = "#ff3f3f";
 export const embedColorStaff = "#F0E68C";
 
-export const commandsCategories = Object.freeze({
-	0: "Commands for bot!",
-	1: "User commands!",
-	2: "Utility commands!",
-	3: "Fun commands!",
-	4: "Music commands!",
-	5: "Cute stuff here!",
-});
-
 export const bypassIds = Object.freeze({
 	/* Important */
 	"338718840873811979": "Owner",
@@ -85,6 +76,15 @@ export const endpoitsForApis = Object.freeze({
 		"https://nekos.life/api/v2/img/": ["pat"],
 		"https://asuna.ga/api/": ["pat"],
 	},
+});
+
+export const events = Object.freeze({
+	READY: "ready",
+	MESSAGE: "message",
+	GUILDCREATE: "guildCreate",
+	GUILDDELETE: "guildDelete",
+	GUILDMEMBERADD: "guildMemberAdd",
+	GUILDMEMBERREMOVE: "guildMemberRemove",
 });
 
 export const botStatuses = [
