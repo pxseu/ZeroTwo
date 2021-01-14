@@ -4,6 +4,8 @@ import { DEV_MODE } from "../config";
 import { Util } from "discord.js";
 
 export const messageCreator = (content: string, error = false): void => {
+	if (DEV_MODE && !error) return;
+
 	let description = `# Logged in as: ${client.user?.tag}!\n`;
 	description += `# Enviroment: ${process.env.NODE_ENV}\n`;
 	description += `# Node Version: ${process.version}\n`;
