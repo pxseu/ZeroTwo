@@ -5,14 +5,15 @@ module.exports = {
 	description: "Same something with the bot!",
 	execute(message, args) {
 		const text = args.join(" ");
+		const regex = /i('m| am) (stupid|dumb)/g;
 
 		if (!text) {
 			message.error("No text was provided!");
 			return;
 		}
 
-		if (text.trim().toLowerCase() == "i am stupid") {
-			message.info("We know.");
+		if (regex.test(text.trim())) {
+			message.info("I know.");
 			return;
 		}
 

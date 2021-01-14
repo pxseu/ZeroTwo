@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { client } from "..";
+import { client } from "../..";
 
 type prefixOrRegexReturn = {
 	match: string;

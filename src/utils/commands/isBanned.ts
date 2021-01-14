@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { bannedIds } from "./config";
+import { bannedIds } from "../config";
 
 export const banCheck = (message: Message): boolean => {
 	if (bannedIds.some((id: string) => id == message.author.id) == true) {

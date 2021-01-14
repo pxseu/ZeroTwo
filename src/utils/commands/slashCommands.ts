@@ -1,4 +1,4 @@
-import { client } from "..";
+import { client } from "../..";
 
 const slashCommands = async (): Promise<void> => {
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment

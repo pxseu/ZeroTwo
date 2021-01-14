@@ -1,6 +1,6 @@
-import { client } from "..";
+import { client } from "../..";
 import { MessageEmbed, WebhookClient } from "discord.js";
-import { DEV_MODE } from "./config";
+import { DEV_MODE } from "../config";
 import { Util } from "discord.js";
 
 export const messageCreator = (content: string, error = false): void => {
