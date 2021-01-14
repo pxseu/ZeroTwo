@@ -7,7 +7,6 @@ module.exports = {
 	description: "Random neko!",
 	async execute(message) {
 		const neko = await getImage("/neko");
-
 		const embed = new MessageEmbed();
 		embed.setColor(embedColor);
 		embed.setDescription(this.description);
