@@ -19,7 +19,9 @@ export const bypassIds = Object.freeze({
 	"294936456252882946": "Przekonał @pxseu",
 });
 
-export const bannedIds = Object.freeze([]);
+export const bannedIds = Object.freeze([
+	"192490421308489731"
+]);
 
 export const filters = Object.freeze({
 	bassboost: "Bassboost",

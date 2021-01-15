@@ -17,7 +17,7 @@ module.exports = {
 		if (args.length > 0) {
 			const uFetch = await fetchUser(message, args);
 			if (uFetch == undefined) {
-				embed.setDescription("User not found!");
+				embed.setDescription("User was not found!");
 				message.channel.send(embed);
 				return;
 			}

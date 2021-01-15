@@ -23,7 +23,10 @@ const mainMessageHandler = (client: Client): void => {
 
 		const [args, commandName, command] = getValues(message, prfxOrRgx.match);
 
-		if (!command) return message.react("❌");
+		if (!command) {
+			message.react("❌");
+			return;
+		}
 
 		console.log(`> ${commandName} > summoned by ${message.author.id} in ${message.guild.id}`);
 

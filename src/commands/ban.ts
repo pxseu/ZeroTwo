@@ -1,43 +1,36 @@
 import { bypassIds } from "../utils/config";
+import { fetchMember } from "../utils/fetchUser";
 
 module.exports = {
 	name: "ban",
 	description: "Ban a user!",
 	async execute(message, args) {
 		if (
-			Object.keys(bypassIds).some((id) => id == message.author.id) ||
-			message.member.hasPermission("ADMINISTRATOR")
+			!(
+				Object.keys(bypassIds).some((id) => id == message.author.id) ||
+				message.member.hasPermission("BAN_MEMBERS")
+			)
 		) {
-			const user =
-				message.mentions.members?.first() ||
-				message.guild.members.cache.get(args[0]) ||
-				message.guild.members.cache.find(
-					(r) => r.user.username.toLowerCase() === args.join(" ").toLocaleLowerCase()
-				) ||
-				message.guild.members.cache.find(
-					(ro) => ro.displayName.toLowerCase() === args.join(" ").toLocaleLowerCase()
-				);
+			message.info("You don't have the permission to use this command.");
+			return;
+		}
 
-			if (!user) {
-				message.reply("Couldn't get a Discord user with this userID!");
-				return;
-			}
-			const currentUser = user.user;
+		const memberFetch = await fetchMember(message, args);
+		if (!memberFetch) {
+			message.info("User was not found!");
+			return;
+		}
 
-			if (currentUser.id === message.author.id) {
-				message.channel.send("You can't ban yourself");
-				return;
-			}
-			if (!message.guild.member(currentUser).bannable) {
-				message.reply(
-					"You can't ban this user because you or the bot does not have sufficient permissions!"
-				);
-				return;
-			}
-			await message.guild.member(currentUser).ban();
-			message.react("☑️");
-		} else {
-			message.reply("You don't have the permission to use this command.");
+		if (memberFetch.id === message.author.id) {
+			message.info("You can't ban yourself");
+			return;
+		}
+
+		try {
+			await memberFetch.ban();
+			message.react("☑");
+		} catch (e) {
+			message.error("You can't ban this user because the bot does not have sufficient permissions!");
 		}
 	},
 	type: 2,

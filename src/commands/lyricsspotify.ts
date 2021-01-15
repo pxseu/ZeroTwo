@@ -16,7 +16,7 @@ module.exports = {
 			const uFetch = await fetchUser(message, args);
 			if (uFetch == undefined) {
 				embed.setColor(embedColorError);
-				embed.setDescription("User not found!");
+				embed.setDescription("User was not found!");
 				message.channel.send(embed);
 				return;
 			}
@@ -24,10 +24,7 @@ module.exports = {
 		}
 
 		const spotify = user.presence.activities.find(
-			(activity) =>
-				activity.type === "LISTENING" &&
-				activity.name === "Spotify" &&
-				activity.assets !== null
+			(activity) => activity.type === "LISTENING" && activity.name === "Spotify" && activity.assets !== null
 		);
 
 		if (!spotify) {

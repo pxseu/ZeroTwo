@@ -7,7 +7,7 @@ module.exports = {
 		const equasion = args.join(" ");
 
 		if (!equasion) {
-			message.error("Provide some math to calculate.");
+			message.info("Provide some math to calculate.");
 			return;
 		}
 

@@ -9,7 +9,7 @@ type RequestData = {
 	api: string;
 };
 
-type Endpoints =
+export type Endpoints =
 	/* SFW */
 	"/fox" | "/kiss" | "/hug" | "/gecg" | "/neko" | "/pat" | "/slap";
 

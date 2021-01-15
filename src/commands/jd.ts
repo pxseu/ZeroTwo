@@ -3,7 +3,7 @@ module.exports = {
 	description: "Jebac Disa",
 	execute(message) {
 		if (!message.member.voice.channel) {
-			message.reply("You need to join a voice channel first!");
+			message.info("You need to join a voice channel first!");
 			return;
 		}
 

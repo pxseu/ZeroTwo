@@ -8,7 +8,7 @@ module.exports = {
 	async execute(message, args) {
 		if (Object.keys(bypassIds).some((id) => id == message.author.id) == false) {
 			{
-				message.reply("You don't have the permission to use this command.");
+				message.info("You don't have the permission to use this command.");
 				return;
 			}
 		}
@@ -55,7 +55,10 @@ function noOption(message: Message) {
 
 function embedtxt(message: Message, args: string[]) {
 	const txt = args.join(" ");
-	if (txt == undefined) return message.reply("Message cannot be empty.");
+	if (txt == undefined) {
+		message.info("Message cannot be empty.");
+		return;
+	}
 	const embed = new MessageEmbed();
 	embed.setColor("RANDOM");
 	embed.setDescription(txt);
@@ -64,7 +67,10 @@ function embedtxt(message: Message, args: string[]) {
 
 function embedimg(message: Message, args: string[]) {
 	const imgurl = args.join(" ");
-	if (!validURL(imgurl)) return message.reply("This is not a valid image url!");
+	if (!validURL(imgurl)) {
+		message.info("This is not a valid image url!");
+		return;
+	}
 	const embed = new MessageEmbed();
 	embed.setColor("RANDOM");
 	embed.setDescription(`[Image url](${imgurl})`);
@@ -74,10 +80,16 @@ function embedimg(message: Message, args: string[]) {
 
 function embedtxtin(message: Message, args: string[]) {
 	const channel = message.guild.channels.cache.get(args[0]);
-	if (channel == undefined) return message.reply("Channel id cannot be empty.");
+	if (channel == undefined) {
+		message.info("Channel id cannot be empty.");
+		return;
+	}
 	args.shift();
 	const txt = args.join(" ");
-	if (txt == undefined) return message.reply("Message cannot be empty.");
+	if (txt == undefined) {
+		message.info("Message cannot be empty.");
+		return;
+	}
 	const embed = new MessageEmbed();
 	embed.setColor("RANDOM");
 	embed.setDescription(txt);
@@ -90,10 +102,16 @@ function embedtxtin(message: Message, args: string[]) {
 
 function embedimgin(message: Message, args: string[]) {
 	const channel = message.guild.channels.cache.get(args[0]);
-	if (channel == undefined) return message.reply("Channel id cannot be empty.");
+	if (channel == undefined) {
+		message.info("Channel id cannot be empty.");
+		return;
+	}
 	args.shift();
 	const imgurl = args.join(" ");
-	if (!validURL(imgurl)) return message.reply("This is not a valid image url!");
+	if (!validURL(imgurl)) {
+		message.info("This is not a valid image url!");
+		return;
+	}
 	const embed = new MessageEmbed();
 	embed.setColor("RANDOM");
 	embed.setDescription(`[Image url](${imgurl})`);

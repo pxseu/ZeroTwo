@@ -14,7 +14,7 @@ module.exports = {
 		if (args.length > 0) {
 			const uFetch = await fetchUser(message, args);
 			if (uFetch == undefined) {
-				embed.setDescription("User not found!");
+				embed.setDescription("User was not found!");
 				message.channel.send(embed);
 				return;
 			}
@@ -26,9 +26,7 @@ module.exports = {
 		const member =
 			user.id == message.author.id
 				? message.member
-				: message.guild.members.cache.get(
-						regexMention ? regexMention[0]?.match(/\d+/gim)[0] : undefined
-				  ) ||
+				: message.guild.members.cache.get(regexMention ? regexMention[0]?.match(/\d+/gim)[0] : undefined) ||
 				  message.guild.members.cache.get(args[0]) ||
 				  message.guild.members.cache.find(
 						(r) => r.user.username.toLowerCase() === args.join(" ").toLocaleLowerCase()
@@ -55,11 +53,7 @@ module.exports = {
 				: "User is not in the guild!",
 			true
 		);
-		embed.addField(
-			"Registered",
-			moment.unix(user.createdAt.getTime() / 1000).format("DD/MM/YYYY HH:mm:ss"),
-			true
-		);
+		embed.addField("Registered", moment.unix(user.createdAt.getTime() / 1000).format("DD/MM/YYYY HH:mm:ss"), true);
 
 		if (Object.keys(bypassIds).some((id) => id == user.id)) {
 			embed.addField("** **", "** **");
@@ -70,11 +64,7 @@ module.exports = {
 		embed.addField("** **", "** **");
 		embed.addField(
 			`Roles:`,
-			member
-				? roles.length > 1024
-					? `Too many roles to show.`
-					: roles
-				: "User is not in the guild!",
+			member ? (roles.length > 1024 ? `Too many roles to show.` : roles) : "User is not in the guild!",
 			false
 		);
 		embed.setTimestamp(Date.now());
