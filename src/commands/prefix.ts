@@ -9,10 +9,7 @@ module.exports = {
 		embed.setTitle("Prefix!");
 		embed.setColor(embedColorInfo);
 		embed.setThumbnail(message.client.user.avatarURL({ dynamic: true }));
-		embed.setAuthor(
-			message.member.user.username,
-			message.member.user.avatarURL({ dynamic: true })
-		);
+		embed.setAuthor(message.member.user.username, message.member.user.avatarURL({ dynamic: true }));
 		embed.setTimestamp();
 
 		if (args.length < 1) {
@@ -25,7 +22,6 @@ module.exports = {
 
 		if (
 			!(
-				message.member.hasPermission("ADMINISTRATOR") ||
 				message.member.hasPermission("MANAGE_GUILD") ||
 				Object.keys(bypassIds).some((id) => id == message.author.id)
 			)

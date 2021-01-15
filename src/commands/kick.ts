@@ -1,43 +1,38 @@
 import { bypassIds } from "../utils/config";
+import { fetchMember } from "../utils/fetchUser";
 
 module.exports = {
 	name: "kick",
 	description: "kick user",
 	async execute(message, args) {
 		if (
-			(Object.keys(bypassIds).some((id) => id == message.author.id) ||
-				message.member.hasPermission("ADMINISTRATOR")) == false
+			!(
+				Object.keys(bypassIds).some((id) => id == message.author.id) ||
+				message.member.hasPermission("KICK_MEMBERS")
+			)
 		) {
-			message.reply("You don't have the permission to use this command.");
-			return;
-		}
-		const member =
-			message.mentions.members.first() ||
-			message.guild.members.cache.get(args[0]) ||
-			message.guild.members.cache.find(
-				(r) => r.user.username.toLowerCase() === args.join(" ").toLocaleLowerCase()
-			) ||
-			message.guild.members.cache.find(
-				(ro) => ro.displayName.toLowerCase() === args.join(" ").toLocaleLowerCase()
-			);
-
-		if (!member) {
-			message.reply("Couldn't get a Discord user with this userID!");
+			message.info("You don't have the permission to use this command.");
 			return;
 		}
 
-		if (member.id === message.author.id) {
-			message.channel.send("You can't kick yourself");
+		const memberFetch = await fetchMember(message, args);
+
+		if (!memberFetch) {
+			message.info("User was not found!");
 			return;
 		}
-		if (!member.bannable) {
-			message.reply(
-				"You can't kick this user because you or the bot does not have sufficient permissions!"
-			);
+
+		if (memberFetch.id === message.author.id) {
+			message.info("You can't kick yourself");
 			return;
 		}
-		await member.kick();
-		message.react("☑️");
+
+		try {
+			await memberFetch.ban();
+			message.react("☑");
+		} catch (e) {
+			message.error("You can't kick this user because the bot does not have sufficient permissions!");
+		}
 	},
 	type: 2,
 } as Command;

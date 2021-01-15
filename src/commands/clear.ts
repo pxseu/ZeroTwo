@@ -8,25 +8,25 @@ module.exports = {
 			(Object.keys(bypassIds).some((id) => id == message.author.id) ||
 				message.member.hasPermission("ADMINISTRATOR")) == false
 		) {
-			message.reply("You don't have the permission to use this command.");
+			message.info("You don't have the permission to use this command.");
 			return;
 		}
 
 		const amount = args.join(" ");
 		if (!amount) {
-			message.reply("You haven't given an amount of messages that should be deleted!");
+			message.info("You haven't given an amount of messages that should be deleted!");
 			return;
 		}
 		if (isNaN(parseInt(amount))) {
-			message.reply("The amount parameter isn't a number!");
+			message.info("The amount parameter isn't a number!");
 			return;
 		}
 		if (parseInt(amount) > 100) {
-			message.reply("You can't delete more than 100 messages at once!");
+			message.info("You can't delete more than 100 messages at once!");
 			return;
 		}
 		if (parseInt(amount) < 1) {
-			message.reply("You have to delete at least 1 message!");
+			message.info("You have to delete at least 1 message!");
 			return;
 		}
 		await message.channel.messages

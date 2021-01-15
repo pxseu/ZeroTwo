@@ -16,7 +16,7 @@ module.exports = {
 		if (args.length > 0) {
 			const uFetch = await fetchUser(message, args);
 			if (uFetch == undefined) {
-				message.error("User not found!");
+				message.error("User was not found!");
 				return;
 			}
 			user = uFetch;
@@ -58,11 +58,7 @@ module.exports = {
 				sembed.addField("**Details**", `${details1 || "No Details"}`);
 				sembed.addField("**Working on**", `${state1 || "No Details"}`);
 				message.channel.send(sembed);
-			} else if (
-				activity.type === "LISTENING" &&
-				activity.name === "Spotify" &&
-				activity.assets !== null
-			) {
+			} else if (activity.type === "LISTENING" && activity.name === "Spotify" && activity.assets !== null) {
 				const trackIMG = `https://i.scdn.co/image/${activity.assets.largeImage.slice(8)}`;
 				const trackURL = `https://open.spotify.com/track/${(activity as syncId).syncID}`;
 
@@ -73,10 +69,7 @@ module.exports = {
 				trackAuthor = trackAuthor.replace(/;/g, ",");
 
 				const embed = new MessageEmbed();
-				embed.setAuthor(
-					"Spotify Track Info",
-					"https://cdn.discordapp.com/emojis/408668371039682560.png"
-				);
+				embed.setAuthor("Spotify Track Info", "https://cdn.discordapp.com/emojis/408668371039682560.png");
 				embed.setColor(embedColor);
 				embed.setThumbnail(trackIMG);
 				embed.addField("Song Name", trackName, true);

@@ -22,14 +22,10 @@ module.exports = {
 
 			Object.keys(filters).forEach((filterName) => {
 				const array =
-					filtersStatuses[0].length > filtersStatuses[1].length
-						? filtersStatuses[1]
-						: filtersStatuses[0];
+					filtersStatuses[0].length > filtersStatuses[1].length ? filtersStatuses[1] : filtersStatuses[0];
 				array.push(
 					`\`${filters[filterName]}\` : \`${
-						JSON.parse(message.client.player.getQueue(message).filters[filterName])
-							? "Enabled"
-							: "Disabled"
+						JSON.parse(message.client.player.getQueue(message).filters[filterName]) ? "Enabled" : "Disabled"
 					}\``
 				);
 			});
@@ -47,9 +43,7 @@ module.exports = {
 			return;
 		}
 
-		const filterToUpdate = Object.values(filters).find(
-			(f) => f.toLowerCase() === filter.toLowerCase()
-		);
+		const filterToUpdate = Object.values(filters).find((f) => f.toLowerCase() === filter.toLowerCase());
 
 		if (!filterToUpdate) {
 			message.error("This filter doesn't exist");

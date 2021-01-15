@@ -3,14 +3,14 @@ module.exports = {
 	description: "Test bot connection",
 	execute(message) {
 		if (!message.member.voice.channel) {
-			message.reply("You need to join a voice channel first!");
+			message.info("You need to join a voice channel first!");
 			return;
 		}
 		message.member.voice.channel
 			.join()
 
 			.then((con) => {
-				message.reply("I have successfully connected to the channel!");
+				message.info("I have successfully connected to the channel!");
 				con.disconnect();
 			})
 
