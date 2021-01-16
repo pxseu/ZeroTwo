@@ -16,6 +16,7 @@ module.exports = {
 		}
 
 		const memberFetch = await fetchMember(message, args);
+
 		if (!memberFetch) {
 			message.info("User was not found!");
 			return;
