@@ -1,8 +1,8 @@
 import { GuildMember } from "discord.js";
 import { Message, User } from "discord.js";
 
-const regexMention = /^<@!?(\d{18})>$/gi;
-const regexId = /^(\d{18})$/gi;
+const regexMention = /^<@!?(\d{18})>$/i;
+const regexId = /^(\d{18})$/i;
 
 export const fetchUser = (message: Message, args: string[]): Promise<User> =>
 	new Promise<User>((resolve, reject) => {
@@ -14,7 +14,16 @@ export const fetchUser = (message: Message, args: string[]): Promise<User> =>
 		const userInput = lower(args.join(" "));
 		const regexMatch = regexMention.exec(userInput) ?? regexId.exec(userInput);
 
+		message.client.users.cache.get;
+
 		if (regexMatch) {
+			const fromCache = message.client.users.cache.get(regexMatch[1]);
+
+			if (fromCache) {
+				resolve(fromCache);
+				return;
+			}
+
 			message.client.users.fetch(regexMatch[1]).then((user) => {
 				resolve(user);
 			});
@@ -38,6 +47,12 @@ export const fetchMember = (message: Message, args: string[]): Promise<GuildMemb
 		const regexMatch = regexMention.exec(userInput) ?? regexId.exec(userInput);
 
 		if (regexMatch) {
+			const fromCache = message.guild.members.cache.get(regexMatch[1]);
+			if (fromCache) {
+				resolve(fromCache);
+				return;
+			}
+
 			message.guild.members.fetch().then((members) => {
 				const foundMember = members.find((member) => member.id === regexMatch[1]);
 				resolve(foundMember);
