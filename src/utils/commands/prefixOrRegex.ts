@@ -26,12 +26,9 @@ export const getValues = (message: Message, prefixOrRegexMatch: string): returnV
 	const args = message.content.slice(prefixOrRegexMatch.length).trim().split(/ +/g);
 	const commandName = args.shift().toLowerCase();
 	const command =
-		message.client.commands.get(args[0]) ||
+		message.client.commands.get(commandName) ||
 		message.client.commands.find(
-			(cmd) =>
-				!!cmd.aliases &&
-				(!!cmd.aliases.find((alias) => alias.toLowerCase() == args[0].toLowerCase()) ||
-					!!(cmd.name.toLowerCase() == args[0].toLowerCase()))
+			(cmd) => !!cmd.aliases && !!cmd.aliases.find((alias) => alias.toLowerCase() == commandName)
 		);
 
 	return [args, commandName, command];

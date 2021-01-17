@@ -17,19 +17,15 @@ const execute: Command["execute"] = (message, args) => {
 		message.info({ title: "**Categories:**", text: description, footer: footer(message) });
 		return;
 	} else {
-		const cattegory = getCommandType(args[0], commandsCategories);
-
-		console.log(cattegory);
+		const lowerCaseArgs = args[0].toLowerCase();
+		const cattegory = getCommandType(lowerCaseArgs, commandsCategories);
 
 		/* blah blah i want to allow 0 */
 		if (cattegory === undefined) {
 			const command =
-				message.client.commands.get(args[0]) ||
+				message.client.commands.get(lowerCaseArgs) ||
 				message.client.commands.find(
-					(cmd) =>
-						!!cmd.aliases &&
-						(!!cmd.aliases.find((alias) => alias.toLowerCase() == args[0].toLowerCase()) ||
-							!!(cmd.name.toLowerCase() == args[0].toLowerCase()))
+					(cmd) => !!cmd.aliases && !!cmd.aliases.find((alias) => alias.toLowerCase() == lowerCaseArgs)
 				);
 
 			if (!command) {
