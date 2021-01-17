@@ -6,7 +6,7 @@ export const mentionOnlyCheck = (message: Message): boolean => {
 	if (message.content.match(regexp)) {
 		const dsc =
 			"Hewwo!\n" +
-			"My name is Zero Two and I'm your friendly discord bot!\n" +
+			`My name is ${message.client.user.username} and I'm your friendly discord bot!\n` +
 			`My prefix is \`${message.guildConf.prefix}\`!\n` +
 			`Use \`${message.guildConf.prefix} help\` to list all commands!`;
 

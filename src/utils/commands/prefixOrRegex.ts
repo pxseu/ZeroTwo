@@ -8,7 +8,7 @@ type prefixOrRegexReturn = {
 type returnVals = [string[], string, Command | undefined] | null;
 
 export const prefixOrRegex = (message: Message): prefixOrRegexReturn | null => {
-	const regexp = new RegExp(`<@!?${message.client.user?.id}>`, "gi");
+	const regexp = new RegExp(`^<@!?${message.client.user?.id}>$`, "i");
 	const lowerCaseMessage = message.content.toLowerCase().trim();
 
 	if (lowerCaseMessage.indexOf(message.guildConf.prefix.toLowerCase()) == 0) {
