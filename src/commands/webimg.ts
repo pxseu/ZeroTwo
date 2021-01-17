@@ -7,6 +7,16 @@ module.exports = {
 	name: "webimg",
 	description: "Capture a website!",
 	async execute(message, args) {
+		const res = {
+			x: 1920,
+			y: 1080,
+		};
+
+		if (args.find((arg) => arg.toLowerCase() === "--highres")) {
+			args = args.filter((arg) => arg.toLowerCase() !== "--highres");
+			(res.x = 3840), (res.y = 2160);
+		}
+
 		const url = args.join(" ");
 		if (!validURL(url)) {
 			message.error("You didn't provide a valid URL");
@@ -21,7 +31,7 @@ module.exports = {
 			defaultViewport: null,
 		});
 		const page = await browser.newPage();
-		await page.setViewport({ width: 3840, height: 2160 });
+		await page.setViewport({ width: res.x, height: res.y });
 
 		try {
 			await page.goto(url, { timeout: 10 * 1000 });
@@ -31,7 +41,7 @@ module.exports = {
 			return;
 		}
 
-		const screenshot = await page.screenshot({ fullPage: true });
+		const screenshot = await page.screenshot({ fullPage: true, omitBackground: true });
 		await browser.close();
 
 		const attachment = new MessageAttachment(screenshot, "uwu.png");
@@ -45,6 +55,7 @@ module.exports = {
 		message.channel.stopTyping();
 	},
 	type: 2,
+	args: [{ name: "--highres", desc: "Optional, if you want to make the screenshot be in 4k." }],
 } as Command;
 
 function validURL(str: string) {

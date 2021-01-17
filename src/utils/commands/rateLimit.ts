@@ -1,6 +1,8 @@
 import { Message, Collection } from "discord.js";
 import { cooldowns } from "./mainMessageHandler";
 
+export const defaultCooldown = 3;
+
 export const rateLimit = (message: Message, command: Command): boolean => {
 	if (!cooldowns.has(command.name)) {
 		cooldowns.set(command.name, new Collection());
@@ -8,7 +10,7 @@ export const rateLimit = (message: Message, command: Command): boolean => {
 
 	const now = Date.now();
 	const timestamps = cooldowns.get(command.name);
-	const cooldownAmount = (command.cooldown ?? 3) * 1000;
+	const cooldownAmount = (command.cooldown ?? defaultCooldown) * 1000;
 
 	if (timestamps.has(message.author.id)) {
 		if (timestamps.has(message.author.id)) {
