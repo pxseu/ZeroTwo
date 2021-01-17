@@ -25,7 +25,12 @@ const execute: Command["execute"] = (message, args) => {
 		if (cattegory === undefined) {
 			const command =
 				message.client.commands.get(args[0]) ||
-				message.client.commands.find((cmd) => !!cmd.aliases && cmd.aliases.includes(args[0]));
+				message.client.commands.find(
+					(cmd) =>
+						!!cmd.aliases &&
+						(!!cmd.aliases.find((alias) => alias.toLowerCase() == args[0].toLowerCase()) ||
+							!!(cmd.name.toLowerCase() == args[0].toLowerCase()))
+				);
 
 			if (!command) {
 				message.info({ text: "I couldn't find that command or category!", footer: footer(message) });

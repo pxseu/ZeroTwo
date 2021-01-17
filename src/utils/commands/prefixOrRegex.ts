@@ -1,5 +1,4 @@
 import { Message } from "discord.js";
-import { client } from "../..";
 
 type prefixOrRegexReturn = {
 	match: string;
@@ -27,8 +26,13 @@ export const getValues = (message: Message, prefixOrRegexMatch: string): returnV
 	const args = message.content.slice(prefixOrRegexMatch.length).trim().split(/ +/g);
 	const commandName = args.shift().toLowerCase();
 	const command =
-		client.commands.get(commandName) ||
-		client.commands.find((cmd) => !!cmd.aliases && cmd.aliases.includes(commandName));
+		message.client.commands.get(args[0]) ||
+		message.client.commands.find(
+			(cmd) =>
+				!!cmd.aliases &&
+				(!!cmd.aliases.find((alias) => alias.toLowerCase() == args[0].toLowerCase()) ||
+					!!(cmd.name.toLowerCase() == args[0].toLowerCase()))
+		);
 
 	return [args, commandName, command];
 };
