@@ -1,8 +1,8 @@
 import type { guildConf } from "./src/models/server";
 import type { Client } from "discord.js";
-import { botStaff } from "./src/models/botStaff";
-import { Message } from "discord.js";
-import { Player } from "discord-player";
+import type { botStaff } from "./src/models/botStaff";
+import type { Message } from "discord.js";
+import type { Player } from "discord-player";
 
 interface messageContent {
 	title?: string;
@@ -19,6 +19,7 @@ declare global {
 		aliases?: string[];
 		type: number;
 		cooldown?: number;
+		args?: { name: string; desc: string }[];
 	};
 }
 declare module "discord.js" {
