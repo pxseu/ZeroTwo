@@ -21,7 +21,7 @@ module.exports = {
 			defaultViewport: null,
 		});
 		const page = await browser.newPage();
-		await page.setViewport({ width: 1920, height: 1080 });
+		await page.setViewport({ width: 3840, height: 2160 });
 
 		try {
 			await page.goto(url, { timeout: 10 * 1000 });
