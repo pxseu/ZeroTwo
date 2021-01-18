@@ -1,15 +1,13 @@
 import { MessageEmbed, User } from "discord.js";
 import { bypassIds, warnGifs, warnDesc, embedColorError } from "../utils/config";
-import { fetchMember } from "../utils/fetchUser";
+import { fetchMember, fetchUser } from "../utils/fetchUser";
 
 module.exports = {
 	name: "warn",
 	description: "Warn a person",
 	async execute(message, args) {
-		if (
-			!Object.keys(bypassIds).some((id) => id == message.author.id) &&
-			!message.member.hasPermission("ADMINISTRATOR")
-		) {
+		const isBypass = Object.keys(bypassIds).some((id) => id == message.author.id);
+		if (!isBypass && !message.member.hasPermission("ADMINISTRATOR")) {
 			message.error("You don't have the permission to use this command.");
 			return;
 		}
@@ -26,15 +24,20 @@ module.exports = {
 			return;
 		}
 
-		const member = await fetchMember(message, args);
-		if (member == undefined) {
+		const user = isBypass ? await fetchUser(message, args) : (await fetchMember(message, args)).user;
+
+		if (!user) {
 			message.info("User was not found!");
 			return;
 		}
 
-		await warnUser(member.user, retardMode, message.guild.id, message.author);
+		try {
+			await warnUser(user, retardMode, message.guild.id, message.author);
 
-		message.info(retardMode ? "Stoopid user is warning!!!!!!11!" : "User has been warned.");
+			message.info(retardMode ? "Stoopid user is warning!!!!!!10!" : "User has been warned.");
+		} catch (e) {
+			message.error("Failed to send the warning!");
+		}
 	},
 	type: 3,
 	cooldown: 10,
