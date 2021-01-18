@@ -69,13 +69,8 @@ const slashCommands = async (): Promise<void> => {
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	//@ts-ignore
 	client.ws.on("INTERACTION_CREATE", async (interaction) => {
-		const uwuFaces = [
-			"(。U⁄ ⁄ω⁄ ⁄ U。)",
-			"(◦ ᵕ ˘ ᵕ ◦)",
-			"(⁄˘⁄ ⁄ ω⁄ ⁄ ˘⁄)♡",
-			"( ͡o ꒳ ͡o )",
-			" (U ᵕ U❁)",
-		];
+		console.log(interaction);
+		const uwuFaces = ["(。U⁄ ⁄ω⁄ ⁄ U。)", "(◦ ᵕ ˘ ᵕ ◦)", "(⁄˘⁄ ⁄ ω⁄ ⁄ ˘⁄)♡", "( ͡o ꒳ ͡o )", " (U ᵕ U❁)"];
 		/* console.log(interaction.data); */
 		const user = await client.users.fetch(interaction.member.user.id);
 		const description = interaction.data.options

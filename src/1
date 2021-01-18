@@ -8,6 +8,7 @@ import mainMessageHandler from "./utils/commands/mainMessageHandler";
 import slashCommands from "./utils/commands/slashCommands";
 import player from "./utils/bot/player";
 import loadCommands from "./utils/commands/commandLoader";
+/* import { startWeb } from "./web"; */
 
 config();
 
