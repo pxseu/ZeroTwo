@@ -1,4 +1,5 @@
 import { Activity } from "discord.js";
+import { Message } from "discord.js";
 import { MessageEmbed } from "discord.js";
 import { embedColor } from "../utils/config";
 import { fetchUser } from "../utils/fetchUser";
@@ -37,7 +38,7 @@ module.exports = {
 				embed.setColor(embedColor);
 				embed.addField(
 					"**Status**",
-					`**Custom status** -\n${activity.emoji || "No Emoji"} | ${activity.state}`
+					`**Custom status** -\n${activity.emoji ?? "No Emoji"} | ${activity.state}`
 				);
 				embed.setThumbnail(user.displayAvatarURL());
 				embed.setFooter(message.guild.name, message.guild.iconURL());
@@ -49,15 +50,15 @@ module.exports = {
 				const state1 = activity.state;
 				const image = user.displayAvatarURL({ dynamic: true });
 
-				const sembed = new MessageEmbed();
-				sembed.setAuthor(`${user.username}'s Activity`);
-				sembed.setColor(embedColor);
-				sembed.setThumbnail(image);
-				sembed.addField("**Type**", "Playing");
-				sembed.addField("**App**", `${name1}`);
-				sembed.addField("**Details**", `${details1 || "No Details"}`);
-				sembed.addField("**Working on**", `${state1 || "No Details"}`);
-				message.channel.send(sembed);
+				const embed = new MessageEmbed();
+				embed.setAuthor(`${user.username}'s Activity`);
+				embed.setColor(embedColor);
+				embed.setThumbnail(image);
+				embed.addField("**Type**", "Playing");
+				embed.addField("**App**", `${name1}`);
+				embed.addField("**Details**", `${details1 ?? "No Details"}`);
+				embed.addField("**Working on**", `${state1 ?? "No Details"}`);
+				message.channel.send(embed);
 			} else if (activity.type === "LISTENING" && activity.name === "Spotify" && activity.assets !== null) {
 				const trackIMG = `https://i.scdn.co/image/${activity.assets.largeImage.slice(8)}`;
 				const trackURL = `https://open.spotify.com/track/${(activity as syncId).syncID}`;
