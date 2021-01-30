@@ -11,7 +11,7 @@
 		"lint": "eslint . --ext .ts"
 	},
 	"dependencies": {
-		"@discordjs/opus": "^0.3.3",
+		"@discordjs/opus": "^0.4.0",
 		"cors": "^2.8.5",
 		"cross-env": "^7.0.3",
 		"discord-player": "^3.2.1",
