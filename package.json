@@ -21,7 +21,7 @@
 		"express": "^4.17.1",
 		"genius-api": "^0.4.1",
 		"imperial-node": "^1.2.1",
-		"mathjs": "^8.1.1",
+		"mathjs": "^9.1.0",
 		"moment": "^2.29.1",
 		"mongoose": "5.11.11",
 		"morgan": "^1.10.0",
