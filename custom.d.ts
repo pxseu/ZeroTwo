@@ -3,12 +3,14 @@ import type { Client } from "discord.js";
 import type { botStaff } from "./src/models/botStaff";
 import type { Message } from "discord.js";
 import type { Player } from "discord-player";
+import { User } from "discord.js";
 
 interface messageContent {
 	title?: string;
 	text?: string;
 	footer?: string;
 	thumbnail?: string;
+	author?: User;
 }
 
 declare global {
