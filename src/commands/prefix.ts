@@ -13,10 +13,11 @@ module.exports = {
 		embed.setTimestamp();
 
 		if (args.length < 1) {
-			let desc = `My prefix is \`${message.guildConf.prefix}\`\n`;
-			desc += `To change it simply do: \`${message.guildConf.prefix} prefix <NEW PREFIX>\``;
-			embed.setDescription(desc);
-			message.channel.send(embed);
+			message.info(
+				"" +
+					`My prefix is \`${message.guildConf.prefix}\`\n` +
+					`To change it simply do: \`${message.guildConf.prefix} prefix <NEW PREFIX>\``
+			);
 			return;
 		}
 
@@ -48,9 +49,7 @@ module.exports = {
 				})
 				.exec();
 		} catch (e) {
-			embed.setDescription(`Failed to set prefix.`);
-			embed.setColor(embedColorError);
-			message.channel.send(embed);
+			message.error("Failed to set prefix.");
 			return;
 		}
 

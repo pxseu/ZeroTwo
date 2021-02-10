@@ -15,7 +15,7 @@ module.exports = {
 					message.member.voice.channel.leave();
 				});
 			})
-			.catch(console.log);
+			.catch(/*  */);
 	},
 	type: 3,
 	cooldown: 10,

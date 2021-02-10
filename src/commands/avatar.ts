@@ -6,7 +6,8 @@ module.exports = {
 	name: "avatar",
 	description: "Show users avatar!",
 	async execute(message, args) {
-		let user = message.member.user;
+		let user = message.member?.user;
+
 		let cute = true;
 
 		if (args.find((arg) => arg.toLowerCase() == "--notcute")) {

@@ -1,6 +1,5 @@
 import vm from "vm";
-import { bypassIds, embedColor } from "../utils/config";
-import { MessageEmbed } from "discord.js";
+import { bypassIds } from "../utils/config";
 import { inspect } from "util";
 import { Util } from "discord.js";
 import { Message } from "discord.js";
@@ -13,22 +12,18 @@ module.exports = {
 	description: `Dev Eval`,
 	async execute(message, args) {
 		if (Object.keys(bypassIds).some((id) => id == message.author.id) == false) {
-			const embed = new MessageEmbed();
-			embed.setColor(embedColor);
-			embed.setDescription(
-				`${Object.keys(bypassIds)
-					.map((id) => `<@${id}>`)
-					.join(", ")}.`
-			);
-			message.channel.send(embed);
 			return;
 		}
 
 		try {
 			const code = args.join(" ");
-			const script = new vm.Script(code);
+			const script = new vm.Script(code, {
+				filename: "pxseu_amazing_eval_machine.js",
+				displayErrors: true,
+				timeout: 30000,
+			});
 
-			const context = {
+			const context = vm.createContext({
 				...globalThis,
 				...{
 					message,
@@ -36,16 +31,15 @@ module.exports = {
 					h,
 					kill: process.exit,
 				},
-			};
+			});
 
-			vm.createContext(context);
 			let evaled = await script.runInContext(context);
 
 			if (typeof evaled !== "string") evaled = inspect(evaled);
 
 			isTooLong(message, Util.escapeCodeBlock(evaled));
 		} catch (err) {
-			isTooLong(message, `Error: \n${Util.escapeCodeBlock(String(err))}`);
+			isTooLong(message, `${Util.escapeCodeBlock(String(err.stack ? err.stack : err))}`);
 		}
 	},
 	type: 0,

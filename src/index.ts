@@ -5,7 +5,7 @@ import { Client } from "discord.js";
 import database from "./utils/bot/database";
 import guildStuff from "./utils/bot/guildStuff";
 import mainMessageHandler from "./utils/commands/mainMessageHandler";
-import slashCommands from "./utils/commands/slashCommands";
+//import slashCommands from "./utils/commands/slashCommands";
 import player from "./utils/bot/player";
 import loadCommands from "./utils/commands/commandLoader";
 
@@ -24,6 +24,6 @@ process.on("uncaughtException", function (err) {
   mainMessageHandler(client);
   await database();
   await client.login(process.env.BOT_TOKEN);
-  await slashCommands();
+  //await slashCommands();
   //await startWeb();
 })();

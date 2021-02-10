@@ -10,6 +10,10 @@
 		"allowJs": false,
 		"alwaysStrict": true,
 		"skipLibCheck": true,
+		"lib": [
+			"ES5",
+			"ES6"
+		]
 	},
 	"exclude": [
 		"node_modules"

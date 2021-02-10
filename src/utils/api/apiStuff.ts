@@ -3,6 +3,7 @@ import { Response } from "node-fetch";
 import { DEV_MODE } from "../config";
 import { endpoitsForApis, endpoitFileds } from "../config";
 import { messageCreator } from "../bot/logMessage";
+import { URL } from "url";
 
 type RequestData = {
 	url: string;
@@ -13,13 +14,12 @@ export type Endpoints =
 	/* SFW */
 	"/fox" | "/kiss" | "/hug" | "/gecg" | "/neko" | "/pat" | "/slap";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const randEl = (array: any[]) => array[Math.floor(Math.random() * array.length)];
+const randEl = <T>(array: T[]): T => array[Math.floor(Math.random() * array.length)];
 
 const getEp = (endpoint: Endpoints): [string, string] => {
 	const cep = Object.keys(endpoitsForApis[endpoint]);
 	const randomApi = randEl(cep);
-	const avlbep = endpoitsForApis[endpoint][randomApi];
+	const avlbep: string[] = endpoitsForApis[endpoint][randomApi];
 	const randomEndpoint = randEl(avlbep);
 
 	return [randomApi, randomEndpoint];
