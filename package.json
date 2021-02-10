@@ -3,6 +3,7 @@
 	"description": "zerotwo-discordbot",
 	"main": "./dist/index.js",
 	"version": "0.1.1",
+	"license": "MPL-2.0",
 	"scripts": {
 		"build": "rimraf dist && tsc",
 		"start": "cross-env NODE_ENV=production node --trace-warnings .",
@@ -20,7 +21,7 @@
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"genius-api": "^0.4.1",
-		"imperial-node": "^1.1.5",
+		"imperial-node": "^1.2.1",
 		"mathjs": "^8.1.1",
 		"moment": "^2.29.1",
 		"mongoose": "5.11.11",

@@ -38,7 +38,9 @@ module.exports = {
 				message.channel.bulkDelete(messages);
 				message.channel.send(`Succesfully deleted: ${amount} messages.`).then((msg) => {
 					setTimeout(() => {
-						msg.delete();
+						msg.delete().catch(() => {
+							/*  */
+						});
 					}, 4000);
 				});
 			});

@@ -24,6 +24,5 @@ module.exports = {
 } as Command;
 
 function replacer(_, mention: string): string {
-	console.log(mention);
 	return `@${String.fromCharCode(8203)}${mention}`;
 }

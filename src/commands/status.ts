@@ -1,5 +1,4 @@
 import { Activity } from "discord.js";
-import { Message } from "discord.js";
 import { MessageEmbed } from "discord.js";
 import { embedColor } from "../utils/config";
 import { fetchUser } from "../utils/fetchUser";

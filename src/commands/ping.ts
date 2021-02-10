@@ -27,7 +27,10 @@ module.exports = {
 			msg.edit(embed).then((msg) => msg.delete({ timeout: 15 * 1000 }));
 		});
 
-		if (!message.deleted) message.delete().catch(console.error);
+		if (!message.deleted)
+			message.delete().catch(() => {
+				/*  */
+			});
 	},
 	type: 0,
 } as Command;

@@ -14,7 +14,7 @@ module.exports = {
 				con.disconnect();
 			})
 
-			.catch(console.log);
+			.catch(/* */);
 	},
 	type: 0,
 } as Command;

@@ -35,7 +35,11 @@ module.exports = {
 				noOption(message);
 				break;
 		}
-		message.delete();
+
+		if (!message.deleted)
+			message.delete().catch(() => {
+				/*  */
+			});
 	},
 	type: 2,
 } as Command;

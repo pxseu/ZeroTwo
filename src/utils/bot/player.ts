@@ -15,15 +15,16 @@ const playerCreate = (client: Client): Player => {
 		message.info({
 			title: "Now playing:",
 			text: `Title: [\`${track.title}\`](${track.url})\nAuthor: \`${track.author}\`\nRequested by: <@${track.requestedBy.id}>`,
+			author: track.requestedBy,
 		});
 	});
 
 	player.on("channelEmpty", (message) => {
-		message.info("I left the channel because it was emtpy!", 2000);
+		message.info({ text: "I left the channel because it was emtpy!", author: null }, 2000);
 	});
 
 	player.on("botDisconnect", (message) => {
-		message.info("I was disconnected from the voice channel!", 2000);
+		message.info({ text: "I was disconnected from the voice channel!", author: null }, 2000);
 	});
 
 	player.on("trackAdd", (message, queue, track) => {
@@ -31,6 +32,7 @@ const playerCreate = (client: Client): Player => {
 			{
 				title: "Added to the queue:",
 				text: `Title: [\`${track.title}\`](${track.url})\nAuthor: \`${track.author}\`\nRequested by: <@${track.requestedBy.id}>\nPosition: ${queue.tracks.length}`,
+				author: track.requestedBy,
 			},
 			2000
 		);
@@ -41,13 +43,14 @@ const playerCreate = (client: Client): Player => {
 			{
 				title: "No results!",
 				text: "I couldn't find any results for your search querry!",
+				author: null,
 			},
 			2000
 		);
 	});
 
 	player.on("error", (error, message) => {
-		message.error({ text: error, title: "Player error:" }, 5000);
+		message.error({ text: error, title: "Player error:", author: null }, 5000);
 	});
 
 	return player;

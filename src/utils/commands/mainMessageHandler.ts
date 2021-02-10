@@ -28,7 +28,7 @@ const mainMessageHandler = (client: Client): void => {
 			return;
 		}
 
-		console.log(`> ${commandName} > summoned by ${message.author.id} in ${message.guild.id}`);
+		console.log(`> ${commandName} used`);
 
 		if (!bypass(message)) {
 			if (banCheck(message)) return;

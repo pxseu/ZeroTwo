@@ -3,13 +3,17 @@ import type { Client } from "discord.js";
 import type { botStaff } from "./src/models/botStaff";
 import type { Message } from "discord.js";
 import type { Player } from "discord-player";
+import { User } from "discord.js";
 
-interface messageContent {
-	title?: string;
-	text?: string;
-	footer?: string;
-	thumbnail?: string;
-}
+type messageContent =
+	| string
+	| {
+			title?: string;
+			text?: string;
+			footer?: string;
+			thumbnail?: string;
+			author?: User;
+	  };
 
 declare global {
 	type Command = {
@@ -30,8 +34,8 @@ declare module "discord.js" {
 	export interface Message {
 		guildConf: guildConf;
 		staff: botStaff | null;
-		error(message: messageContent | string, deleteAfter?: number): Promise<void>;
-		info(message: messageContent | string, deleteAfter?: number): Promise<void>;
+		error(message: messageContent, deleteAfter?: number): Promise<void>;
+		info(message: messageContent, deleteAfter?: number): Promise<void>;
 	}
 }
 

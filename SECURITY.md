@@ -13,4 +13,4 @@ currently being supported with security updates.
 
 Any minor vulnerabiltiy that isn't too large can be made with a pull request.
 
-Major / with big impact can be reported to <a href="mailto:security@pxseu.com">security@pxseu.com</a> with a possible fix.
+Major / with big impact can be reported to [security@pxseu.com](mailto:security@pxseu.com) with a possible fix.
