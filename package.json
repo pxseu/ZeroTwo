@@ -24,7 +24,7 @@
 		"imperial-node": "^1.2.1",
 		"mathjs": "^9.2.0",
 		"moment": "^2.29.1",
-		"mongoose": "5.11.11",
+		"mongoose": "5.11.16",
 		"morgan": "^1.10.0",
 		"nhentai-api": "^3.0.2",
 		"node-fetch": "^2.6.1",
