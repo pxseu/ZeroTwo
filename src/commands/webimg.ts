@@ -44,13 +44,18 @@ module.exports = {
 		const screenshot = await page.screenshot({ fullPage: true, omitBackground: true });
 		await browser.close();
 
-		const attachment = new MessageAttachment(screenshot, "uwu.png");
+		if (!screenshot) {
+			message.error("Failed to send an embed");
+			return;
+		}
+
 		const embed = new MessageEmbed();
+		const attachment = new MessageAttachment(screenshot, "uwu.png");
+
 		embed.attachFiles([attachment]);
 		embed.setColor(embedColorInfo);
 		embed.setDescription(`Screenshot from [${url}](${url})`);
 		embed.setImage("attachment://uwu.png");
-
 		message.channel.send(embed);
 		message.channel.stopTyping();
 	},

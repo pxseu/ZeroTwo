@@ -5,45 +5,39 @@ module.exports = {
 	description: "clear channel",
 	async execute(message, args) {
 		if (
-			(Object.keys(bypassIds).some((id) => id == message.author.id) ||
-				message.member.hasPermission("ADMINISTRATOR")) == false
+			!(
+				Object.keys(bypassIds).some((id) => id == message.author.id) ||
+				message.member.hasPermission("MANAGE_MESSAGES")
+			)
 		) {
 			message.info("You don't have the permission to use this command.");
 			return;
 		}
 
-		const amount = args.join(" ");
+		const amount = parseInt(args.join(" "));
 		if (!amount) {
 			message.info("You haven't given an amount of messages that should be deleted!");
 			return;
 		}
-		if (isNaN(parseInt(amount))) {
+		if (isNaN(amount)) {
 			message.info("The amount parameter isn't a number!");
 			return;
 		}
-		if (parseInt(amount) > 100) {
+		if (amount > 100) {
 			message.info("You can't delete more than 100 messages at once!");
 			return;
 		}
-		if (parseInt(amount) < 1) {
+		if (amount < 1) {
 			message.info("You have to delete at least 1 message!");
 			return;
 		}
-		await message.channel.messages
-			.fetch({
-				limit: parseInt(amount),
-			})
-			.then((messages) => {
-				if (message.channel.type == "dm") return;
-				message.channel.bulkDelete(messages);
-				message.channel.send(`Succesfully deleted: ${amount} messages.`).then((msg) => {
-					setTimeout(() => {
-						msg.delete().catch(() => {
-							/*  */
-						});
-					}, 4000);
-				});
-			});
+		const messages = await message.channel.messages.fetch({
+			limit: amount,
+		});
+
+		if (message.channel.type == "dm") return;
+		await message.channel.bulkDelete(messages);
+		message.info(`Succesfully deleted: ${amount} messages.`, 4000);
 		return;
 	},
 	type: 2,

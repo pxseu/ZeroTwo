@@ -11,7 +11,7 @@ module.exports = {
 	name: "eval",
 	description: `Dev Eval`,
 	async execute(message, args) {
-		if (Object.keys(bypassIds).some((id) => id == message.author.id) == false) {
+		if (!Object.keys(bypassIds).some((id) => id == message.author.id)) {
 			return;
 		}
 
@@ -57,7 +57,7 @@ async function isTooLong(message: Message, text: string): Promise<void> {
 	message.channel.startTyping();
 
 	try {
-		const response = await wrapper.postCode(text, { instantDelete: true, longerUrls: true });
+		const response = await wrapper.createDocument(text, { instantDelete: true, longerUrls: true });
 
 		message.info(`Message was too long: <${response.formattedLink}>`);
 	} catch (error) {

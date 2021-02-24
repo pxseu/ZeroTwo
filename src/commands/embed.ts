@@ -6,12 +6,18 @@ module.exports = {
 	name: "embed",
 	description: "Embed an image or text",
 	async execute(message, args) {
-		if (Object.keys(bypassIds).some((id) => id == message.author.id) == false) {
+		if (
+			!(
+				Object.keys(bypassIds).some((id) => id == message.author.id) ||
+				message.member.hasPermission("EMBED_LINKS")
+			)
+		) {
 			{
 				message.info("You don't have the permission to use this command.");
 				return;
 			}
 		}
+
 		const option = args[0];
 		args.shift();
 		switch (option) {

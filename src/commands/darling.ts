@@ -1,21 +1,22 @@
 module.exports = {
 	name: "darling",
 	description: "Dahling!",
-	execute(message) {
+	async execute(message) {
 		if (!message.member.voice.channel) {
 			message.info("You need to join a voice channel first!");
 			return;
 		}
 
-		message.member.voice.channel
-			.join()
-			.then((connection) => {
-				const dispatcher = connection.play("./mp3/darling.mp3");
-				dispatcher.on("finish", () => {
-					message.guild.voice.channel.leave();
-				});
-			})
-			.catch(console.error);
+		try {
+			const connection = await message.member.voice.channel.join();
+
+			const dispatcher = connection.play("./mp3/darling.mp3");
+			dispatcher.on("finish", () => {
+				message.guild.voice.channel.leave();
+			});
+		} catch (_) {
+			message.error("I couldn't join your channel.");
+		}
 	},
 	type: 3,
 	cooldown: 10,
