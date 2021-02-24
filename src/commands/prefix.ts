@@ -27,7 +27,7 @@ module.exports = {
 				Object.keys(bypassIds).some((id) => id == message.author.id)
 			)
 		) {
-			embed.setDescription("Not allowed!");
+			embed.setDescription("You don't have the permission to use this command.");
 			embed.setColor(embedColorError);
 			message.channel.send(embed);
 			return;

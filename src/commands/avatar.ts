@@ -32,7 +32,7 @@ module.exports = {
 
 		const embed = new MessageEmbed();
 		embed.setColor("RANDOM");
-		embed.setDescription(`${user.id == message.author.id ? "Your" : user.username} avatar`);
+		embed.setDescription(`${user.id == message.author.id ? "Your" : user.username} avatar.`);
 		embed.setImage(avatarUrl);
 		embed.setFooter(cute ? "u wook cute <33" : "u don wook cute...", avatarUrl);
 		message.channel.send(embed);
