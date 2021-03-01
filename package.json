@@ -28,7 +28,7 @@
 		"morgan": "^1.10.0",
 		"nhentai-api": "^3.0.2",
 		"node-fetch": "^2.6.1",
-		"puppeteer": "^7.0.4"
+		"puppeteer": "^8.0.0"
 	},
 	"devDependencies": {
 		"@types/cors": "^2.8.10",
