@@ -56,7 +56,6 @@ module.exports = {
 		const filtersUpdated = {};
 		filtersUpdated[filterRealName] = queueFilters[filterRealName] ? false : true;
 
-		// @ts-expect-error bad types
 		message.client.player.setFilters(message, filtersUpdated);
 
 		if (filtersUpdated[filterRealName]) {
