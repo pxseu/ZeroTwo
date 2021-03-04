@@ -1,11 +1,9 @@
-import mongoose, { Document } from "mongoose";
+import { Document, model, Schema } from "mongoose";
 
-const Schema = mongoose.Schema;
-
-export type guildConf = Document & {
+export interface guildConf extends Document {
 	prefix: string;
 	serverid: string;
-};
+}
 
 const serverSchema = new Schema({
 	prefix: {
@@ -18,14 +16,13 @@ const serverSchema = new Schema({
 	},
 });
 
-const schema = mongoose.model("server", serverSchema);
-
-export default schema;
+const schema = model<guildConf>("server", serverSchema);
 
 export const findOrCreate = async (guildId: string): Promise<guildConf> => {
-	const isFound = (await schema.findOne({ serverid: guildId })) as guildConf;
+	const isFound = await schema.findOne({ serverid: guildId });
 	if (isFound) return isFound;
 
-	const guild = (await new schema({ serverid: guildId }).save()) as guildConf;
-	return guild;
+	return await new schema({ serverid: guildId }).save();
 };
+
+export default schema;
