@@ -1,11 +1,10 @@
-import mongoose, { Document } from "mongoose";
-const Schema = mongoose.Schema;
+import { Document, model, Schema } from "mongoose";
 
-export type botStaffType = Document & {
-	id: string;
+export interface botStaffType extends Document {
+	id?: string;
 	role: string;
 	permLvl: number;
-};
+}
 
 const staff = new Schema({
 	id: {
@@ -21,4 +20,4 @@ const staff = new Schema({
 	},
 });
 
-export default mongoose.model("staff", staff);
+export default model<botStaffType>("staff", staff);
