@@ -14,8 +14,6 @@ export const fetchUser = (message: Message, args: string[]): Promise<User> =>
 		const userInput = lower(args.join(" "));
 		const regexMatch = regexMention.exec(userInput) ?? regexId.exec(userInput);
 
-		message.client.users.cache.get;
-
 		if (regexMatch) {
 			const fromCache = message.client.users.cache.get(regexMatch[1]);
 
@@ -24,10 +22,7 @@ export const fetchUser = (message: Message, args: string[]): Promise<User> =>
 				return;
 			}
 
-			message.client.users.fetch(regexMatch[1]).then((user) => {
-				resolve(user);
-			});
-			return;
+			return message.client.users.fetch(regexMatch[1]).then(resolve, reject);
 		}
 
 		const member =
@@ -48,16 +43,16 @@ export const fetchMember = (message: Message, args: string[]): Promise<GuildMemb
 
 		if (regexMatch) {
 			const fromCache = message.guild.members.cache.get(regexMatch[1]);
+
 			if (fromCache) {
 				resolve(fromCache);
 				return;
 			}
 
-			message.guild.members.fetch().then((members) => {
+			return message.guild.members.fetch().then((members) => {
 				const foundMember = members.find((member) => member.id === regexMatch[1]);
 				resolve(foundMember);
-			});
-			return;
+			}, reject);
 		}
 
 		const member =

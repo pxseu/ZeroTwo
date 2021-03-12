@@ -15,10 +15,12 @@ module.exports = {
 			return;
 		}
 
-		const memberFetch = await fetchMember(message, args);
+		const memberFetch = await fetchMember(message, args).catch(() => {
+			message.error("User was not found!");
+		});
 
-		if (!memberFetch) {
-			message.info("User was not found!");
+		if (!memberFetch || memberFetch === void 0) {
+			message.error("User was not found!");
 			return;
 		}
 

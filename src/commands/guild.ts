@@ -11,18 +11,15 @@ module.exports = {
 
 		const roles = message.guild.roles.cache.map((r) => `${r}`).join("_ _  |  _ _");
 		embed.setTitle("Guild Info:");
-		embed.addField("**\u200B**", "**\u200B**");
 		embed.addField("Guild name:", `\`${Util.escapeCodeBlock(message.guild.name)}\``, true);
 		embed.addField("Members:", `\`${message.guild.memberCount}\``, true);
-		embed.addField("Owner:", `\`<@${message.guild.owner.id}>\``, true);
-		embed.addField("**\u200B**", "**\u200B**");
+		embed.addField("Owner:", `<@${message.guild.owner.id}>`, true);
 		embed.addField("Server ID:", `\`${message.guild.id}\``, true);
 		embed.addField(
 			"Creation date:",
 			`\`${Util.escapeCodeBlock(unix(message.guild.createdAt.getTime() / 1000).format("DD/MM/YYYY HH:mm:ss"))}\``,
 			true
 		);
-		embed.addField("**\u200B**", "**\u200B**");
 		embed.addField("Roles:", roles.length > 1024 ? `Too many roles to show.` : roles);
 		embed.setColor(embedColor);
 		embed.setThumbnail(message.guild.iconURL());

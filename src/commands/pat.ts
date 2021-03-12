@@ -11,23 +11,25 @@ module.exports = {
 
 		let user = message.member.user;
 
-		const embed = new MessageEmbed();
-		embed.setColor(embedColor);
-
 		if (args.length > 0) {
-			const uFetch = await fetchUser(message, args);
-			if (uFetch == undefined) {
-				embed.setDescription("User was not found!");
-				message.channel.send(embed);
-				return;
+			try {
+				const uFetch = await fetchUser(message, args);
+				if (uFetch === undefined) {
+					throw new Error("le bruh");
+				}
+				user = uFetch;
+			} catch (_) {
+				return message.error("User was not found!");
 			}
-			user = uFetch;
 		}
+
 		const msgContent =
 			user.id != message.author.id
 				? `<@${message.author.id}> pats <@${user.id}> with lots of love.`
 				: `Pats with love have been sent to <@${message.author.id}>.`;
 
+		const embed = new MessageEmbed();
+		embed.setColor(embedColor);
 		embed.setDescription(msgContent);
 		embed.setImage(pat.url);
 		embed.setFooter(pat.api);

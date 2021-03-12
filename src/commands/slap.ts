@@ -12,13 +12,15 @@ module.exports = {
 		embed.setColor(embedColor);
 
 		if (args.length > 0) {
-			const uFetch = await fetchUser(message, args);
-			if (uFetch == undefined) {
-				embed.setDescription("User was not found!");
-				message.channel.send(embed);
-				return;
+			try {
+				const uFetch = await fetchUser(message, args);
+				if (uFetch === undefined) {
+					throw new Error("le bruh");
+				}
+				user = uFetch;
+			} catch (_) {
+				return message.error("User was not found!");
 			}
-			user = uFetch;
 		}
 
 		if (user.id == message.author.id) {
