@@ -18,8 +18,10 @@ process.on("uncaughtException", function (err) {
 (async () => {
 	client.commands = await loadCommands();
 	client.player = player(client);
+
 	guildStuff(client);
 	mainMessageHandler(client);
+
 	await database();
 	await client.login(process.env.BOT_TOKEN);
 	//await slashCommands();
