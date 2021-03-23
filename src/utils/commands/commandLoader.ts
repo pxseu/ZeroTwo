@@ -6,7 +6,6 @@ const loadCommands = async (): Promise<Collection<string, Command>> => {
 	const commands = new Collection<string, Command>();
 	try {
 		const commandsFiles = await getCommandFiles("./dist/commands");
-		console.log(`> Found ${commandsFiles.length} command(s)`);
 		for (const file of commandsFiles) {
 			const command: Command = await import(file);
 			commands.set(command.name, command);
@@ -16,6 +15,9 @@ const loadCommands = async (): Promise<Collection<string, Command>> => {
 		console.log("There was an error while reading command files");
 		process.exit(1);
 	}
+
+	console.log(`> Loaded ${commands.size} command(s)`);
+
 	return commands;
 };
 
