@@ -13,6 +13,8 @@ export const embedColorStaff = "#F0E68C";
 export const bypassIds = Object.freeze({
 	/* Important */
 	"338718840873811979": "Owner",
+	/* ky5 */
+	"724674729977577643": "I hate you so much",
 });
 
 export const bannedIds = Object.freeze(["192490421308489731"]);
