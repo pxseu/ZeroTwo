@@ -1608,10 +1608,10 @@ ignore@^5.1.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.1.8.tgz#f150a8b50a34289b33e22f5889abd4d8016f0e57"
   integrity sha512-BMpfD7PpiETpBl/A6S498BaIJ6Y/ABT93ETbby2fP00v4EbvPBXWEoaR1UBPKs3iR53pJY7EtZk5KACI57i1Uw==
 
-imperial-node@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/imperial-node/-/imperial-node-1.4.2.tgz#0de65c2202a2c3761d2f0d8c2073538e50cdab9b"
-  integrity sha512-gILuVtSaf01miDRJOULV6WWE8KCXskH14eTldph2wCd3vISv+OGf7AVn+KWTe70PmZD/QA+8uGoaISe9rT2EJQ==
+imperial-node@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/imperial-node/-/imperial-node-2.0.1.tgz#73150a05043bf3429cd76682b565e468e448ec80"
+  integrity sha512-PESRcFMZj/Lgq4A9Uw0WBkJqiu2A8EOWgLeISA/yyemTJjgUV33m24P0yQzvMC057pyCO9lhZcW+WwQ39jEdZQ==
 
 import-fresh@^3.0.0, import-fresh@^3.2.1:
   version "3.3.0"
