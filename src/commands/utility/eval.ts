@@ -1,5 +1,5 @@
 import vm from "vm";
-import { bypassIds } from "../../utils/config";
+import { creator } from "../../utils/config";
 import { inspect } from "util";
 import { Util } from "discord.js";
 import { Message } from "discord.js";
@@ -11,7 +11,7 @@ module.exports = {
 	name: "eval",
 	description: `Dev Eval`,
 	async execute(message, args) {
-		if (!Object.keys(bypassIds).some((id) => id == message.author.id)) {
+		if (message.author.id !== creator) {
 			return;
 		}
 
