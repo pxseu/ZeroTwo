@@ -21,7 +21,7 @@
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"genius-api": "^0.4.1",
-		"imperial-node": "^1.4.2",
+		"imperial-node": "^2.0.1",
 		"mathjs": "^9.2.0",
 		"moment": "^2.29.1",
 		"mongoose": "5.11.19",
