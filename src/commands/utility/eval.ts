@@ -57,7 +57,7 @@ async function isTooLong(message: Message, text: string): Promise<void> {
 	message.channel.startTyping();
 
 	try {
-		const response = await wrapper.createDocument(text, { instantDelete: true, longerUrls: true });
+		const response = await wrapper.createDocument(text, { expiration: 1, longerUrls: true });
 
 		message.info(`Message was too long: <${response.formattedLink}>`);
 	} catch (error) {
