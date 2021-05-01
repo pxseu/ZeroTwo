@@ -10,10 +10,10 @@ Message.prototype.error = async function (message, deleteAfter): Promise<void> {
 
 	if (typeof message == "object") {
 		const { title, text, footer, thumbnail } = message;
-		if (isNotProvided(title)) embed.setTitle(title);
-		if (isNotProvided(text)) embed.setDescription(text);
-		if (isNotProvided(footer)) embed.setFooter(footer);
-		if (isNotProvided(thumbnail)) embed.setThumbnail(thumbnail);
+		if (isProvided(title)) embed.setTitle(title);
+		if (isProvided(text)) embed.setDescription(text);
+		if (isProvided(footer)) embed.setFooter(footer);
+		if (isProvided(thumbnail)) embed.setThumbnail(thumbnail);
 		// if (message.author !== undefined) embed.setAuthor(message.author);
 	} else {
 		embed.setTitle("Error");
@@ -36,10 +36,10 @@ Message.prototype.info = async function (message, deleteAfter): Promise<void> {
 
 	if (typeof message === "object") {
 		const { title, text, footer, thumbnail } = message;
-		if (isNotProvided(title)) embed.setTitle(title);
-		if (isNotProvided(text)) embed.setDescription(text);
-		if (isNotProvided(footer)) embed.setFooter(footer);
-		if (isNotProvided(thumbnail)) embed.setThumbnail(thumbnail);
+		if (isProvided(title)) embed.setTitle(title);
+		if (isProvided(text)) embed.setDescription(text);
+		if (isProvided(footer)) embed.setFooter(footer);
+		if (isProvided(thumbnail)) embed.setThumbnail(thumbnail);
 		// if (message.author !== undefined) embed.setAuthor(message.author);
 	} else {
 		embed.setDescription(message);
@@ -53,6 +53,6 @@ Message.prototype.info = async function (message, deleteAfter): Promise<void> {
 	});
 };
 
-function isNotProvided(param: unknown) {
-	return param !== null || title !== param;
+function isProvided(param: unknown) {
+	return param !== null || param !== undefined;
 } 
