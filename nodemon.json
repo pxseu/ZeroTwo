@@ -1,0 +1,6 @@
+{
+	"watch": ["src", ".env", "package.json", "tsconfig.json"],
+	"ignore": ["dist/*"],
+	"ext": "ts",
+	"exec": "yarn clean && yarn build && yarn start:dev"
+}

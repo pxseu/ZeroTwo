@@ -1,26 +1,9 @@
-import "dotenv/config";
-import "./utils/extenders";
+import { ZeroTwo } from "./client/Bot.js";
+import { DISCORD_TOKEN } from "./config.js";
 
-import { Client } from "discord.js";
-import database from "./utils/bot/database";
-import guildStuff from "./utils/bot/guildStuff";
-import mainMessageHandler from "./utils/commands/mainMessageHandler";
-import player from "./utils/bot/player";
-import loadCommands from "./utils/commands/commandLoader";
-
-export const client = new Client();
-
-process.on("uncaughtException", function (err) {
-	console.log("Caught exception: " + err);
-});
-
-(async () => {
-	client.commands = await loadCommands();
-	client.player = player(client);
-
-	guildStuff(client);
-	mainMessageHandler(client);
-
-	await database();
-	await client.login(process.env.BOT_TOKEN);
-})();
+try {
+	await new ZeroTwo().login(DISCORD_TOKEN);
+} catch (e) {
+	console.error(e);
+	process.exit(1);
+}

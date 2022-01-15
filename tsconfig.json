@@ -1,21 +1,22 @@
 {
 	"compilerOptions": {
-		"strict": false,
-		"moduleResolution": "node",
-		"target": "es2019",
-		"module": "commonjs",
-		"outDir": "dist",
-		"sourceMap": true,
+		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
-		"allowJs": false,
-		"alwaysStrict": true,
-		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
 		"lib": [
-			"ES5",
-			"ES6"
+			"esnext"
+		],
+		"module": "esnext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"strict": true,
+		"target": "esnext",
+		"rootDir": "./src",
+		"outDir": "./dist",
+		"typeRoots": [
+			"@types"
 		]
-	},
-	"exclude": [
-		"node_modules"
-	]
+	}
 }
