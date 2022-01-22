@@ -16,7 +16,8 @@
 		"rootDir": "./src",
 		"outDir": "./dist",
 		"typeRoots": [
-			"@types"
+			"@types",
+			"node_modules/@types"
 		]
 	}
 }

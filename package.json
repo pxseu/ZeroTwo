@@ -1,6 +1,6 @@
 {
 	"name": "@pxseu/02",
-	"version": "1.0.0",
+	"version": "2.0.0",
 	"description": "A stupid bot that works ",
 	"main": "./dist/index.js",
 	"module": "./dist/index.js",
@@ -10,16 +10,16 @@
 	"license": "MPL-2.0",
 	"private": true,
 	"scripts": {
-		"build": "tsc",
+		"build": "tsc -p tsconfig.json",
 		"clean": "rimraf dist",
 		"lint": "eslint src --ext .ts,.json",
 		"dev": "cross-env NODE_ENV=development nodemon --config nodemon.json",
-		"start:dev": "node -r dotenv/config .",
-		"prod": "cross-env NODE_ENV=production yarn start",
-		"start": "node ."
+		"prod": "cross-env NODE_ENV=production node ."
 	},
 	"dependencies": {
-		"discord.js": "^13.6.0"
+		"axios": "^0.24.0",
+		"discord.js": "^13.6.0",
+		"imperial.js": "^2.1.6"
 	},
 	"devDependencies": {
 		"@pxseu/eslint-config": "^1.0.1",

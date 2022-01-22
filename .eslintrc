@@ -2,5 +2,8 @@
     "root": true,
     "extends": [
         "@pxseu/eslint-config"
-    ]
+    ],
+    "rules": {
+        "@typescript-eslint/lines-between-class-members": "off"
+    }
 }
