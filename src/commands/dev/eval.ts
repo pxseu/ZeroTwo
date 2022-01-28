@@ -1,37 +1,18 @@
-import { CommandInteraction, CommandInteractionOption, GuildMember, MessageEmbed, Util } from "discord.js";
+import { CommandInteraction, CommandInteractionOption, GuildMember, Util } from "discord.js";
 import { Imperial } from "imperial.js";
 import vm from "vm";
 import { inspect } from "util";
-import { Command, OptionTypes } from "../classes/Command.js";
+import { SubCommand, OptionTypes } from "../../classes/Command.js";
 
-export default class Dev extends Command {
-	public name = "dev";
-	public description = "Dev command";
-	public options = [
-		{
-			name: "eval",
-			type: OptionTypes.SUB_COMMAND,
-			description: "Evaluate code",
-			options: [{ name: "code", description: "Code to eval", type: OptionTypes.STRING, required: true }],
-		},
-	];
+export default class DevEval extends SubCommand {
+	public name = "eval";
+	public description = "Evaluate code";
+	public options = [{ name: "code", description: "Code to eval", type: OptionTypes.STRING, required: true }];
 
 	private imperial = new Imperial(process.env.IMPERIAL_TOKEN);
 
-	public async execute(interaction: CommandInteraction, args: readonly CommandInteractionOption[]) {
-		const subcommand = args.find((a) => a.type === OptionTypes[1]);
-
-		switch (subcommand?.name) {
-			case "eval":
-				return this.eval(interaction, subcommand.options!);
-
-			default:
-				return interaction.editReply({ embeds: [new MessageEmbed({ description: "aha" })] });
-		}
-	}
-
-	private async eval(interaction: CommandInteraction, args: readonly CommandInteractionOption[]) {
-		if (interaction.user.id !== "338718840873811979") {
+	public async execute(interaction: CommandInteraction, args?: readonly CommandInteractionOption[]) {
+		if (!this.client._zerotwo.handy.isOwner(interaction.user.id)) {
 			return interaction.editReply({
 				embeds: [
 					this.client._zerotwo.embed({
@@ -42,7 +23,7 @@ export default class Dev extends Command {
 		}
 
 		try {
-			const code = args[0].value as string;
+			const code = args?.[0].value as string;
 			const script = new vm.Script(code, {
 				filename: "pxseu_amazing_eval_machine.js",
 				displayErrors: true,

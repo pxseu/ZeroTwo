@@ -142,6 +142,9 @@ export class ZeroTwo {
 		// login to discord
 		await this.client.login(DISCORD_TOKEN);
 
+		// fetch application
+		await this.client.application?.fetch();
+
 		// status
 		this.status();
 

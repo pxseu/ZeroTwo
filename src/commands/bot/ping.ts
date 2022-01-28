@@ -1,7 +1,7 @@
 import { Collection, CommandInteraction, MessageButton } from "discord.js";
 import { ButtonCommand, SubCommand } from "../../classes/Command.js";
 
-export default class Ping extends SubCommand {
+export default class BotPing extends SubCommand {
 	public name = "ping";
 	public description = "Get bots latency andping";
 

@@ -1,7 +1,7 @@
 import { Collection, CommandInteraction, MessageButton } from "discord.js";
 import { ButtonCommand, SubCommand } from "../../classes/Command.js";
 
-export default class Dev extends SubCommand {
+export default class BotDev extends SubCommand {
 	public name = "info";
 	public description = "Bot stats";
 	public options = [];
