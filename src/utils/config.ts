@@ -1,6 +1,6 @@
 import { ActivitiesOptions, Client, Intents } from "discord.js";
 
-export const intents = new Intents([
+export const INTENTS = new Intents([
 	// guilds
 	"GUILDS",
 	"GUILD_BANS",

@@ -1,37 +1,25 @@
 # [ZeroTwo](https://github.com/pxseu/ZeroTwo)
 
-[![forthebadge](https://forthebadge.com/images/badges/0-percent-optimized.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/ctrl-c-ctrl-v.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-typescript.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/fixed-bugs.svg)](https://forthebadge.com)
 
-### About
+## About
 
 This repo contains the full content of my discord bot for free! (under a license)
 Please check it out and contribute if you wish to do so!
 
-### Installation
+## Installation
 
-The bot requires [Node.js](https://nodejs.org/) v14+ to run.
+Preffered node version is listed in the [.nvmrc](.nvmrc) file.
+Use `nvm install` to that specific version.
 
-Install the dependencies and devDependencies and start the bot.
-
-```sh
-$ nano .env
-BOT_TOKEN = < your bot token >
-MONGODB_URI = < your mongodb >
-GENIUS_TOKEN = < genius api token >
-$ npm install
-$ npm run dev
-```
-
-And for production please do:
+While developing it is advised to use propper development tools (eslint, prettier).
 
 ```sh
-$ nano .env
-BOT_TOKEN = < your bot token >
-MONGODB_URI = < your mongodb >
-GENIUS_TOKEN = < genius api token >
-$ npm install
-$ npm run build
-$ npm run prod
+# .env
+DISCORD_TOKEN = # your bot token
+IMPERIAL_TOKEN = # your imperial token
+$ yarn
+$ yarn dev
 ```

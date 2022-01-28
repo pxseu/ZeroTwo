@@ -2,14 +2,12 @@ import { CommandInteraction, CommandInteractionOption, GuildMember, MessageEmbed
 import { Imperial } from "imperial.js";
 import vm from "vm";
 import { inspect } from "util";
-import { Command, CommandType, OptionTypes } from "../classes/Command.js";
+import { Command, OptionTypes } from "../classes/Command.js";
 
 export default class Dev extends Command {
 	public name = "dev";
-	public type = CommandType.CHAT_INPUT;
 	public description = "Dev command";
 	public options = [
-		{ name: "info", type: OptionTypes.SUB_COMMAND, description: "Info about the bot" },
 		{
 			name: "eval",
 			type: OptionTypes.SUB_COMMAND,
@@ -24,81 +22,12 @@ export default class Dev extends Command {
 		const subcommand = args.find((a) => a.type === OptionTypes[1]);
 
 		switch (subcommand?.name) {
-			case "info":
-				return this.info(interaction);
-
 			case "eval":
 				return this.eval(interaction, subcommand.options!);
 
 			default:
 				return interaction.editReply({ embeds: [new MessageEmbed({ description: "aha" })] });
 		}
-	}
-
-	private async info(interaction: CommandInteraction) {
-		const data = await Promise.all([
-			this.client.shard!.fetchClientValues("guilds.cache.size"),
-			this.client.shard!.fetchClientValues("users.cache.size"),
-		] as Promise<number[]>[]);
-
-		return interaction.editReply({
-			embeds: [
-				this.client._zerotwo.embed({
-					title: "Info",
-					description: "Some info about the bot",
-					fields: [
-						{
-							name: "NAME",
-							value: `\`${this.client.user!.tag}\``,
-							inline: true,
-						},
-						{
-							name: "ID",
-							value: `\`${this.client.user!.id}\``,
-							inline: true,
-						},
-						{
-							name: "CREATED",
-							value: `<t:${~~(this.client.user!.createdAt.getTime() / 1000)}:R>`,
-							inline: true,
-						},
-						{
-							name: "COMMANDS",
-							value: `\`${this.client._zerotwo.commands.size}\``,
-							inline: true,
-						},
-						{
-							name: "SHARDS",
-							value: `\`${this.client.shard!.count}\``,
-							inline: true,
-						},
-						{
-							name: "USERS",
-							value: `\`${data[1].reduce((a, b) => a + b, 0)}\``,
-							inline: true,
-						},
-						{
-							name: "GUILDS",
-							value: `\`${data[0].reduce((a, b) => a + b, 0)}\``,
-							inline: true,
-						},
-						{
-							name: "STARTED",
-							value: `<t:${~~((Date.now() - process.uptime()) / 1000)}:R>`,
-							inline: true,
-						},
-						{
-							name: "NODE VERSION",
-							value: `\`${process.versions.node}\``,
-							inline: true,
-						},
-					],
-					thumbnail: {
-						url: this.client.user!.avatarURL() ?? this.client.user!.defaultAvatarURL,
-					},
-				}),
-			],
-		});
 	}
 
 	private async eval(interaction: CommandInteraction, args: readonly CommandInteractionOption[]) {

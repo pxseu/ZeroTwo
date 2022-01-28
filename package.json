@@ -1,5 +1,5 @@
 {
-	"name": "@pxseu/02",
+	"name": "@pxseu/zerotwo",
 	"version": "2.0.0",
 	"description": "A stupid bot that works ",
 	"main": "./dist/index.js",
@@ -10,9 +10,9 @@
 	"license": "MPL-2.0",
 	"private": true,
 	"scripts": {
-		"build": "tsc -p tsconfig.json",
+		"build": "tsc -p tsconfig.json && node -r dotenv/config ./dist/publish.js",
 		"clean": "rimraf dist",
-		"lint": "eslint src --ext .ts,.json",
+		"lint": "eslint src --ext .ts,.json && yarn build --noEmit",
 		"dev": "cross-env NODE_ENV=development nodemon --config nodemon.json",
 		"prod": "cross-env NODE_ENV=production node ."
 	},

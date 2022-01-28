@@ -20,12 +20,7 @@ manager.on("shardCreate", (shard) => {
 const spawned = await manager.spawn();
 
 for (const [id, shard] of spawned) {
-	shard.on("message", (message) => {
-		logger.log(`Shard ${id} received message: `, message);
-	});
-
 	shard.on("death", (event) => {
-		// @ts-ignore
 		logger.warn("Shard", id, "died with event:", event.exitCode);
 
 		// respawn the shard
@@ -38,13 +33,9 @@ for (const [id, shard] of spawned) {
 }
 
 logger.log("Spawned", spawned.size, "shard(s)");
-logger.log("Sending publish message to shard", 0);
-await manager.shards.get(0)?.send("publishCommands");
 
 const handleExit = () => {
 	logger.log("Recieved exit signal, sending unpublish message to shard", 0);
-
-	manager.shards.get(0)?.send("unpublishCommands");
 
 	manager.removeAllListeners();
 
@@ -58,5 +49,4 @@ const handleExit = () => {
 };
 
 process.on("SIGTERM", handleExit);
-
 process.on("SIGINT", handleExit);

@@ -1,13 +1,13 @@
 import { ActivityOptions, Client, Collection, Interaction, MessageEmbed, MessageEmbedOptions } from "discord.js";
-import { ACTIVITIES, DEV, DEV_GUILD, DISCORD_TOKEN, intents } from "../utils/config.js";
+import { ACTIVITIES, DEV, DISCORD_TOKEN, INTENTS } from "../utils/config.js";
 import { Command } from "./Command.js";
 import { getCommands } from "../utils/loader.js";
 import { logging } from "../utils/log.js";
-import { publish, unpublish } from "../utils/publish.js";
 import { Colors } from "./Colors.js";
+import { Handy } from "./Handy.js";
 
 export class ZeroTwo {
-	constructor() {
+	constructor(noListeners = false) {
 		// colors
 		this.colors = new Colors();
 
@@ -18,60 +18,19 @@ export class ZeroTwo {
 		this.commands = new Collection<string, Command>();
 
 		// set up the client
-		this.client = new Client({ intents, userAgentSuffix: ["ZeroTwo"] });
+		this.client = new Client({ intents: !noListeners ? INTENTS : [], userAgentSuffix: ["ZeroTwo"] });
+
+		// setupd utils
+		this.handy = new Handy(this.client);
 
 		// pass `this` to the client
 		this.client._zerotwo = this;
 
+		if (noListeners) return this;
+
 		// set up the listeners
-		this.client.on("interactionCreate", this.handleInteraction.bind(this));
-
-		// stuff for the main worker
-		process.on("message", async (message) => {
-			// if we get a message, it's a command
-			this.logger.log(`Recieved message '${JSON.stringify(message)}'`);
-
-			switch (message) {
-				case "publishCommands": {
-					this.logger.log(
-						"Publishing commands to application:",
-						this.client.application?.id,
-						DEV_GUILD ? `in guild ${DEV_GUILD}` : "",
-					);
-
-					try {
-						// publish the commands
-						await publish(this.client.application!.id, Array.from(this.commands.values()), DEV_GUILD);
-
-						this.logger.log("Published commands successfully");
-					} catch (e) {
-						this.logger.error("Error whilst publishing commands", e);
-					}
-
-					break;
-				}
-
-				case "unpublishCommands": {
-					if (!DEV_GUILD) return;
-
-					this.logger.log(
-						"Unpublishing commands from application:",
-						this.client.application?.id,
-						"in guild",
-						DEV_GUILD,
-					);
-
-					try {
-						// unpublish the commands
-						await unpublish(this.client.application!.id, DEV_GUILD);
-
-						this.logger.log("Unpublished commands successfully");
-					} catch (e) {
-						this.logger.error("Error whilst unpublishing commands", e);
-					}
-				}
-			}
-		});
+		this.client.on("interactionCreate", this.handleCommand.bind(this));
+		this.client.on("interactionCreate", this.handleButton.bind(this));
 	}
 
 	private status() {
@@ -97,7 +56,7 @@ export class ZeroTwo {
 		updateStatus();
 	}
 
-	private async handleInteraction(interaction: Interaction) {
+	private async handleCommand(interaction: Interaction) {
 		// for now we only care about commands
 		if (!interaction.isCommand()) return;
 
@@ -126,11 +85,49 @@ export class ZeroTwo {
 			await command.execute(interaction, interaction.options.data);
 		} catch (e) {
 			console.error(e);
-			await interaction.reply({
-				ephemeral: true,
+			await interaction.editReply({
 				embeds: [
 					this.embed({
+						color: this.colors.toNumber(this.colors.red),
 						description: `Failed while executing command '${interaction.commandName}'`,
+					}),
+				],
+			});
+		}
+	}
+
+	private async handleButton(interaction: Interaction) {
+		// buttons!
+		if (!interaction.isButton()) return;
+
+		this.logger.log(`Recieved button '${interaction.customId}'`);
+
+		// get the command
+		const meta = this.handy.getMeta(interaction.customId);
+
+		if (!meta) return;
+
+		// defer the reply
+		if (meta.command.update) {
+			await interaction.deferUpdate();
+		} else {
+			await interaction.deferReply({ ephemeral: meta.command.ephermal });
+		}
+
+		const button = meta.command.buttonInteractions.get(meta.button);
+
+		if (!button) return;
+
+		try {
+			// execute the command
+			await button.execute(interaction);
+		} catch (e) {
+			console.error(e);
+			await interaction.editReply({
+				embeds: [
+					this.embed({
+						color: this.colors.toNumber(this.colors.red),
+						description: `Failed while executing buttonInteraction '${interaction.customId}'`,
 					}),
 				],
 			});
@@ -140,7 +137,7 @@ export class ZeroTwo {
 	// login to discord and setup the bot
 	public async login() {
 		// before we login let's get all the commands
-		this.commands = await getCommands(this.client);
+		await getCommands(this.client, this.commands);
 
 		// login to discord
 		await this.client.login(DISCORD_TOKEN);
@@ -150,6 +147,8 @@ export class ZeroTwo {
 
 		// done
 		this.logger.log(`Connected as '${this.client.user!.username}#${this.client.user!.discriminator}'`);
+
+		return this;
 	}
 
 	// destroy the bot and disconnect
@@ -187,6 +186,7 @@ export class ZeroTwo {
 export interface ZeroTwo {
 	colors: Colors;
 	client: Client;
+	handy: Handy;
 	commands: Collection<string, Command>;
 	logger: ReturnType<typeof logging>;
 	statusTimeout: NodeJS.Timeout;
