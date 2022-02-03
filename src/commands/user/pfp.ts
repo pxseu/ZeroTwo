@@ -1,16 +1,9 @@
 import { ButtonInteraction, Collection, CommandInteraction, GuildMember, MessageButton, User } from "discord.js";
-import { SubCommand, ButtonCommand, OptionTypes } from "../../classes/Command.js";
+import { SubCommand, ButtonCommand } from "../../classes/Command.js";
 
 export default class UserPfp extends SubCommand {
 	public name = "pfp";
 	public description = "Get profile picture of a user";
-	public options = [
-		{
-			name: "user",
-			type: OptionTypes.STRING,
-			description: "The user to get the profile picture of",
-		},
-	];
 
 	public buttonInteractions: Collection<string, ButtonCommand> = new Collection<string, ButtonCommand>([
 		[
@@ -34,28 +27,26 @@ export default class UserPfp extends SubCommand {
 	]);
 
 	public async execute(interaction: CommandInteraction | ButtonInteraction) {
-		if (interaction.isButton()) {
-			const meta = this.client._zerotwo.handy.getMeta(interaction.customId);
+		if (!interaction.isButton()) return this.guildPfp(interaction, interaction.member as GuildMember);
 
-			if (meta?.author !== "" && meta?.author !== interaction.user.id)
-				return interaction.editReply({
-					embeds: interaction.message.embeds,
-				});
+		const meta = this.client._zerotwo.handy.getMeta(interaction.customId);
 
-			switch (meta.button) {
-				case "guild":
-					return this.guildPfp(interaction, interaction.member as GuildMember);
+		if (meta?.author !== "" && meta?.author !== interaction.user.id)
+			return interaction.editReply({
+				embeds: interaction.message.embeds,
+			});
 
-				case "default":
-					return this.defaultPfp(interaction, interaction.user);
+		switch (meta.button) {
+			case "guild":
+				return this.guildPfp(interaction, interaction.member as GuildMember);
 
-				case "global":
-				default:
-					return this.globalPfp(interaction, interaction.user);
-			}
+			case "default":
+				return this.defaultPfp(interaction, interaction.user);
+
+			case "global":
+			default:
+				return this.globalPfp(interaction, interaction.user);
 		}
-
-		return this.guildPfp(interaction, interaction.member as GuildMember);
 	}
 
 	private async guildPfp(interaction: CommandInteraction | ButtonInteraction, member: GuildMember | null) {

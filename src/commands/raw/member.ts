@@ -24,12 +24,13 @@ export default class RawMember extends SubCommand {
 				embeds: [this.client._zerotwo.embed({ description: "User not found" })],
 			});
 
-		await interaction.editReply({
-			embeds: [
-				this.client._zerotwo.embed({
-					description: `\`\`\`json\n${JSON.stringify(member.toJSON(), null, 2)}\n\`\`\``,
-				}),
-			],
-		});
+		await this.client._zerotwo.handy.embedTooLong(
+			interaction,
+			this.client._zerotwo.embed({
+				title: "Member data",
+			}),
+			JSON.stringify(member.toJSON(), null, 2),
+			"json",
+		);
 	}
 }

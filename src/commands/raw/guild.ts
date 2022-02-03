@@ -26,12 +26,13 @@ export default class RawGuild extends SubCommand {
 				],
 			});
 
-		await interaction.editReply({
-			embeds: [
-				this.client._zerotwo.embed({
-					description: `\`\`\`json\n${JSON.stringify(guild.toJSON(), null, 2)}\n\`\`\``,
-				}),
-			],
-		});
+		await this.client._zerotwo.handy.embedTooLong(
+			interaction,
+			this.client._zerotwo.embed({
+				title: "Guild data",
+			}),
+			JSON.stringify(guild.toJSON(), null, 2),
+			"json",
+		);
 	}
 }

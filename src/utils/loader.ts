@@ -54,10 +54,6 @@ export const getCommands = async <T extends unknown>(
 
 			constructed.options.push(...subCommands.map((sc) => sc.toJSON() as ArgumentDefinition));
 
-			for (const sc of constructed.subCommands.values()) {
-				sc.ephermal = constructed.ephermal;
-			}
-
 			commands.set(constructed.name, constructed);
 		} catch (e) {
 			if (!(e instanceof Error)) throw e;

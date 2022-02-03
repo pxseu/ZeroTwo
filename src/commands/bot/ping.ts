@@ -4,6 +4,7 @@ import { ButtonCommand, SubCommand } from "../../classes/Command.js";
 export default class BotPing extends SubCommand {
 	public name = "ping";
 	public description = "Get bots latency andping";
+	public ephermal = true;
 
 	public buttonInteractions: Collection<string, ButtonCommand> = new Collection<string, ButtonCommand>([
 		[

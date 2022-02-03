@@ -1,7 +1,7 @@
 import { Collection, CommandInteraction, MessageButton } from "discord.js";
 import { ButtonCommand, SubCommand } from "../../classes/Command.js";
 
-export default class BotDev extends SubCommand {
+export default class BotInfo extends SubCommand {
 	public name = "info";
 	public description = "Bot stats";
 	public options = [];
@@ -16,10 +16,12 @@ export default class BotDev extends SubCommand {
 	]);
 
 	public async execute(interaction: CommandInteraction) {
-		const data = await Promise.all([
-			this.client.shard!.fetchClientValues("guilds.cache.size"),
-			this.client.shard!.fetchClientValues("users.cache.size"),
-		] as Promise<number[]>[]);
+		const data = this.client.shard
+			? await Promise.all([
+					this.client.shard.fetchClientValues("guilds.cache.size"),
+					this.client.shard.fetchClientValues("users.cache.size"),
+			  ] as Promise<number[]>[])
+			: [[this.client.guilds.cache.size], [this.client.users.cache.size]];
 
 		return interaction.editReply({
 			embeds: [
@@ -49,7 +51,7 @@ export default class BotDev extends SubCommand {
 						},
 						{
 							name: "SHARDS",
-							value: `\`${this.client.shard!.count}\``,
+							value: `\`${this.client.shard?.count ?? 1}\``,
 							inline: true,
 						},
 						{

@@ -1,10 +1,20 @@
-import { ActivityOptions, Client, Collection, Interaction, MessageEmbed, MessageEmbedOptions } from "discord.js";
-import { ACTIVITIES, DEV, DISCORD_TOKEN, INTENTS } from "../utils/config.js";
+import {
+	ActivityOptions,
+	ButtonInteraction,
+	Client,
+	Collection,
+	CommandInteraction,
+	Interaction,
+	MessageEmbed,
+	MessageEmbedOptions,
+} from "discord.js";
+import { ACTIVITIES, DEV, DISCORD_TOKEN, IMPERIAL_TOKEN, INTENTS } from "../utils/config.js";
 import { Command } from "./Command.js";
 import { getCommands } from "../utils/loader.js";
 import { logging } from "../utils/log.js";
 import { Colors } from "./Colors.js";
 import { Handy } from "./Handy.js";
+import { Imperial } from "imperial.js";
 
 export class ZeroTwo {
 	constructor(noListeners = false) {
@@ -23,14 +33,16 @@ export class ZeroTwo {
 		// setupd utils
 		this.handy = new Handy(this.client);
 
+		// setup imperial
+		this.imperial = new Imperial(IMPERIAL_TOKEN);
+
 		// pass `this` to the client
 		this.client._zerotwo = this;
 
 		if (noListeners) return this;
 
 		// set up the listeners
-		this.client.on("interactionCreate", this.handleCommand.bind(this));
-		this.client.on("interactionCreate", this.handleButton.bind(this));
+		this.client.on("interactionCreate", this.handleInteraction.bind(this));
 	}
 
 	private status() {
@@ -56,12 +68,16 @@ export class ZeroTwo {
 		updateStatus();
 	}
 
-	private async handleCommand(interaction: Interaction) {
-		// for now we only care about commands
-		if (!interaction.isCommand()) return;
+	private async handleInteraction(interaction: Interaction) {
+		if (interaction.isCommand()) return this.handleCommand(interaction);
+		if (interaction.isButton()) return this.handleButton(interaction);
+	}
 
+	private async handleCommand(interaction: CommandInteraction) {
 		// get the command
-		const command = this.commands.get(interaction.commandName);
+		const command = this.handy.findLowestSubCommand(interaction, interaction.options.data);
+
+		console.log(command);
 
 		// log the command
 		this.logger.log(`Recieved command '${interaction.commandName}'`);
@@ -88,7 +104,7 @@ export class ZeroTwo {
 			await interaction.editReply({
 				embeds: [
 					this.embed({
-						color: this.colors.toNumber(this.colors.red),
+						color: this.colors.toNumber("red"),
 						description: `Failed while executing command '${interaction.commandName}'`,
 					}),
 				],
@@ -96,10 +112,7 @@ export class ZeroTwo {
 		}
 	}
 
-	private async handleButton(interaction: Interaction) {
-		// buttons!
-		if (!interaction.isButton()) return;
-
+	private async handleButton(interaction: ButtonInteraction) {
 		this.logger.log(`Recieved button '${interaction.customId}'`);
 
 		// get the command
@@ -107,16 +120,16 @@ export class ZeroTwo {
 
 		if (!meta) return;
 
+		const button = meta.command.buttonInteractions.get(meta.button);
+
+		if (!button) return;
+
 		// defer the reply
 		if (meta.command.update) {
 			await interaction.deferUpdate();
 		} else {
 			await interaction.deferReply({ ephemeral: meta.command.ephermal });
 		}
-
-		const button = meta.command.buttonInteractions.get(meta.button);
-
-		if (!button) return;
 
 		try {
 			// execute the command
@@ -126,7 +139,7 @@ export class ZeroTwo {
 			await interaction.editReply({
 				embeds: [
 					this.embed({
-						color: this.colors.toNumber(this.colors.red),
+						color: this.colors.toNumber("red"),
 						description: `Failed while executing buttonInteraction '${interaction.customId}'`,
 					}),
 				],
@@ -190,6 +203,7 @@ export interface ZeroTwo {
 	colors: Colors;
 	client: Client;
 	handy: Handy;
+	imperial: Imperial;
 	commands: Collection<string, Command>;
 	logger: ReturnType<typeof logging>;
 	statusTimeout: NodeJS.Timeout;

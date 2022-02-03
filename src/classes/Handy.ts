@@ -1,4 +1,16 @@
-import { Client, Guild, GuildMember, Team, User } from "discord.js";
+import {
+	ButtonInteraction,
+	Client,
+	CommandInteraction,
+	CommandInteractionOption,
+	Guild,
+	GuildBasedChannel,
+	GuildMember,
+	MessageEmbed,
+	Team,
+	User,
+	Util,
+} from "discord.js";
 import { Command, SubCommand } from "./Command";
 
 export class Handy {
@@ -6,14 +18,27 @@ export class Handy {
 		Object.defineProperty(this, "client", { value: client });
 	}
 
-	private regexMention = /^<@!?(\d{18})>$/i;
-	private regexId = /^(\d{18})$/i;
+	private regexMention(id: string | null) {
+		if (!id) return null;
+
+		const regex = /^(<@!?(\d+)>)|(\d+)$/i.exec(id);
+
+		return (regex?.[2] || regex?.[3]) ?? null;
+	}
+
+	private regexChannel(id: string | null): string | null {
+		if (!id) return null;
+
+		const regex = /^(<#(\d+)>)|(\d+)$/i.exec(id);
+
+		return (regex?.[2] || regex?.[3]) ?? null;
+	}
 
 	/**
 	 *  Get a user by an id from all shards
 	 */
 	public async getUser(id: string | null): Promise<User | null> {
-		const userId = this.regexMention.exec(id ?? "")?.[1] ?? this.regexId.exec(id ?? "")?.[1];
+		const userId = this.regexMention(id);
 
 		if (!userId) return null;
 
@@ -83,7 +108,7 @@ export class Handy {
 	public async getMember(guild: string | null, user: string | null): Promise<GuildMember | null> {
 		if (!guild || !/\d+/.test(guild)) return null;
 
-		const userId = this.regexMention.exec(user ?? "")?.[1] ?? this.regexId.exec(user ?? "")?.[1];
+		const userId = this.regexMention(user);
 
 		if (!userId) return null;
 
@@ -100,6 +125,30 @@ export class Handy {
 		const member = (await guildObj.members.fetch({ user: userId })) ?? null;
 
 		return member;
+	}
+
+	/**
+	 * 	Get a channel by an id from all shards
+	 */
+	public async getChannel(guildId: string, channelId: string | null): Promise<GuildBasedChannel | null> {
+		if (!guildId || !/\d+/.test(guildId)) return null;
+
+		const parseChannel = this.regexChannel(channelId);
+
+		if (!parseChannel) return null;
+
+		const guild = await this.getGuild(guildId);
+
+		// bruh??!?!?!?!
+		if (!guild) return null;
+
+		const channel = guild.channels.cache.get(parseChannel);
+
+		if (channel) return channel;
+
+		const fetchedChannel = await guild.channels.fetch(parseChannel);
+
+		return fetchedChannel;
 	}
 
 	public authorSplit = "@";
@@ -174,6 +223,58 @@ export class Handy {
 		}
 
 		return this.client.application?.owner?.id === id;
+	}
+
+	public async embedTooLong(
+		interaction: CommandInteraction | ButtonInteraction,
+		embed: MessageEmbed,
+		text: string,
+		code: string | false = false,
+	): Promise<unknown> {
+		if (text.length < 4000) {
+			return interaction.editReply({
+				embeds: [embed.setDescription(code ? `\`\`\`${code}\n${Util.escapeCodeBlock(text)}\n\`\`\`` : text)],
+			});
+		}
+
+		try {
+			const response = await this.client._zerotwo.imperial.createDocument(text, {
+				expiration: 1,
+				longerUrls: true,
+				language: code ? code : "plaintext",
+			});
+
+			await interaction.editReply({
+				embeds: [embed.setDescription(`Content is here: <${response.link}>`)],
+			});
+		} catch (error: any) {
+			console.error(error);
+			await interaction.editReply({ embeds: [embed.setDescription(`Unkown error: ${String(error.message)}`)] });
+		}
+	}
+
+	public findLowestSubCommand(
+		command: CommandInteraction | Command | SubCommand,
+		args?: readonly CommandInteractionOption[],
+	): Command | SubCommand | null {
+		if (command instanceof CommandInteraction) {
+			const com = this.client._zerotwo.commands.get(command.commandName);
+			return com ? this.findLowestSubCommand(com, args) : null;
+		}
+
+		if (!command.subCommands.size) {
+			return command;
+		}
+
+		const sub = args?.find((a) => a.type === "SUB_COMMAND" || a.type === "SUB_COMMAND_GROUP");
+
+		if (!sub) return command;
+
+		const subCommand = command.subCommands.get(sub.name);
+
+		if (!subCommand) return command;
+
+		return this.findLowestSubCommand(subCommand, sub.options);
 	}
 }
 

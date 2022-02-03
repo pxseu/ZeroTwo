@@ -21,6 +21,8 @@ export interface ArgumentDefinition extends Argument {
 	type: OptionTypes;
 	required?: boolean;
 	options?: ArgumentDefinition[];
+	min_value?: number;
+	max_value?: number;
 }
 
 export enum OptionTypes {
@@ -68,23 +70,12 @@ export abstract class BaseCommand {
 
 	public async execute(
 		interaction: CommandInteraction | ButtonInteraction,
-		args?: readonly CommandInteractionOption[],
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		_args?: readonly CommandInteractionOption[],
 	): Promise<unknown> {
-		if (this.subCommands.size <= 0)
-			return interaction.editReply({
-				embeds: [this.client._zerotwo.embed({ description: "Command has not been implemented yet" })],
-			});
-
-		const comandName = args?.[0].name;
-
-		const command = this.subCommands.get(comandName ?? "bruh");
-
-		if (!command)
-			return interaction.editReply({
-				embeds: [this.client._zerotwo.embed({ description: "Sub command not found" })],
-			});
-
-		await command.execute(interaction, args?.[0].options);
+		return interaction.editReply({
+			embeds: [this.client._zerotwo.embed({ description: "Sub command not found" })],
+		});
 	}
 }
 
@@ -105,7 +96,7 @@ export abstract class SubCommand extends BaseCommand {
 
 	public execute(
 		interaction: CommandInteraction | ButtonInteraction,
-		args?: CommandInteractionOption[],
+		args?: readonly CommandInteractionOption[],
 	): Promise<unknown> {
 		return super.execute(interaction, args);
 	}

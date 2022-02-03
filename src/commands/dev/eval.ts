@@ -1,5 +1,4 @@
-import { CommandInteraction, CommandInteractionOption, GuildMember, Util } from "discord.js";
-import { Imperial } from "imperial.js";
+import { CommandInteraction, CommandInteractionOption } from "discord.js";
 import vm from "vm";
 import { inspect } from "util";
 import { SubCommand, OptionTypes } from "../../classes/Command.js";
@@ -8,8 +7,6 @@ export default class DevEval extends SubCommand {
 	public name = "eval";
 	public description = "Evaluate code";
 	public options = [{ name: "code", description: "Code to eval", type: OptionTypes.STRING, required: true }];
-
-	private imperial = new Imperial(process.env.IMPERIAL_TOKEN);
 
 	public async execute(interaction: CommandInteraction, args?: readonly CommandInteractionOption[]) {
 		if (!this.client._zerotwo.handy.isOwner(interaction.user.id)) {
@@ -40,42 +37,36 @@ export default class DevEval extends SubCommand {
 				},
 			});
 
+			const start = Date.now();
+
 			let evaled = await script.runInContext(context);
+
+			const time = Date.now() - start;
 
 			if (typeof evaled !== "string") evaled = inspect(evaled);
 
-			await this.isTooLong(interaction, Util.escapeCodeBlock(evaled));
+			await this.client._zerotwo.handy.embedTooLong(
+				interaction,
+				this.client._zerotwo.embed({
+					title: "Evaluation",
+					footer: {
+						text: `Evaluated in \`${time}\`ms`,
+						icon_url: this.client.user?.avatarURL() ?? this.client.user?.defaultAvatarURL,
+					},
+					timestamp: new Date(),
+				}),
+				evaled,
+				"js",
+			);
 		} catch (err: any) {
-			await this.isTooLong(interaction, `${Util.escapeCodeBlock(String(err.stack ? err.stack : err))}`);
-		}
-	}
-
-	private async isTooLong(interaction: CommandInteraction, text: string): Promise<unknown> {
-		const embed = this.client._zerotwo.embed({
-			title: "Evaluated code",
-			author: {
-				name:
-					(interaction.member instanceof GuildMember && interaction.member.nickname) ||
-					interaction.user.username,
-				iconURL: interaction.user.avatarURL() ?? interaction.user.defaultAvatarURL,
-			},
-		});
-
-		if (text.length < 2001) {
-			return interaction.editReply({
-				embeds: [embed.setDescription(`\`\`\`xl\n${text}\n\`\`\``)],
-			});
-		}
-
-		try {
-			const response = await this.imperial.createDocument(text, { expiration: 1, longerUrls: true });
-
-			await interaction.editReply({
-				embeds: [embed.setDescription(`Message was too long: <${response.link}>`)],
-			});
-		} catch (error: any) {
-			console.error(error);
-			await interaction.editReply({ embeds: [embed.setDescription(`Unkown error: ${String(error.message)}`)] });
+			await this.client._zerotwo.handy.embedTooLong(
+				interaction,
+				this.client._zerotwo.embed({
+					title: "Error",
+				}),
+				String(err.stack ? err.stack : err),
+				"xl",
+			);
 		}
 	}
 }

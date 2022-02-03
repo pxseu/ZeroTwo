@@ -1,4 +1,4 @@
-import { CommandInteraction, CommandInteractionOption, GuildMember } from "discord.js";
+import { CommandInteraction, CommandInteractionOption, GuildMember, Util } from "discord.js";
 import { ArgumentDefinition, SubCommand, OptionTypes } from "../../classes/Command.js";
 
 export default class ModTimeout extends SubCommand {
@@ -32,7 +32,7 @@ export default class ModTimeout extends SubCommand {
 				embeds: [
 					this.client._zerotwo.embed({
 						description: "You need to be in a guild to use this command",
-						color: this.client._zerotwo.colors.toNumber(this.client._zerotwo.colors.red),
+						color: this.client._zerotwo.colors.toNumber("red"),
 					}),
 				],
 			});
@@ -42,7 +42,7 @@ export default class ModTimeout extends SubCommand {
 				embeds: [
 					this.client._zerotwo.embed({
 						description: "You need to have the `MODERATE_MEMBERS` permission to use this command",
-						color: this.client._zerotwo.colors.toNumber(this.client._zerotwo.colors.red),
+						color: this.client._zerotwo.colors.toNumber("red"),
 					}),
 				],
 			});
@@ -58,7 +58,7 @@ export default class ModTimeout extends SubCommand {
 				embeds: [
 					this.client._zerotwo.embed({
 						description: "Member not found",
-						color: this.client._zerotwo.colors.toNumber(this.client._zerotwo.colors.red),
+						color: this.client._zerotwo.colors.toNumber("red"),
 					}),
 				],
 			});
@@ -68,7 +68,7 @@ export default class ModTimeout extends SubCommand {
 				embeds: [
 					this.client._zerotwo.embed({
 						description: "I dont have the permissions to timeout this member",
-						color: this.client._zerotwo.colors.toNumber(this.client._zerotwo.colors.red),
+						color: this.client._zerotwo.colors.toNumber("red"),
 					}),
 				],
 			});
@@ -78,7 +78,7 @@ export default class ModTimeout extends SubCommand {
 		await interaction.editReply({
 			embeds: [
 				this.client._zerotwo.embed({
-					description: `\`${member.user.tag}\` was timed out`,
+					description: `\`${Util.escapeInlineCode(member.user.tag)}\` was timed out`,
 				}),
 			],
 		});

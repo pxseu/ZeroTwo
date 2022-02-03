@@ -15,6 +15,7 @@ export const INTENTS = new Intents([
 ]);
 
 export const DISCORD_TOKEN = process.env.DISCORD_TOKEN || "";
+export const IMPERIAL_TOKEN = process.env.IMPERIAL_TOKEN || "";
 export const DISCORD_BOT_VERSION = process.env.DISCORD_BOT_VERSION || "v1.0.0";
 export const DEV_GUILD = process.env.DEV_GUILD;
 export const DEV = process.env.NODE_ENV !== "production";
@@ -38,8 +39,11 @@ export const ACTIVITIES = [
 		name: "cuteness! 💕",
 	}),
 
-	async (client) => ({
-		type: "PLAYING",
-		name: `with ${client.guilds.cache.size} servers! 🎮`,
-	}),
+	// async (client) => ({
+	// 	type: "PLAYING",
+	// 	name: `with ${await client
+	// 		.shard!.fetchClientValues("guilds.cache.size")
+	// 		.then((arr) => arr.reduce((a, b) => a + b))} servers! 🎮`,
+	// }),
 ] as ((client: Client) => Promise<ActivitiesOptions>)[];
+export const PXSEU_API_URL = process.env.PXSEU_API_URL || "https://api.pxseu.com/v2/sendMessage";
