@@ -7,6 +7,7 @@ import {
 	Interaction,
 	MessageEmbed,
 	MessageEmbedOptions,
+	Options,
 } from "discord.js";
 import { ACTIVITIES, DEV, DISCORD_TOKEN, IMPERIAL_TOKEN, INTENTS } from "../utils/config.js";
 import { Command } from "./Command.js";
@@ -16,19 +17,41 @@ import { Colors } from "./Colors.js";
 import { Handy } from "./Handy.js";
 import { Imperial } from "imperial.js";
 
+/**
+ *  The ZeroTwo class is the main class of the bot.
+ *  It is responsible for handling all the events and interactions.
+ *  It also contains all the commands.
+ *  @class
+ */
 export class ZeroTwo {
-	constructor(noListeners = false) {
-		// colors
-		this.colors = new Colors();
-
+	constructor() {
 		// set up the logger
 		this.logger = logging("ZERO_TWO");
+
+		// set up the client
+		this.logger.log("Setting up");
+
+		// colors
+		this.colors = new Colors();
 
 		// set a placeholder for the commands
 		this.commands = new Collection<string, Command>();
 
 		// set up the client
-		this.client = new Client({ intents: !noListeners ? INTENTS : [], userAgentSuffix: ["ZeroTwo"] });
+		this.client = new Client({
+			intents: INTENTS,
+			userAgentSuffix: ["ZeroTwo"],
+			sweepers: {
+				messages: {
+					interval: 43200,
+					lifetime: 21600,
+				},
+			},
+			makeCache: Options.cacheWithLimits({
+				MessageManager: 25,
+				UserManager: 200,
+			}),
+		});
 
 		// setupd utils
 		this.handy = new Handy(this.client);
@@ -39,10 +62,17 @@ export class ZeroTwo {
 		// pass `this` to the client
 		this.client._zerotwo = this;
 
-		if (noListeners) return this;
-
 		// set up the listeners
 		this.client.on("interactionCreate", this.handleInteraction.bind(this));
+		this.client.on("warn", this.logger.warn);
+		this.client.on("error", this.logger.error);
+
+		// await for shard id to be set
+		process.on("message", (message: { type: string; payload: any }) => {
+			if (message.type !== "shardId") return;
+
+			this.logger = logging(`${this.logger.label}-${message.payload}`);
+		});
 	}
 
 	private status() {
@@ -73,17 +103,15 @@ export class ZeroTwo {
 		if (interaction.isButton()) return this.handleButton(interaction);
 	}
 
-	private async handleCommand(interaction: CommandInteraction) {
+	private async handleCommand(interaction: CommandInteraction): Promise<void> {
 		// get the command
-		const command = this.handy.findLowestSubCommand(interaction, interaction.options.data);
-
-		console.log(command);
+		const metadata = this.handy.findLowestSubCommand(interaction, interaction.options.data);
 
 		// log the command
 		this.logger.log(`Recieved command '${interaction.commandName}'`);
 
 		// if we don't have the command, ignore it
-		if (!command)
+		if (!metadata)
 			return interaction.reply({
 				ephemeral: true,
 				embeds: [
@@ -93,14 +121,17 @@ export class ZeroTwo {
 				],
 			});
 
+		const [command, args] = metadata;
+
 		// defer the reply
 		await interaction.deferReply({ ephemeral: command.ephermal });
 
 		try {
 			// execute the command
-			await command.execute(interaction, interaction.options.data);
+			await command.execute(interaction, args);
 		} catch (e) {
-			console.error(e);
+			if (e instanceof Error) this.logger.error(`Exception: In command '${command.name}' with`, e);
+
 			await interaction.editReply({
 				embeds: [
 					this.embed({
@@ -112,7 +143,7 @@ export class ZeroTwo {
 		}
 	}
 
-	private async handleButton(interaction: ButtonInteraction) {
+	private async handleButton(interaction: ButtonInteraction): Promise<void> {
 		this.logger.log(`Recieved button '${interaction.customId}'`);
 
 		// get the command
@@ -135,7 +166,7 @@ export class ZeroTwo {
 			// execute the command
 			await button.execute(interaction);
 		} catch (e) {
-			console.error(e);
+			this.logger.error(e);
 			await interaction.editReply({
 				embeds: [
 					this.embed({
@@ -147,10 +178,32 @@ export class ZeroTwo {
 		}
 	}
 
-	// login to discord and setup the bot
-	public async login() {
-		// before we login let's get all the commands
+	/**
+	 *  Load commands
+	 */
+	public async loadCommands(): Promise<this> {
+		this.logger.log("Loading commands");
+
+		// get the commands
 		await getCommands(this.client, this.commands);
+
+		// log the commands
+		this.logger.log("Loaded", this.commands.size, "commands");
+
+		return this;
+	}
+
+	/**
+	 * 	Login to discord and setup the bot
+	 *  @returns the client
+	 */
+	public async login(): Promise<this> {
+		const start = process.uptime();
+
+		this.logger.log("Logging in");
+
+		// before we login let's get all the commands
+		await this.loadCommands();
 
 		// login to discord
 		await this.client.login(DISCORD_TOKEN);
@@ -161,14 +214,23 @@ export class ZeroTwo {
 		// status
 		this.status();
 
+		const time = process.uptime() - start;
+
 		// done
-		this.logger.log(`Connected as '${this.client.user!.username}#${this.client.user!.discriminator}'`);
+		this.logger.log(
+			`Connected as '${this.client.user!.username}#${this.client.user!.discriminator}' in ${(time * 1000).toFixed(
+				2,
+			)}ms`,
+		);
 
 		return this;
 	}
 
-	// destroy the bot and disconnect
-	public async destroy() {
+	/**
+	 *  Destroy the bot and disconnect
+	 *  @returns void
+	 */
+	public async destroy(): Promise<void> {
 		// clear the status interval
 		clearTimeout(this.statusTimeout);
 
@@ -180,9 +242,6 @@ export class ZeroTwo {
 
 		// done
 		this.logger.warn("Destroyed");
-
-		// exit
-		process.exit(0);
 	}
 
 	// create a basic embed

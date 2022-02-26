@@ -2,13 +2,14 @@ import { ShardingManager } from "discord.js";
 import { DEV, DISCORD_TOKEN } from "./utils/config.js";
 import { logging as logging } from "./utils/log.js";
 
-const logger = logging("SHARD_MANAGER");
+const logger = logging("SHARDING_MANAGER");
 
 // shard the bot
 const manager = new ShardingManager("./dist/bot.js", {
 	execArgv: ["--trace-warnings"],
 	totalShards: DEV ? 1 : "auto",
 	token: DISCORD_TOKEN,
+	respawn: true,
 });
 
 // on shard ready message the shard id
@@ -20,11 +21,10 @@ manager.on("shardCreate", (shard) => {
 const spawned = await manager.spawn();
 
 for (const [id, shard] of spawned) {
-	shard.on("death", (event) => {
-		logger.warn("Shard", id, "died with event:", event.exitCode);
+	shard.send({ type: "shardId", payload: id });
 
-		// respawn the shard
-		shard.respawn({ delay: 5000 });
+	shard.on("death", (event) => {
+		logger.warn(`Shard ${id} died with event ${event.exitCode}`);
 	});
 
 	shard.on("error", (error) => {
@@ -35,8 +35,6 @@ for (const [id, shard] of spawned) {
 logger.log("Spawned", spawned.size, "shard(s)");
 
 const handleExit = () => {
-	logger.log("Recieved exit signal, sending unpublish message to shard", 0);
-
 	manager.removeAllListeners();
 
 	for (const [, shard] of spawned) {

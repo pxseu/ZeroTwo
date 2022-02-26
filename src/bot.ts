@@ -10,7 +10,11 @@ try {
 	process.exit(1);
 }
 
-process.on("SIGINT", async () => {
+const handleExit = async () => {
+	bot.logger.log("Recieved exit signal to destroy");
 	await bot.destroy();
 	process.exit(0);
-});
+};
+
+process.on("SIGINT", handleExit);
+process.on("SIGTERM", handleExit);

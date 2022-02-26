@@ -256,23 +256,23 @@ export class Handy {
 	public findLowestSubCommand(
 		command: CommandInteraction | Command | SubCommand,
 		args?: readonly CommandInteractionOption[],
-	): Command | SubCommand | null {
+	): [Command | SubCommand, readonly CommandInteractionOption[] | undefined] | null {
 		if (command instanceof CommandInteraction) {
 			const com = this.client._zerotwo.commands.get(command.commandName);
 			return com ? this.findLowestSubCommand(com, args) : null;
 		}
 
 		if (!command.subCommands.size) {
-			return command;
+			return [command, args];
 		}
 
 		const sub = args?.find((a) => a.type === "SUB_COMMAND" || a.type === "SUB_COMMAND_GROUP");
 
-		if (!sub) return command;
+		if (!sub) return [command, args];
 
 		const subCommand = command.subCommands.get(sub.name);
 
-		if (!subCommand) return command;
+		if (!subCommand) return [command, args];
 
 		return this.findLowestSubCommand(subCommand, sub.options);
 	}

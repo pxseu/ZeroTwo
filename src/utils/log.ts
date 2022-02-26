@@ -4,9 +4,12 @@ const YELLOW = "\x1b[33m";
 const RESET = "\x1b[0m";
 
 export const logging = (label: string) => {
+	const parsed = label.toUpperCase();
+
 	return {
-		log: (...args: any[]) => console.log(`${BLUE}[${label.toUpperCase()}]${RESET}:`, ...args),
-		error: (...args: any[]) => console.error(`${RED}[${label.toUpperCase()}]${RESET}:`, ...args),
-		warn: (...args: any[]) => console.warn(`${YELLOW}[${label.toUpperCase()}]${RESET}:`, ...args),
+		label: parsed,
+		log: (...args: any[]) => console.log(`${BLUE}[${parsed}]${RESET}:`, ...args),
+		error: (...args: any[]) => console.error(`${RED}[${parsed}]${RESET}:`, ...args),
+		warn: (...args: any[]) => console.warn(`${YELLOW}[${parsed}]${RESET}:`, ...args),
 	};
 };

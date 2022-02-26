@@ -1,3 +1,4 @@
+import os from "os";
 import { Collection, CommandInteraction, MessageButton } from "discord.js";
 import { ButtonCommand, SubCommand } from "../../classes/Command.js";
 
@@ -72,6 +73,21 @@ export default class BotInfo extends SubCommand {
 						{
 							name: "NODE VERSION",
 							value: `\`${process.versions.node}\``,
+							inline: true,
+						},
+						{
+							name: "MEM USED",
+							value: `\`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB\``,
+							inline: true,
+						},
+						{
+							name: "MEM TOTAL",
+							value: `\`${(os.totalmem() / 1024 / 1024).toFixed(2)} MB\``,
+							inline: true,
+						},
+						{
+							name: "MEM AVAILABLE",
+							value: `\`${(os.freemem() / 1024 / 1024).toFixed(2)} MB\``,
 							inline: true,
 						},
 					],
