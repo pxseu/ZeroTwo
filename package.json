@@ -23,7 +23,7 @@
 		"genius-api": "^0.4.1",
 		"imperial-node": "^2.0.1",
 		"mathjs": "^9.2.0",
-		"moment": "^2.29.1",
+		"moment": "^2.29.2",
 		"mongoose": "5.11.19",
 		"morgan": "^1.10.0",
 		"nhentai-api": "^3.0.2",
