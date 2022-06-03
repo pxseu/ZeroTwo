@@ -13,8 +13,7 @@ Please check it out and contribute if you wish to do so!
 
 Preffered node version is listed in the [.nvmrc](.nvmrc) file.
 Use `nvm install` to that specific version.
-
-While developing it is advised to use propper development tools (eslint, prettier).
+## Development
 
 ```sh
 # .env
