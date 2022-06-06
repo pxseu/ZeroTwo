@@ -5,7 +5,6 @@ import { ButtonCommand, SubCommand } from "../../classes/Command.js";
 export default class BotInfo extends SubCommand {
 	public name = "info";
 	public description = "Bot stats";
-	public options = [];
 
 	public buttonInteractions: Collection<string, ButtonCommand> = new Collection<string, ButtonCommand>([
 		[

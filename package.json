@@ -19,6 +19,7 @@
 	"dependencies": {
 		"axios": "^0.24.0",
 		"bufferutil": "^4.0.6",
+		"cross-env": "^7.0.3",
 		"discord.js": "^13.6.0",
 		"erlpack": "^0.1.4",
 		"imperial.js": "^2.1.6",
@@ -30,7 +31,6 @@
 		"@pxseu/prettier-config": "^1.0.0",
 		"@typescript-eslint/eslint-plugin": "^5.9.1",
 		"@typescript-eslint/parser": "^5.9.1",
-		"cross-env": "^7.0.3",
 		"dotenv": "^12.0.3",
 		"eslint": "^8.6.0",
 		"eslint-config-prettier": "^8.3.0",

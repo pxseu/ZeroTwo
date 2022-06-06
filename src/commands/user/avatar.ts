@@ -2,8 +2,8 @@ import { ButtonInteraction, Collection, CommandInteraction, GuildMember, Message
 import { SubCommand, ButtonCommand } from "../../classes/Command.js";
 
 export default class UserPfp extends SubCommand {
-	public name = "pfp";
-	public description = "Get profile picture of a user";
+	public name = "avatar";
+	public description = "Get users avatar";
 
 	public buttonInteractions: Collection<string, ButtonCommand> = new Collection<string, ButtonCommand>([
 		[
@@ -27,7 +27,7 @@ export default class UserPfp extends SubCommand {
 	]);
 
 	public async execute(interaction: CommandInteraction | ButtonInteraction) {
-		if (!interaction.isButton()) return this.guildPfp(interaction, interaction.member as GuildMember);
+		if (!interaction.isButton()) return this.guildAvatar(interaction, interaction.member as GuildMember);
 
 		const meta = this.client._zerotwo.handy.getMeta(interaction.customId);
 
@@ -38,22 +38,22 @@ export default class UserPfp extends SubCommand {
 
 		switch (meta.button) {
 			case "guild":
-				return this.guildPfp(interaction, interaction.member as GuildMember);
+				return this.guildAvatar(interaction, interaction.member as GuildMember);
 
 			case "default":
-				return this.defaultPfp(interaction, interaction.user);
+				return this.defaultAvatar(interaction, interaction.user);
 
 			case "global":
 			default:
-				return this.globalPfp(interaction, interaction.user);
+				return this.globalAvatar(interaction, interaction.user);
 		}
 	}
 
-	private async guildPfp(interaction: CommandInteraction | ButtonInteraction, member: GuildMember | null) {
+	private async guildAvatar(interaction: CommandInteraction | ButtonInteraction, member: GuildMember | null) {
 		const url = member?.avatarURL({ format: "png", size: 256, dynamic: true });
 		const link = member?.avatarURL({ format: "png", size: 4096, dynamic: true });
 
-		if (!url || !link) return this.globalPfp(interaction, interaction.user);
+		if (!url || !link) return this.globalAvatar(interaction, interaction.user);
 
 		return interaction.editReply({
 			embeds: [
@@ -80,7 +80,7 @@ export default class UserPfp extends SubCommand {
 		});
 	}
 
-	private async globalPfp(interaction: CommandInteraction | ButtonInteraction, user: User) {
+	private async globalAvatar(interaction: CommandInteraction | ButtonInteraction, user: User) {
 		const url = user.avatarURL({ format: "png", size: 256, dynamic: true }) ?? user.defaultAvatarURL;
 		const link = user.avatarURL({ format: "png", size: 4096, dynamic: true }) ?? user.defaultAvatarURL;
 
@@ -109,7 +109,7 @@ export default class UserPfp extends SubCommand {
 		});
 	}
 
-	private async defaultPfp(interaction: CommandInteraction | ButtonInteraction, user: User) {
+	private async defaultAvatar(interaction: CommandInteraction | ButtonInteraction, user: User) {
 		const link = user.defaultAvatarURL;
 
 		return interaction.editReply({
