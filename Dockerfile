@@ -1,7 +1,5 @@
 FROM node:18-alpine AS installer
 
-ENV NODE_ENV production
-
 WORKDIR /app
 
 ADD yarn.lock package.json /app/
@@ -16,6 +14,8 @@ ADD . /app/
 
 RUN \
     yarn build
+
+RUN yarn install --production --ignore-scripts --prefer-offline --force
 
 FROM node:18-alpine
 
