@@ -6,7 +6,7 @@ WORKDIR /app
 
 ADD yarn.lock package.json /app/
 
-RUN apk add --no-cache python3 py3-pip
+RUN apk add --no-cache python3 py3-pip build-base
 
 RUN \
     cd /app && \
