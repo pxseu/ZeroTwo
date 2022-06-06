@@ -1,4 +1,4 @@
-FROM node:18.3.0-alpine AS installer
+FROM node:18-alpine AS installer
 
 ENV NODE_ENV production
 
@@ -15,7 +15,7 @@ ADD . /app/
 RUN \
     yarn build
 
-FROM node:18.3.0-alpine
+FROM node:18-alpine
 
 COPY --from=installer /app /app/
 
