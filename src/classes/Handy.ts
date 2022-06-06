@@ -207,9 +207,9 @@ export class Handy {
 		};
 	}
 
-	public addState(commandId: string | null, author: string, state: string) {
+	public addState(commandId: string | null, author: string, state?: string) {
 		if (!commandId) throw new Error("CommandId is null");
-		return `${commandId}${this.authorSplit}${author}${this.stateSplit}${state}`;
+		return `${commandId}${this.authorSplit}${author}${this.stateSplit}${state ?? ""}`;
 	}
 
 	public joinCommandId(command: (string | null)[], action: string) {

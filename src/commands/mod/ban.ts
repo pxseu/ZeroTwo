@@ -19,8 +19,6 @@ export default class ModBan extends SubCommand {
 	];
 
 	public async execute(interaction: CommandInteraction, args?: readonly CommandInteractionOption[]) {
-		const author = interaction.member as GuildMember;
-
 		if (!interaction.guild?.id)
 			return interaction.editReply({
 				embeds: [
@@ -30,6 +28,8 @@ export default class ModBan extends SubCommand {
 					}),
 				],
 			});
+
+		const author = interaction.member as GuildMember;
 
 		if (!author.permissions.has("BAN_MEMBERS", true))
 			return interaction.editReply({

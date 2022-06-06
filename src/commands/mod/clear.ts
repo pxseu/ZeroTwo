@@ -21,9 +21,6 @@ export default class ModClear extends SubCommand {
 	];
 
 	public async execute(interaction: CommandInteraction, args?: readonly CommandInteractionOption[]) {
-		const limit = args?.find((arg) => arg.name === this.options[0].name)?.value as number;
-		const channel = args?.find((arg) => arg.name === this.options[1].name)?.value as string;
-
 		if (!interaction.inGuild())
 			return interaction.editReply({
 				embeds: [
@@ -33,6 +30,9 @@ export default class ModClear extends SubCommand {
 					}),
 				],
 			});
+
+		const limit = args?.find((arg) => arg.name === this.options[0].name)?.value as number;
+		const channel = args?.find((arg) => arg.name === this.options[1].name)?.value as string;
 
 		if (!(interaction.member as GuildMember).permissions.has("MANAGE_MESSAGES", true))
 			return interaction.editReply({

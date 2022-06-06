@@ -1,7 +1,7 @@
-import axios from "axios";
+import { AxiosResponse } from "axios";
 import { CommandInteraction, CommandInteractionOption } from "discord.js";
 import { ArgumentDefinition, Command, OptionTypes } from "../classes/Command.js";
-import { DISCORD_BOT_VERSION, PXSEU_API_URL } from "../utils/config.js";
+import { PXSEU_API_URL } from "../utils/config.js";
 
 export default class Pxseu extends Command {
 	public name = "pxseu";
@@ -11,13 +11,6 @@ export default class Pxseu extends Command {
 		{ name: "message", description: "The message that will be sent", type: OptionTypes.STRING },
 		{ name: "attachment", description: "The attachment that will be sent", type: OptionTypes.STRING },
 	];
-
-	public axios = axios.create({
-		headers: {
-			"Content-Type": "application/json",
-			"User-Agent": `ZeroTwo ${DISCORD_BOT_VERSION}`,
-		},
-	});
 
 	public async execute(interaction: CommandInteraction, args?: readonly CommandInteractionOption[]) {
 		const name = args?.find((arg) => arg.name === this.options[0].name)?.value as string;
@@ -34,13 +27,13 @@ export default class Pxseu extends Command {
 				],
 			});
 
-		const response = await this.axios
+		const response = (await this.client._zerotwo.axios
 			.post(PXSEU_API_URL, {
 				name,
 				message,
 				attachment,
 			})
-			.catch((err) => err.response);
+			.catch((err) => err.response)) as AxiosResponse;
 
 		if (response.status !== 200)
 			return interaction.editReply({

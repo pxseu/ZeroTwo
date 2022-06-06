@@ -15,22 +15,26 @@ const manager = new ShardingManager("./dist/bot.js", {
 // on shard ready message the shard id
 manager.on("shardCreate", (shard) => {
 	logger.log("Launched shard", shard.id);
+
+	shard.on("reconnection", () => {
+		logger.log("Reconnecting shard", shard.id);
+	});
+
+	shard.on("disconnect", () => {
+		logger.warn("Shard", shard.id, "disconnected");
+	});
+
+	shard.on("error", (error) => {
+		logger.error("Shard", shard.id, "errored with error:", error);
+	});
+
+	shard.on("death", (event) => {
+		logger.warn("Shard", shard.id, "died with event", event.exitCode);
+	});
 });
 
 // listen to the messages from the shards
 const spawned = await manager.spawn();
-
-for (const [id, shard] of spawned) {
-	shard.send({ type: "shardId", payload: id });
-
-	shard.on("death", (event) => {
-		logger.warn(`Shard ${id} died with event ${event.exitCode}`);
-	});
-
-	shard.on("error", (error) => {
-		logger.error(`Shard ${id} errored with error:`, error);
-	});
-}
 
 logger.log("Spawned", spawned.size, "shard(s)");
 

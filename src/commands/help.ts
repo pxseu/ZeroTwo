@@ -4,6 +4,7 @@ import { ArgumentDefinition, Command, OptionTypes } from "../classes/Command.js"
 export default class Help extends Command {
 	public name = "help";
 	public description = "Show the help message";
+	public ephermal = true;
 	public options: ArgumentDefinition[] = [
 		{ name: "command", description: "The command you want help with", type: OptionTypes.STRING },
 	];

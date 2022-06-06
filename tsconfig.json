@@ -4,7 +4,8 @@
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"lib": [
-			"esnext"
+			"esnext",
+			"dom"
 		],
 		"module": "esnext",
 		"moduleResolution": "node",

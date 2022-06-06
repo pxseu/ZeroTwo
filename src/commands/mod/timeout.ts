@@ -25,8 +25,6 @@ export default class ModTimeout extends SubCommand {
 	];
 
 	public async execute(interaction: CommandInteraction, args?: readonly CommandInteractionOption[]) {
-		const author = interaction.member as GuildMember;
-
 		if (!interaction.guild?.id)
 			return interaction.editReply({
 				embeds: [
@@ -36,6 +34,8 @@ export default class ModTimeout extends SubCommand {
 					}),
 				],
 			});
+
+		const author = interaction.member as GuildMember;
 
 		if (!author.permissions.has("MODERATE_MEMBERS", true))
 			return interaction.editReply({

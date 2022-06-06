@@ -52,7 +52,7 @@ export abstract class BaseCommand {
 	public ephermal: boolean = false;
 	public update: boolean = true;
 
-	public buttonsWithState(author: string, state: string) {
+	public buttonsWithState(author: string, state?: string) {
 		return Array.from(this.buttonInteractions.values()).map((b) => ({
 			...b.metadata,
 			customId: this.client._zerotwo.handy.addState(b.metadata.customId, author, state),

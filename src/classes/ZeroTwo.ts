@@ -9,13 +9,14 @@ import {
 	MessageEmbedOptions,
 	Options,
 } from "discord.js";
-import { ACTIVITIES, DEV, DISCORD_TOKEN, IMPERIAL_TOKEN, INTENTS } from "../utils/config.js";
+import { ACTIVITIES, DEV, DISCORD_BOT_VERSION, DISCORD_TOKEN, IMPERIAL_TOKEN, INTENTS } from "../utils/config.js";
 import { Command } from "./Command.js";
 import { getCommands } from "../utils/loader.js";
 import { logging } from "../utils/log.js";
 import { Colors } from "./Colors.js";
 import { Handy } from "./Handy.js";
 import { Imperial } from "imperial.js";
+import axios from "axios";
 
 /**
  *  The ZeroTwo class is the main class of the bot.
@@ -63,47 +64,38 @@ export class ZeroTwo {
 		this.client._zerotwo = this;
 
 		// set up the listeners
-		this.client.on("interactionCreate", this.handleInteraction.bind(this));
+		this.client.on("interactionCreate", this._handleInteraction.bind(this));
+		this.client.on("shardReady", this._shardReady.bind(this));
 		this.client.on("warn", this.logger.warn);
 		this.client.on("error", this.logger.error);
-
-		// await for shard id to be set
-		process.on("message", (message: { type: string; payload: any }) => {
-			if (message.type !== "shardId") return;
-
-			this.logger = logging(`${this.logger.label}-${message.payload}`);
-		});
+		// if (DEV) this.client.on("debug", logging("debug").log);
 	}
 
-	private status() {
-		const setStatus = (activity: ActivityOptions) => {
-			this.client.user?.setPresence({
-				status: "dnd",
-				activities: [activity],
-			});
-		};
+	private _shardReady(shardId: number): void {
+		this.logger = logging(`${this.logger.label}-${shardId}`);
 
-		if (DEV) {
-			return setStatus({ type: "WATCHING", name: "development 🤖" });
+		// bruih
+		if (this.statusTimeout) clearTimeout(this.statusTimeout);
+		this._status();
+	}
+
+	/**
+	 *  Handles interaction creation.
+	 */
+	private async _handleInteraction(interaction: Interaction): Promise<void> {
+		switch (interaction.type) {
+			case "APPLICATION_COMMAND":
+				return this._handleCommand(interaction as CommandInteraction);
+
+			case "MESSAGE_COMPONENT":
+				return this._handleButton(interaction as ButtonInteraction);
 		}
-
-		let iterator = 0;
-
-		const updateStatus = async () => {
-			setStatus(await ACTIVITIES[iterator](this.client));
-			iterator = iterator >= ACTIVITIES.length - 1 ? 0 : iterator + 1;
-			this.statusTimeout = setTimeout(updateStatus, 15_000);
-		};
-
-		updateStatus();
 	}
 
-	private async handleInteraction(interaction: Interaction) {
-		if (interaction.isCommand()) return this.handleCommand(interaction);
-		if (interaction.isButton()) return this.handleButton(interaction);
-	}
-
-	private async handleCommand(interaction: CommandInteraction): Promise<void> {
+	/**
+	 *  Handles a command interaction.
+	 */
+	private async _handleCommand(interaction: CommandInteraction): Promise<void> {
 		// get the command
 		const metadata = this.handy.findLowestSubCommand(interaction, interaction.options.data);
 
@@ -143,7 +135,10 @@ export class ZeroTwo {
 		}
 	}
 
-	private async handleButton(interaction: ButtonInteraction): Promise<void> {
+	/**
+	 *  Handles a button interaction.
+	 */
+	private async _handleButton(interaction: ButtonInteraction): Promise<void> {
 		this.logger.log(`Recieved button '${interaction.customId}'`);
 
 		// get the command
@@ -179,6 +174,32 @@ export class ZeroTwo {
 	}
 
 	/**
+	 *  Updates the bot status
+	 */
+	private _status() {
+		const setStatus = (activity: ActivityOptions) => {
+			this.client.user?.setPresence({
+				status: "dnd",
+				activities: [activity],
+			});
+		};
+
+		if (DEV) {
+			return setStatus({ type: "WATCHING", name: "development 🤖" });
+		}
+
+		let iterator = 0;
+
+		const updateStatus = async () => {
+			setStatus(await ACTIVITIES[iterator](this.client));
+			iterator = iterator >= ACTIVITIES.length - 1 ? 0 : iterator + 1;
+			this.statusTimeout = setTimeout(updateStatus, 15_000);
+		};
+
+		updateStatus();
+	}
+
+	/**
 	 *  Load commands
 	 */
 	public async loadCommands(): Promise<this> {
@@ -210,9 +231,6 @@ export class ZeroTwo {
 
 		// fetch application
 		await this.client.application?.fetch();
-
-		// status
-		this.status();
 
 		const time = process.uptime() - start;
 
@@ -256,6 +274,13 @@ export class ZeroTwo {
 			...data,
 		});
 	}
+
+	public axios = axios.create({
+		headers: {
+			"Content-Type": "application/json",
+			"User-Agent": `ZeroTwo ${DISCORD_BOT_VERSION}`,
+		},
+	});
 }
 
 export interface ZeroTwo {
