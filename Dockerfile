@@ -6,6 +6,8 @@ WORKDIR /app
 
 ADD yarn.lock package.json /app/
 
+RUN apk add --no-cache python3 py3-pip
+
 RUN \
     cd /app && \
     yarn install --frozen-lockfile --non-interactive
