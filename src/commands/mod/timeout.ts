@@ -1,8 +1,7 @@
 import { CommandInteraction, CommandInteractionOption, GuildMember, Util } from "discord.js";
 import { ArgumentDefinition, SubCommand, OptionTypes } from "../../classes/Command.js";
 
-export default class ModTimeout extends SubCommand {
-	public name = "timeout";
+export default class Timeout extends SubCommand {
 	public description = "Timeout a member";
 	public options: ArgumentDefinition[] = [
 		{

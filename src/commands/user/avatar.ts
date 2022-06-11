@@ -1,28 +1,27 @@
 import { ButtonInteraction, Collection, CommandInteraction, GuildMember, MessageButton, User } from "discord.js";
 import { SubCommand, ButtonCommand } from "../../classes/Command.js";
 
-export default class UserPfp extends SubCommand {
-	public name = "avatar";
+export default class Avatar extends SubCommand {
 	public description = "Get users avatar";
 
-	public buttonInteractions: Collection<string, ButtonCommand> = new Collection<string, ButtonCommand>([
+	public buttonInteractions: Collection<string, ButtonCommand> = new Collection([
 		[
 			"guild",
 			new (class PfpGuild extends ButtonCommand {
 				public metadata = new MessageButton().setStyle("PRIMARY").setLabel("Guild");
-			})(this.client, this),
+			})(this),
 		],
 		[
 			"global",
 			new (class PfpGlobal extends ButtonCommand {
 				public metadata = new MessageButton().setStyle("PRIMARY").setLabel("Global");
-			})(this.client, this),
+			})(this),
 		],
 		[
 			"default",
 			new (class PfpDefault extends ButtonCommand {
 				public metadata = new MessageButton().setStyle("PRIMARY").setLabel("Default");
-			})(this.client, this),
+			})(this),
 		],
 	]);
 
@@ -62,7 +61,7 @@ export default class UserPfp extends SubCommand {
 						name: member?.displayName ?? interaction.user.username,
 						icon_url: url,
 					},
-					description: `[Image Url](${link})`,
+					description: `Guild avatar: [Image Url](${link})`,
 					image: {
 						url,
 					},
@@ -81,8 +80,10 @@ export default class UserPfp extends SubCommand {
 	}
 
 	private async globalAvatar(interaction: CommandInteraction | ButtonInteraction, user: User) {
-		const url = user.avatarURL({ format: "png", size: 256, dynamic: true }) ?? user.defaultAvatarURL;
-		const link = user.avatarURL({ format: "png", size: 4096, dynamic: true }) ?? user.defaultAvatarURL;
+		const url = user.avatarURL({ format: "png", size: 256, dynamic: true });
+		const link = user.avatarURL({ format: "png", size: 4096, dynamic: true });
+
+		if (!url || !link) return this.defaultAvatar(interaction, user);
 
 		return interaction.editReply({
 			embeds: [
@@ -91,7 +92,7 @@ export default class UserPfp extends SubCommand {
 						name: interaction.user.username,
 						icon_url: url,
 					},
-					description: `[Image Url](${link})`,
+					description: `Global avatar: [Image Url](${link})`,
 					image: {
 						url,
 					},
@@ -119,7 +120,7 @@ export default class UserPfp extends SubCommand {
 						name: interaction.user.username,
 						icon_url: link,
 					},
-					description: `[Image Url](${link})`,
+					description: `Default avatar: [Image Url](${link})`,
 					image: {
 						url: link,
 					},

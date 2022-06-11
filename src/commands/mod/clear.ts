@@ -1,8 +1,7 @@
 import { CommandInteraction, CommandInteractionOption, GuildMember, Message } from "discord.js";
 import { ArgumentDefinition, SubCommand, OptionTypes } from "../../classes/Command.js";
 
-export default class ModClear extends SubCommand {
-	public name = "clear";
+export default class Clear extends SubCommand {
 	public description = "Delete messages in a channel";
 	public options: ArgumentDefinition[] = [
 		{

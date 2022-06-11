@@ -1,8 +1,7 @@
 import { CommandInteraction, CommandInteractionOption, GuildMember, Util } from "discord.js";
 import { ArgumentDefinition, SubCommand, OptionTypes } from "../../classes/Command.js";
 
-export default class ModBan extends SubCommand {
-	public name = "ban";
+export default class Ban extends SubCommand {
 	public description = "Bans a member";
 	public options: ArgumentDefinition[] = [
 		{

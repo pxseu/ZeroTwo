@@ -1,8 +1,7 @@
 import { CommandInteraction, CommandInteractionOption, Util } from "discord.js";
 import { ArgumentDefinition, OptionTypes, SubCommand } from "../../classes/Command.js";
 
-export default class BotSay extends SubCommand {
-	public name = "say";
+export default class Say extends SubCommand {
 	public description = "Say something in the channel";
 	public ephermal = true;
 	public options: ArgumentDefinition[] = [
@@ -18,9 +17,12 @@ export default class BotSay extends SubCommand {
 		const text = args?.find((arg) => arg.name === this.options[0].name)?.value as string;
 		const regex = /^i('?|\s+a)m\s+((so+|very|really)\s+)?(stupid|dum+b?)$/gi;
 
-		const channel = interaction.channel ?? (await interaction.user.createDM());
+		const channel =
+			interaction.channel ?? interaction.user.dmChannel ?? (await interaction.user.createDM().catch(() => null));
 
-		if (regex.test(text.trim())) {
+		if (!channel) return interaction.reply("I can't send you a message because I can't DM you.");
+
+		if (regex.test(text.trim()))
 			return interaction.editReply({
 				embeds: [
 					this.client._zerotwo.embed({
@@ -29,7 +31,6 @@ export default class BotSay extends SubCommand {
 					}),
 				],
 			});
-		}
 
 		channel.send(Util.cleanContent(text, interaction.channel!));
 

@@ -1,8 +1,7 @@
 import { CommandInteraction, CommandInteractionOption, GuildMember, Util } from "discord.js";
 import { ArgumentDefinition, SubCommand, OptionTypes } from "../../classes/Command.js";
 
-export default class ModKick extends SubCommand {
-	public name = "kick";
+export default class Kick extends SubCommand {
 	public description = "Kicks a member";
 	public options: ArgumentDefinition[] = [
 		{

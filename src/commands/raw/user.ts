@@ -1,8 +1,7 @@
 import { CommandInteraction, CommandInteractionOption } from "discord.js";
 import { ArgumentDefinition, SubCommand, OptionTypes } from "../../classes/Command.js";
 
-export default class RawUser extends SubCommand {
-	public name = "user";
+export default class User extends SubCommand {
 	public description = "Get user data";
 	public options: ArgumentDefinition[] = [
 		{

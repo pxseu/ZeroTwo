@@ -1,19 +1,20 @@
 import { AxiosResponse } from "axios";
 import { Collection, CommandInteraction, MessageButton } from "discord.js";
 import { ButtonCommand, Command } from "../classes/Command.js";
-import { GANYU_API_URL } from "../utils/config.js";
 import { getUserDetails } from "../utils/member.js";
 
+const PIXIV_ILLUST_URL = "https://www.pixiv.net/en/artworks/";
+const GANYU_API_URL = "https://ganyu.one/v1/image/single";
+
 export default class Ganyu extends Command {
-	public name = "ganyu";
 	public description = "Get a cute Ganyu <3";
 
-	public buttonInteractions: Collection<string, ButtonCommand> = new Collection<string, ButtonCommand>([
+	public buttonInteractions: Collection<string, ButtonCommand> = new Collection([
 		[
 			"reload",
 			new (class Reload extends ButtonCommand {
 				public metadata = new MessageButton().setStyle("PRIMARY").setLabel("Ganyu");
-			})(this.client, this),
+			})(this),
 		],
 	]);
 
@@ -32,7 +33,8 @@ export default class Ganyu extends Command {
 				],
 			});
 
-		const url = response.data.data.url;
+		const { url, id } = response.data.data;
+		const illust = `${PIXIV_ILLUST_URL}${id}`;
 
 		const { username, icon } = await getUserDetails(interaction);
 
@@ -43,7 +45,7 @@ export default class Ganyu extends Command {
 						name: username,
 						icon_url: icon,
 					},
-					description: `[Ganyu](${url})`,
+					description: `[Ganyu](${illust})`,
 					url: "https://ganyu.one",
 					image: {
 						url,
@@ -55,7 +57,8 @@ export default class Ganyu extends Command {
 					type: "ACTION_ROW",
 					components: [
 						...this.buttonsWithState(interaction.user.id, ""),
-						new MessageButton().setStyle("LINK").setLabel("Open").setURL(url),
+						new MessageButton().setStyle("LINK").setLabel("Source").setURL(illust),
+						new MessageButton().setStyle("LINK").setLabel("Raw").setURL(url),
 					],
 				},
 			],

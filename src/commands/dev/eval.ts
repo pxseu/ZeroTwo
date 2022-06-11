@@ -3,8 +3,7 @@ import vm from "vm";
 import { inspect } from "util";
 import { SubCommand, OptionTypes } from "../../classes/Command.js";
 
-export default class DevEval extends SubCommand {
-	public name = "eval";
+export default class Eval extends SubCommand {
 	public description = "Evaluate code";
 	public options = [{ name: "code", description: "The code to execute", type: OptionTypes.STRING, required: true }];
 

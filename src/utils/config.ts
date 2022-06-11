@@ -47,4 +47,3 @@ export const ACTIVITIES = [
 	// }),
 ] as ((client: Client) => Promise<ActivitiesOptions> | ActivitiesOptions)[];
 export const PXSEU_API_URL = process.env.PXSEU_API_URL || "https://api.pxseu.com/v2/sendMessage";
-export const GANYU_API_URL = process.env.GANYU_API_URL || "https://ganyu.one/v1/image/single";

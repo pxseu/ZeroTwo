@@ -151,7 +151,7 @@ export class ZeroTwo {
 		if (!button) return;
 
 		// defer the reply
-		if (meta.command.update) {
+		if (button.update) {
 			await interaction.deferUpdate();
 		} else {
 			await interaction.deferReply({ ephemeral: meta.command.ephermal });

@@ -1,17 +1,16 @@
 import { Collection, CommandInteraction, MessageButton } from "discord.js";
 import { ButtonCommand, SubCommand } from "../../classes/Command.js";
 
-export default class BotPing extends SubCommand {
-	public name = "ping";
+export default class Ping extends SubCommand {
 	public description = "Get bots latency andping";
 	public ephermal = true;
 
-	public buttonInteractions: Collection<string, ButtonCommand> = new Collection<string, ButtonCommand>([
+	public buttonInteractions: Collection<string, ButtonCommand> = new Collection([
 		[
 			"reload",
 			new (class Reload extends ButtonCommand {
 				public metadata = new MessageButton().setStyle("SECONDARY").setLabel("Reload");
-			})(this.client, this),
+			})(this),
 		],
 	]);
 

@@ -15,6 +15,7 @@ export enum CommandType {
 }
 
 export interface Argument extends CommandInteractionOption {}
+
 // @ts-ignore
 export interface ArgumentDefinition extends Argument {
 	description: string;
@@ -23,6 +24,7 @@ export interface ArgumentDefinition extends Argument {
 	options?: ArgumentDefinition[];
 	min_value?: number;
 	max_value?: number;
+	choices?: (string | number)[];
 }
 
 export enum OptionTypes {
@@ -36,6 +38,7 @@ export enum OptionTypes {
 	ROLE,
 	MENTIONABLE,
 	NUMBER,
+	ATTACHMENT,
 }
 
 export abstract class BaseCommand {
@@ -43,14 +46,16 @@ export abstract class BaseCommand {
 		Object.defineProperty(this, "client", { value: client });
 	}
 
-	public abstract name: string;
 	public abstract description: string;
 	public abstract type: CommandType | OptionTypes;
 	public options: ArgumentDefinition[] = [];
 	public subCommands: Collection<string, SubCommand> = new Collection();
 	public buttonInteractions: Collection<string, ButtonCommand> = new Collection();
 	public ephermal: boolean = false;
-	public update: boolean = true;
+
+	public get name(): string {
+		return this.constructor.name.toLowerCase();
+	}
 
 	public buttonsWithState(author: string, state?: string) {
 		return Array.from(this.buttonInteractions.values()).map((b) => ({
@@ -93,18 +98,11 @@ export abstract class SubCommand extends BaseCommand {
 	public get type(): OptionTypes {
 		return this.subCommands.size > 0 ? OptionTypes.SUB_COMMAND_GROUP : OptionTypes.SUB_COMMAND;
 	}
-
-	public execute(
-		interaction: CommandInteraction | ButtonInteraction,
-		args?: readonly CommandInteractionOption[],
-	): Promise<unknown> {
-		return super.execute(interaction, args);
-	}
 }
 
 export abstract class ButtonCommand {
-	constructor(client: Client, parent: BaseCommand) {
-		Object.defineProperty(this, "client", { value: client });
+	constructor(parent: BaseCommand) {
+		Object.defineProperty(this, "client", { value: parent.client });
 		Object.defineProperty(this, "parent", { value: parent });
 	}
 
@@ -116,6 +114,6 @@ export abstract class ButtonCommand {
 }
 
 export interface ButtonCommand {
-	client: Client;
-	parent: BaseCommand;
+	readonly client: Client;
+	readonly parent: BaseCommand;
 }
