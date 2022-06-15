@@ -51,7 +51,7 @@ export abstract class BaseCommand {
 	public options: ArgumentDefinition[] = [];
 	public subCommands: Collection<string, SubCommand> = new Collection();
 	public buttonInteractions: Collection<string, ButtonCommand> = new Collection();
-	public ephermal: boolean = false;
+	public ephermal: boolean | ((...args: Parameters<typeof this.execute>) => boolean) = false;
 
 	public get name(): string {
 		return this.constructor.name.toLowerCase();

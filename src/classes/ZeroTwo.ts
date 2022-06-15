@@ -100,7 +100,7 @@ export class ZeroTwo {
 		const metadata = this.handy.findLowestSubCommand(interaction, interaction.options.data);
 
 		// log the command
-		this.logger.log(`Recieved command '${interaction.commandName}'`);
+		this.logger.log(`Recieved command: '${interaction.commandName}' from '${interaction.user.id}'`);
 
 		// if we don't have the command, ignore it
 		if (!metadata)
@@ -108,15 +108,18 @@ export class ZeroTwo {
 				ephemeral: true,
 				embeds: [
 					this.embed({
-						description: `Could not find command '${interaction.commandName}'`,
+						description: `Could not find command: '${interaction.commandName}'.\nPlease try again or wait for an hour to try again.`,
 					}),
 				],
 			});
 
 		const [command, args] = metadata;
 
+		const ephemeral =
+			typeof command.ephermal === "function" ? command.ephermal(interaction, args) : command.ephermal;
+
 		// defer the reply
-		await interaction.deferReply({ ephemeral: command.ephermal });
+		await interaction.deferReply({ ephemeral });
 
 		try {
 			// execute the command
@@ -154,7 +157,12 @@ export class ZeroTwo {
 		if (button.update) {
 			await interaction.deferUpdate();
 		} else {
-			await interaction.deferReply({ ephemeral: meta.command.ephermal });
+			const ephemeral =
+				typeof meta.command.ephermal === "function"
+					? meta.command.ephermal(interaction)
+					: meta.command.ephermal;
+
+			await interaction.deferReply({ ephemeral });
 		}
 
 		try {
@@ -191,7 +199,14 @@ export class ZeroTwo {
 		let iterator = 0;
 
 		const updateStatus = async () => {
-			setStatus(await ACTIVITIES[iterator](this.client));
+			const status = ACTIVITIES[iterator];
+
+			if (typeof status === "function") {
+				void setStatus(await status(this.client));
+			} else {
+				void setStatus(status);
+			}
+
 			iterator = iterator >= ACTIVITIES.length - 1 ? 0 : iterator + 1;
 			this.statusTimeout = setTimeout(updateStatus, 15_000);
 		};

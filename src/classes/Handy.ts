@@ -6,6 +6,7 @@ import {
 	Guild,
 	GuildBasedChannel,
 	GuildMember,
+	Interaction,
 	MessageEmbed,
 	Team,
 	User,
@@ -149,6 +150,18 @@ export class Handy {
 		const fetchedChannel = await guild.channels.fetch(parseChannel);
 
 		return fetchedChannel;
+	}
+
+	public async getUserDetails(interaction: Interaction) {
+		const member = interaction.member as GuildMember | null;
+		const user = interaction.user;
+
+		return {
+			tag: user.tag,
+			icon: (member ? member : user).displayAvatarURL({ dynamic: true, size: 256 }) ?? user.defaultAvatarURL,
+			username: member?.displayName ?? user.username,
+			discriminator: user.discriminator,
+		};
 	}
 
 	public authorSplit = "@";

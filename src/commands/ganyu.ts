@@ -1,7 +1,6 @@
 import { AxiosResponse } from "axios";
 import { Collection, CommandInteraction, MessageButton } from "discord.js";
 import { ButtonCommand, Command } from "../classes/Command.js";
-import { getUserDetails } from "../utils/member.js";
 
 const PIXIV_ILLUST_URL = "https://www.pixiv.net/en/artworks/";
 const GANYU_API_URL = "https://ganyu.one/v1/image/single";
@@ -18,25 +17,36 @@ export default class Ganyu extends Command {
 		],
 	]);
 
-	public async execute(interaction: CommandInteraction) {
-		const response = (await this.client._zerotwo.axios.get(GANYU_API_URL).catch((err) => err.response)) as
-			| AxiosResponse
-			| undefined;
+	private async getImage() {
+		const { status, statusText, data } = await this.client._zerotwo.axios
+			.get(GANYU_API_URL)
+			.catch((err) => err.response as AxiosResponse);
 
-		if (response?.status !== 200)
+		if (status !== 200) {
+			throw new Error(statusText ?? "Unknown error");
+		}
+
+		const { url, id } = data.data;
+		const illust = `${PIXIV_ILLUST_URL}${id}`;
+
+		return { url, illust };
+	}
+
+	public async execute(interaction: CommandInteraction) {
+		const image = await this.getImage().catch((err) => err as Error);
+
+		if (image instanceof Error)
 			return interaction.editReply({
 				embeds: [
 					this.client._zerotwo.embed({
-						description: response?.statusText ?? "Unknown error",
+						description: image.message,
 						color: this.client._zerotwo.colors.toNumber("red"),
 					}),
 				],
 			});
 
-		const { url, id } = response.data.data;
-		const illust = `${PIXIV_ILLUST_URL}${id}`;
-
-		const { username, icon } = await getUserDetails(interaction);
+		const { illust, url } = image;
+		const { username, icon } = await this.client._zerotwo.handy.getUserDetails(interaction);
 
 		return interaction.editReply({
 			embeds: [
