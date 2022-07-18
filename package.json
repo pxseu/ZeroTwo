@@ -27,7 +27,7 @@
 		"mongoose": "5.11.19",
 		"morgan": "^1.10.0",
 		"nhentai-api": "^3.0.2",
-		"node-fetch": "^2.6.1",
+		"node-fetch": "^3.2.8",
 		"puppeteer": "^8.0.0"
 	},
 	"devDependencies": {
