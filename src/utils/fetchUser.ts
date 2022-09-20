@@ -1,8 +1,8 @@
 import { GuildMember } from "discord.js";
 import { Message, User } from "discord.js";
 
-const regexMention = /^<@!?(\d{18})>$/i;
-const regexId = /^(\d{18})$/i;
+const regexMention = /^<@!?(\d{6,})>$/i;
+const regexId = /^(\d{6,})$/i;
 
 export const fetchUser = (message: Message, args: string[]): Promise<User> =>
 	new Promise<User>((resolve, reject) => {
