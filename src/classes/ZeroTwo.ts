@@ -18,6 +18,8 @@ import { Handy } from "./Handy.js";
 import { Imperial } from "imperial.js";
 import axios from "axios";
 
+const LABEL = "ZERO_TWO";
+
 /**
  *  The ZeroTwo class is the main class of the bot.
  *  It is responsible for handling all the events and interactions.
@@ -27,7 +29,7 @@ import axios from "axios";
 export class ZeroTwo {
 	constructor() {
 		// set up the logger
-		this.logger = logging("ZERO_TWO");
+		this.logger = logging(`${LABEL}-STARTING-SHARD`);
 
 		// set up the client
 		this.logger.log("Setting up");
@@ -60,19 +62,22 @@ export class ZeroTwo {
 		// setup imperial
 		this.imperial = new Imperial(IMPERIAL_TOKEN);
 
+		// execution count
+		this.commandsExecuted = 0n;
+
 		// pass `this` to the client
 		this.client._zerotwo = this;
 
 		// set up the listeners
 		this.client.on("interactionCreate", this._handleInteraction.bind(this));
-		this.client.on("shardReady", this._shardReady.bind(this));
 		this.client.on("warn", this.logger.warn);
 		this.client.on("error", this.logger.error);
+		this.client.on("shardReady", this._shardReady.bind(this));
 		// if (DEV) this.client.on("debug", logging("debug").log);
 	}
 
 	private _shardReady(shardId: number): void {
-		this.logger = logging(`${this.logger.label}-${shardId}`);
+		this.logger = logging(`${LABEL}-${shardId}`);
 
 		// bruih
 		if (this.statusTimeout) clearTimeout(this.statusTimeout);
@@ -83,6 +88,8 @@ export class ZeroTwo {
 	 *  Handles interaction creation.
 	 */
 	private async _handleInteraction(interaction: Interaction): Promise<void> {
+		this.commandsExecuted += 1n;
+
 		switch (interaction.type) {
 			case "APPLICATION_COMMAND":
 				return this._handleCommand(interaction as CommandInteraction);
@@ -224,7 +231,7 @@ export class ZeroTwo {
 		await getCommands(this.client, this.commands);
 
 		// log the commands
-		this.logger.log("Loaded", this.commands.size, "commands");
+		this.logger.log(`Loaded ${this.commands.size} commands`);
 
 		return this;
 	}
@@ -306,4 +313,5 @@ export interface ZeroTwo {
 	commands: Collection<string, Command>;
 	logger: ReturnType<typeof logging>;
 	statusTimeout: NodeJS.Timeout;
+	commandsExecuted: bigint;
 }

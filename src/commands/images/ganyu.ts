@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { Collection, CommandInteraction, MessageButton } from "discord.js";
-import { ButtonCommand, Command } from "../classes/Command.js";
+import { ButtonCommand, Command } from "../../classes/Command.js";
 
 const PIXIV_ILLUST_URL = "https://www.pixiv.net/en/artworks/";
 const GANYU_API_URL = "https://ganyu.one/v1/image/single";

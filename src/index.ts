@@ -16,7 +16,7 @@ const manager = new ShardingManager("./dist/bot.js", {
 manager.on("shardCreate", (shard) => {
 	logger.log("Launched shard", shard.id);
 
-	shard.on("reconnection", () => {
+	shard.on("reconnecting", () => {
 		logger.log("Reconnecting shard", shard.id);
 	});
 
@@ -29,7 +29,7 @@ manager.on("shardCreate", (shard) => {
 	});
 
 	shard.on("death", (event) => {
-		logger.warn("Shard", shard.id, "died with event", event.exitCode);
+		logger.warn("Shard", shard.id, "died with event", event);
 	});
 });
 
