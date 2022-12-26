@@ -1,13 +1,10 @@
 {
     "root": true,
-    "parser": "@typescript-eslint/parser",
-    "plugins": [
-        "@typescript-eslint"
-    ],
     "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended",
-        "prettier"
-    ]
+        "@pxseu/eslint-config"
+    ],
+    "rules": {
+        "@typescript-eslint/lines-between-class-members": "off",
+        "@typescript-eslint/indent": "off"
+    }
 }

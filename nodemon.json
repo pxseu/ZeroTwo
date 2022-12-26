@@ -1,0 +1,8 @@
+{
+	"watch": ["src", ".env", "package.json", "tsconfig.json"],
+	"ignore": ["dist/*"],
+	"ext": "ts",
+	"exec": "yarn clean && yarn build && node -r dotenv/config . || exit 1",
+	"delay": 900,
+	"signal": "SIGTERM"
+}

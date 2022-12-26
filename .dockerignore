@@ -1,0 +1,16 @@
+node_modules
+dist
+Dockerfile
+.dockerignore
+.eslintignore
+.eslintrc
+.git
+.github
+.gitignore
+hop.yml
+nodemon.json
+.nvmrc
+README.md
+SECURITY.md
+.prettierrc.json
+
