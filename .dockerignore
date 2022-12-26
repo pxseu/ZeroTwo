@@ -13,4 +13,4 @@ nodemon.json
 README.md
 SECURITY.md
 .prettierrc.json
-
+.env

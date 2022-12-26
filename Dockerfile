@@ -8,6 +8,12 @@ RUN yarn install --frozen-lockfile
 
 RUN apk del .build-deps
 
+ARG APPLICATION_ID
+ENV APPLICATION_ID ${APPLICATION_ID}
+
+ARG DISCORD_TOKEN
+ENV DIOSCRD_TOKEN ${DISCORD_TOKEN}
+
 RUN yarn build
 
 FROM node:18-alpine
