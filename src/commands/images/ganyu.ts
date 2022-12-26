@@ -33,6 +33,12 @@ export default class Ganyu extends Command {
 	}
 
 	public async execute(interaction: CommandInteraction) {
+		if (interaction.isButton()) {
+			const meta = this.client._zerotwo.handy.getMeta(interaction.customId);
+
+			if (meta?.author !== "" && meta?.author !== interaction.user.id) return interaction.editReply({});
+		}
+
 		const image = await this.getImage().catch((err) => err as Error);
 
 		if (image instanceof Error)

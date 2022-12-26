@@ -30,10 +30,7 @@ export default class Avatar extends SubCommand {
 
 		const meta = this.client._zerotwo.handy.getMeta(interaction.customId);
 
-		if (meta?.author !== "" && meta?.author !== interaction.user.id)
-			return interaction.editReply({
-				embeds: interaction.message.embeds,
-			});
+		if (meta?.author !== "" && meta?.author !== interaction.user.id) return interaction.editReply({});
 
 		switch (meta.button) {
 			case "guild":
