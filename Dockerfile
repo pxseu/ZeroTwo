@@ -1,4 +1,4 @@
-FROM node:18-alpine as builder
+FROM node:14-alpine as builder
 
 RUN apk add --no-cache --virtual .build-deps alpine-sdk python3
 
@@ -8,15 +8,9 @@ RUN yarn install --frozen-lockfile
 
 RUN apk del .build-deps
 
-ARG APPLICATION_ID
-ENV APPLICATION_ID ${APPLICATION_ID}
-
-ARG DISCORD_TOKEN
-ENV DIOSCRD_TOKEN ${DISCORD_TOKEN}
-
 RUN yarn build
 
-FROM node:18-alpine
+FROM node:14-alpine
 
 WORKDIR /zerotwo
 
