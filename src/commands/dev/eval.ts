@@ -27,8 +27,6 @@ export default class Eval extends SubCommand {
 
 			const script = new vm.Script(code, {
 				filename: "pxseu_amazing_eval_machine.js",
-				displayErrors: true,
-				timeout: 30000,
 			});
 
 			const context = vm.createContext({
