@@ -10,11 +10,11 @@
 	"license": "MPL-2.0",
 	"private": true,
 	"scripts": {
-		"build": "tsc -p tsconfig.json && node -r dotenv/config ./dist/publish.js",
+		"build": "bun run tsc -p tsconfig.json && bun run ./dist/publish.js",
 		"clean": "rimraf dist",
-		"lint": "eslint src --ext .ts,.json && yarn build --noEmit",
-		"dev": "cross-env NODE_ENV=development nodemon --config nodemon.json",
-		"start": "cross-env NODE_ENV=production node -r dotenv/config ."
+		"lint": "bun run eslint src --ext .ts,.json && bun run tsc --noEmit",
+		"dev": "cross-env NODE_ENV=development bun --watch src/index.ts",
+		"start": "cross-env NODE_ENV=production bun run ."
 	},
 	"dependencies": {
 		"axios": "^0.24.0",
@@ -36,7 +36,6 @@
 		"eslint": "^8.6.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-prettier": "^4.0.0",
-		"nodemon": "^2.0.15",
 		"prettier": "^2.5.1",
 		"rimraf": "^3.0.2",
 		"typescript": "^4.5.4"

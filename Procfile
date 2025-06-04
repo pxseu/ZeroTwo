@@ -1,1 +1,1 @@
-worker: node .
+worker: bun run .

@@ -41,6 +41,12 @@ export enum OptionTypes {
 	ATTACHMENT,
 }
 
+export enum Context {
+	GUILD,
+	BOT,
+	DM,
+}
+
 export abstract class BaseCommand {
 	constructor(client: Client) {
 		Object.defineProperty(this, "client", { value: client });
@@ -48,10 +54,14 @@ export abstract class BaseCommand {
 
 	public abstract description: string;
 	public abstract type: CommandType | OptionTypes;
+	public contexts?: Context[];
 	public options: ArgumentDefinition[] = [];
 	public subCommands: Collection<string, SubCommand> = new Collection();
-	public buttonInteractions: Collection<string, ButtonCommand> = new Collection();
-	public ephermal: boolean | ((...args: Parameters<typeof this.execute>) => boolean) = false;
+	public buttonInteractions: Collection<string, ButtonCommand> =
+		new Collection();
+	public ephermal:
+		| boolean
+		| ((...args: Parameters<typeof this.execute>) => boolean) = false;
 
 	public get name(): string {
 		return this.constructor.name.toLowerCase();
@@ -60,7 +70,11 @@ export abstract class BaseCommand {
 	public buttonsWithState(author: string, state?: string) {
 		return Array.from(this.buttonInteractions.values()).map((b) => ({
 			...b.metadata,
-			customId: this.client._zerotwo.handy.addState(b.metadata.customId, author, state),
+			customId: this.client._zerotwo.handy.addState(
+				b.metadata.customId,
+				author,
+				state,
+			),
 		}));
 	}
 
@@ -70,6 +84,7 @@ export abstract class BaseCommand {
 			type: this.type,
 			description: this.description,
 			options: this.options,
+			contexts: this.contexts || [Context.GUILD, Context.DM, Context.BOT],
 		} as any);
 	}
 
@@ -79,7 +94,9 @@ export abstract class BaseCommand {
 		_args?: readonly CommandInteractionOption[],
 	): Promise<unknown> {
 		return interaction.editReply({
-			embeds: [this.client._zerotwo.embed({ description: "Sub command not found" })],
+			embeds: [
+				this.client._zerotwo.embed({ description: "Sub command not found" }),
+			],
 		});
 	}
 }
@@ -96,7 +113,9 @@ export abstract class Command extends BaseCommand {
 
 export abstract class SubCommand extends BaseCommand {
 	public get type(): OptionTypes {
-		return this.subCommands.size > 0 ? OptionTypes.SUB_COMMAND_GROUP : OptionTypes.SUB_COMMAND;
+		return this.subCommands.size > 0
+			? OptionTypes.SUB_COMMAND_GROUP
+			: OptionTypes.SUB_COMMAND;
 	}
 }
 
