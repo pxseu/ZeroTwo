@@ -40,7 +40,8 @@ export default class Info extends SubCommand {
 						},
 						{
 							name: "CREATED",
-							value: `<t:${~~(this.client.user?.createdAt.getTime() / 1000)}:R>`,
+							// biome-ignore lint/style/noNonNullAssertion: user is guaranteed after login
+							value: `<t:${~~(this.client.user!.createdAt.getTime() / 1000)}:R>`,
 							inline: true,
 						},
 						{

@@ -56,7 +56,9 @@ export const getCommands = async <T>(
 
 			constructed.subCommands = subCommands;
 
-			constructed.options.push(...subCommands.map((sc) => sc.toJSON() as ArgumentDefinition));
+			constructed.options.push(
+				...subCommands.map((sc) => sc.toJSON() as unknown as ArgumentDefinition),
+			);
 
 			commands.set(constructed.name, constructed);
 		} catch (e) {

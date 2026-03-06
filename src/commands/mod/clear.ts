@@ -54,7 +54,8 @@ export default class Clear extends SubCommand {
 		const channelId = channel || interaction.channel?.id;
 
 		const channelInGuild = await this.client._zerotwo.handy.getChannel(
-			interaction.guild?.id,
+			// biome-ignore lint/style/noNonNullAssertion: guild is guaranteed by inGuild() check above
+			interaction.guild!.id,
 			channelId ?? null,
 		);
 
