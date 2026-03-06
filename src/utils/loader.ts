@@ -1,13 +1,13 @@
-import { ArgumentDefinition, BaseCommand, Command, SubCommand } from "../classes/Command.js";
-import { readdir } from "fs/promises";
-import { join } from "path";
-import { Client, Collection } from "discord.js";
-import { logging } from "./log.js";
+import { readdir } from "node:fs/promises";
+import { join } from "node:path";
+import type { Client, Collection } from "discord.js";
+import { type ArgumentDefinition, BaseCommand, Command, SubCommand } from "../classes/Command.js";
 import { DEV } from "./config.js";
+import { logging } from "./log.js";
 
 const logger = logging("LOADER");
 
-export const getCommands = async <T extends unknown>(
+export const getCommands = async <T>(
 	client: Client,
 	commands: Collection<string, Command | SubCommand>,
 	path = "",
@@ -38,17 +38,21 @@ export const getCommands = async <T extends unknown>(
 
 	for (const folder of folders) {
 		try {
-			const command = await import(`file://${join(process.cwd(), `/dist/commands/${path}`, folder, "index.js")}`);
+			const command = await import(
+				`file://${join(process.cwd(), `/dist/commands/${path}`, folder, "index.js")}`
+			);
 			const constructed: Command | SubCommand = new command.default(client);
 
 			if (!(constructed instanceof BaseCommand)) {
 				throw new Error(`'${folder}/index.js' is not a Command`);
 			}
 
-			const subCommands = await getCommands<SubCommand>(client, constructed.subCommands, `${path}/${folder}`, [
-				...(parent || []),
-				constructed.name,
-			]);
+			const subCommands = await getCommands<SubCommand>(
+				client,
+				constructed.subCommands,
+				`${path}/${folder}`,
+				[...(parent || []), constructed.name],
+			);
 
 			constructed.subCommands = subCommands;
 
@@ -66,7 +70,10 @@ export const getCommands = async <T extends unknown>(
 		if (command.buttonInteractions.size <= 0 && command.subCommands.size <= 0) continue;
 
 		for (const [id, button] of command.buttonInteractions) {
-			button.metadata.customId = client._zerotwo.handy.joinCommandId([...(parent || []), command.name], id);
+			button.metadata.customId = client._zerotwo.handy.joinCommandId(
+				[...(parent || []), command.name],
+				id,
+			);
 		}
 
 		for (const subCommand of command.subCommands.values()) {
@@ -79,5 +86,5 @@ export const getCommands = async <T extends unknown>(
 		}
 	}
 
-	return commands as any;
+	return commands as unknown as Collection<string, T>;
 };

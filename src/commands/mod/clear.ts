@@ -1,5 +1,10 @@
-import { CommandInteraction, CommandInteractionOption, GuildMember, Message } from "discord.js";
-import { ArgumentDefinition, SubCommand, OptionTypes } from "../../classes/Command.js";
+import {
+	type CommandInteraction,
+	type CommandInteractionOption,
+	type GuildMember,
+	Message,
+} from "discord.js";
+import { type ArgumentDefinition, OptionTypes, SubCommand } from "../../classes/Command.js";
 
 export default class Clear extends SubCommand {
 	public description = "Delete messages in a channel";
@@ -19,7 +24,10 @@ export default class Clear extends SubCommand {
 		},
 	];
 
-	public async execute(interaction: CommandInteraction, args?: readonly CommandInteractionOption[]) {
+	public async execute(
+		interaction: CommandInteraction,
+		args?: readonly CommandInteractionOption[],
+	) {
 		if (!interaction.inGuild())
 			return interaction.editReply({
 				embeds: [
@@ -45,7 +53,10 @@ export default class Clear extends SubCommand {
 
 		const channelId = channel || interaction.channel?.id;
 
-		const channelInGuild = await this.client._zerotwo.handy.getChannel(interaction.guild!.id, channelId ?? null);
+		const channelInGuild = await this.client._zerotwo.handy.getChannel(
+			interaction.guild?.id,
+			channelId ?? null,
+		);
 
 		if (!channelInGuild || !channelInGuild.isText())
 			return interaction.editReply({
@@ -57,7 +68,10 @@ export default class Clear extends SubCommand {
 				],
 			});
 
-		const messages = await channelInGuild.messages.fetch({ limit, before: interaction.id });
+		const messages = await channelInGuild.messages.fetch({
+			limit,
+			before: interaction.id,
+		});
 
 		const deleted = await channelInGuild.bulkDelete(messages, true);
 

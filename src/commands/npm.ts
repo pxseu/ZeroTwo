@@ -1,6 +1,6 @@
-import { AxiosResponse } from "axios";
-import { CommandInteraction, CommandInteractionOption } from "discord.js";
-import { ArgumentDefinition, Command, OptionTypes } from "../classes/Command.js";
+import type { AxiosResponse } from "axios";
+import type { CommandInteraction, CommandInteractionOption } from "discord.js";
+import { type ArgumentDefinition, Command, OptionTypes } from "../classes/Command.js";
 
 const REGISTRY_URL = "https://registry.npmjs.org/";
 const BASE_NPM_URL = "https://www.npmjs.com/package/";
@@ -19,10 +19,17 @@ export default class Npm extends Command {
 			type: OptionTypes.STRING,
 			required: true,
 		},
-		{ name: "ephermal", description: "If the command should be ephermal", type: OptionTypes.BOOLEAN },
+		{
+			name: "ephermal",
+			description: "If the command should be ephermal",
+			type: OptionTypes.BOOLEAN,
+		},
 	];
 
-	public async execute(interaction: CommandInteraction, args: readonly CommandInteractionOption[] = []) {
+	public async execute(
+		interaction: CommandInteraction,
+		args: readonly CommandInteractionOption[] = [],
+	) {
 		const query = args.find((arg) => arg.name === this.options[0].name)?.value as string;
 
 		if (!query)

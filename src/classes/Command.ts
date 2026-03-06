@@ -1,22 +1,22 @@
 import {
-	ButtonInteraction,
-	Client,
+	type ButtonInteraction,
+	type Client,
 	Collection,
-	CommandInteraction,
-	CommandInteractionOption,
-	MessageButton,
+	type CommandInteraction,
+	type CommandInteractionOption,
+	type MessageButton,
 } from "discord.js";
 import { objectify } from "../utils/objectify.js";
 
 export enum CommandType {
 	CHAT_INPUT = 1,
-	USER,
-	MESSAGE,
+	USER = 2,
+	MESSAGE = 3,
 }
 
 export interface Argument extends CommandInteractionOption {}
 
-// @ts-ignore
+// @ts-expect-error
 export interface ArgumentDefinition extends Argument {
 	description: string;
 	type: OptionTypes;
@@ -29,22 +29,27 @@ export interface ArgumentDefinition extends Argument {
 
 export enum OptionTypes {
 	SUB_COMMAND = 1,
-	SUB_COMMAND_GROUP,
-	STRING,
-	INTEGER,
-	BOOLEAN,
-	USER,
-	CHANNEL,
-	ROLE,
-	MENTIONABLE,
-	NUMBER,
-	ATTACHMENT,
+	SUB_COMMAND_GROUP = 2,
+	STRING = 3,
+	INTEGER = 4,
+	BOOLEAN = 5,
+	USER = 6,
+	CHANNEL = 7,
+	ROLE = 8,
+	MENTIONABLE = 9,
+	NUMBER = 10,
+	ATTACHMENT = 11,
 }
 
 export enum Context {
-	GUILD,
-	BOT,
-	DM,
+	GUILD = 0,
+	BOT = 1,
+	DM = 2,
+}
+
+export enum IntegrationType {
+	GUILD_INSTALL = 0,
+	USER_INSTALL = 1,
 }
 
 export abstract class BaseCommand {
@@ -55,13 +60,11 @@ export abstract class BaseCommand {
 	public abstract description: string;
 	public abstract type: CommandType | OptionTypes;
 	public contexts?: Context[];
+	public integrationTypes?: IntegrationType[];
 	public options: ArgumentDefinition[] = [];
 	public subCommands: Collection<string, SubCommand> = new Collection();
-	public buttonInteractions: Collection<string, ButtonCommand> =
-		new Collection();
-	public ephermal:
-		| boolean
-		| ((...args: Parameters<typeof this.execute>) => boolean) = false;
+	public buttonInteractions: Collection<string, ButtonCommand> = new Collection();
+	public ephermal: boolean | ((...args: Parameters<typeof this.execute>) => boolean) = false;
 
 	public get name(): string {
 		return this.constructor.name.toLowerCase();
@@ -70,33 +73,30 @@ export abstract class BaseCommand {
 	public buttonsWithState(author: string, state?: string) {
 		return Array.from(this.buttonInteractions.values()).map((b) => ({
 			...b.metadata,
-			customId: this.client._zerotwo.handy.addState(
-				b.metadata.customId,
-				author,
-				state,
-			),
+			customId: this.client._zerotwo.handy.addState(b.metadata.customId, author, state),
 		}));
 	}
 
-	public toJSON(): Record<string, any> {
+	public toJSON(): Record<string, unknown> {
 		return objectify({
 			name: this.name,
 			type: this.type,
 			description: this.description,
 			options: this.options,
 			contexts: this.contexts || [Context.GUILD, Context.DM, Context.BOT],
-		} as any);
+			integration_types: this.integrationTypes || [
+				IntegrationType.GUILD_INSTALL,
+				IntegrationType.USER_INSTALL,
+			],
+		});
 	}
 
 	public async execute(
 		interaction: CommandInteraction | ButtonInteraction,
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		_args?: readonly CommandInteractionOption[],
 	): Promise<unknown> {
 		return interaction.editReply({
-			embeds: [
-				this.client._zerotwo.embed({ description: "Sub command not found" }),
-			],
+			embeds: [this.client._zerotwo.embed({ description: "Sub command not found" })],
 		});
 	}
 }
@@ -113,9 +113,7 @@ export abstract class Command extends BaseCommand {
 
 export abstract class SubCommand extends BaseCommand {
 	public get type(): OptionTypes {
-		return this.subCommands.size > 0
-			? OptionTypes.SUB_COMMAND_GROUP
-			: OptionTypes.SUB_COMMAND;
+		return this.subCommands.size > 0 ? OptionTypes.SUB_COMMAND_GROUP : OptionTypes.SUB_COMMAND;
 	}
 }
 
@@ -125,7 +123,7 @@ export abstract class ButtonCommand {
 		Object.defineProperty(this, "parent", { value: parent });
 	}
 
-	public update: boolean = true;
+	public update = true;
 	public abstract metadata: MessageButton;
 	public async execute(interaction: ButtonInteraction): Promise<unknown> {
 		return this.parent.execute(interaction);

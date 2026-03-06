@@ -1,5 +1,5 @@
-import os from "os";
-import { Collection, CommandInteraction, MessageButton } from "discord.js";
+import os from "node:os";
+import { Collection, type CommandInteraction, MessageButton } from "discord.js";
 import { ButtonCommand, SubCommand } from "../../classes/Command.js";
 
 export default class Info extends SubCommand {
@@ -19,7 +19,7 @@ export default class Info extends SubCommand {
 			? await Promise.all([
 					this.client.shard.fetchClientValues("guilds.cache.size"),
 					this.client.shard.fetchClientValues("users.cache.size"),
-			  ] as Promise<number[]>[])
+				] as Promise<number[]>[])
 			: [[this.client.guilds.cache.size], [this.client.users.cache.size]];
 
 		return interaction.editReply({
@@ -30,17 +30,17 @@ export default class Info extends SubCommand {
 					fields: [
 						{
 							name: "NAME",
-							value: `\`${this.client.user!.tag}\``,
+							value: `\`${this.client.user?.tag}\``,
 							inline: true,
 						},
 						{
 							name: "ID",
-							value: `\`${this.client.user!.id}\``,
+							value: `\`${this.client.user?.id}\``,
 							inline: true,
 						},
 						{
 							name: "CREATED",
-							value: `<t:${~~(this.client.user!.createdAt.getTime() / 1000)}:R>`,
+							value: `<t:${~~(this.client.user?.createdAt.getTime() / 1000)}:R>`,
 							inline: true,
 						},
 						{
@@ -90,11 +90,16 @@ export default class Info extends SubCommand {
 						},
 					],
 					thumbnail: {
-						url: this.client.user!.avatarURL() ?? this.client.user!.defaultAvatarURL,
+						url: this.client.user?.avatarURL() ?? this.client.user?.defaultAvatarURL,
 					},
 				}),
 			],
-			components: [{ type: "ACTION_ROW", components: this.buttonsWithState(interaction.user.id, "") }],
+			components: [
+				{
+					type: "ACTION_ROW",
+					components: this.buttonsWithState(interaction.user.id, ""),
+				},
+			],
 		});
 	}
 }

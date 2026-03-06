@@ -1,4 +1,4 @@
-import { ActivitiesOptions, Client, Intents } from "discord.js";
+import { type ActivitiesOptions, type Client, Intents } from "discord.js";
 
 export const INTENTS = new Intents([
 	// guilds

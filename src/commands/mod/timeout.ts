@@ -1,5 +1,10 @@
-import { CommandInteraction, CommandInteractionOption, GuildMember, Util } from "discord.js";
-import { ArgumentDefinition, SubCommand, OptionTypes } from "../../classes/Command.js";
+import {
+	type CommandInteraction,
+	type CommandInteractionOption,
+	type GuildMember,
+	Util,
+} from "discord.js";
+import { type ArgumentDefinition, OptionTypes, SubCommand } from "../../classes/Command.js";
 
 export default class Timeout extends SubCommand {
 	public description = "Timeout a member";
@@ -23,7 +28,10 @@ export default class Timeout extends SubCommand {
 		},
 	];
 
-	public async execute(interaction: CommandInteraction, args?: readonly CommandInteractionOption[]) {
+	public async execute(
+		interaction: CommandInteraction,
+		args?: readonly CommandInteractionOption[],
+	) {
 		if (!interaction.guild?.id)
 			return interaction.editReply({
 				embeds: [

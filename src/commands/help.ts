@@ -1,14 +1,21 @@
-import { CommandInteraction, CommandInteractionOption } from "discord.js";
-import { ArgumentDefinition, Command, OptionTypes } from "../classes/Command.js";
+import type { CommandInteraction, CommandInteractionOption } from "discord.js";
+import { type ArgumentDefinition, Command, OptionTypes } from "../classes/Command.js";
 
 export default class Help extends Command {
 	public description = "Show the help message";
 	public ephermal = true;
 	public options: ArgumentDefinition[] = [
-		{ name: "command", description: "The command you want help with", type: OptionTypes.STRING, },
+		{
+			name: "command",
+			description: "The command you want help with",
+			type: OptionTypes.STRING,
+		},
 	];
 
-	public async execute(interaction: CommandInteraction, args: readonly CommandInteractionOption[] = []) {
+	public async execute(
+		interaction: CommandInteraction,
+		args: readonly CommandInteractionOption[] = [],
+	) {
 		if (!args.length)
 			return interaction.editReply({
 				embeds: [

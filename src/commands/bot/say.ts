@@ -1,5 +1,5 @@
-import { CommandInteraction, CommandInteractionOption, Util } from "discord.js";
-import { ArgumentDefinition, OptionTypes, SubCommand } from "../../classes/Command.js";
+import { type CommandInteraction, type CommandInteractionOption, Util } from "discord.js";
+import { type ArgumentDefinition, OptionTypes, SubCommand } from "../../classes/Command.js";
 
 export default class Say extends SubCommand {
 	public description = "Say something in the channel";
@@ -13,12 +13,17 @@ export default class Say extends SubCommand {
 		},
 	];
 
-	public async execute(interaction: CommandInteraction, args?: readonly CommandInteractionOption[]) {
+	public async execute(
+		interaction: CommandInteraction,
+		args?: readonly CommandInteractionOption[],
+	) {
 		const text = args?.find((arg) => arg.name === this.options[0].name)?.value as string;
 		const regex = /^i('?|\s+a)m\s+((so+|very|really)\s+)?(stupid|dum+b?)$/gi;
 
 		const channel =
-			interaction.channel ?? interaction.user.dmChannel ?? (await interaction.user.createDM().catch(() => null));
+			interaction.channel ??
+			interaction.user.dmChannel ??
+			(await interaction.user.createDM().catch(() => null));
 
 		if (!channel) return interaction.reply("I can't send you a message because I can't DM you.");
 
@@ -32,7 +37,9 @@ export default class Say extends SubCommand {
 				],
 			});
 
-		channel.send(Util.cleanContent(text, interaction.channel!));
+		if (interaction.channel) {
+			channel.send(Util.cleanContent(text, interaction.channel));
+		}
 
 		return interaction.editReply({
 			embeds: [

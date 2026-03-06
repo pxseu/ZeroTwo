@@ -12,7 +12,9 @@
 	"scripts": {
 		"build": "bun run tsc -p tsconfig.json && bun run ./dist/publish.js",
 		"clean": "rimraf dist",
-		"lint": "bun run eslint src --ext .ts,.json && bun run tsc --noEmit",
+		"lint": "bun run biome check src && bun run tsc --noEmit",
+		"lint:fix": "bun run biome check --write src",
+		"format": "bun run biome format --write src",
 		"dev": "cross-env NODE_ENV=development bun --watch src/index.ts",
 		"start": "cross-env NODE_ENV=production bun run ."
 	},
@@ -28,15 +30,8 @@
 		"zlib-sync": "^0.1.7"
 	},
 	"devDependencies": {
-		"@pxseu/eslint-config": "^1.0.1",
-		"@pxseu/prettier-config": "^1.0.0",
-		"@typescript-eslint/eslint-plugin": "^5.9.1",
-		"@typescript-eslint/parser": "^5.9.1",
+		"@biomejs/biome": "^1.9.4",
 		"dotenv": "^12.0.3",
-		"eslint": "^8.6.0",
-		"eslint-config-prettier": "^8.3.0",
-		"eslint-plugin-prettier": "^4.0.0",
-		"prettier": "^2.5.1",
 		"rimraf": "^3.0.2",
 		"typescript": "^4.5.4"
 	}

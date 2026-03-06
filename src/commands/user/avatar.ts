@@ -1,5 +1,12 @@
-import { ButtonInteraction, Collection, CommandInteraction, GuildMember, MessageButton, User } from "discord.js";
-import { SubCommand, ButtonCommand } from "../../classes/Command.js";
+import {
+	type ButtonInteraction,
+	Collection,
+	type CommandInteraction,
+	type GuildMember,
+	MessageButton,
+	type User,
+} from "discord.js";
+import { ButtonCommand, SubCommand } from "../../classes/Command.js";
 
 export default class Avatar extends SubCommand {
 	public description = "Get users avatar";
@@ -26,11 +33,13 @@ export default class Avatar extends SubCommand {
 	]);
 
 	public async execute(interaction: CommandInteraction | ButtonInteraction) {
-		if (!interaction.isButton()) return this.guildAvatar(interaction, interaction.member as GuildMember);
+		if (!interaction.isButton())
+			return this.guildAvatar(interaction, interaction.member as GuildMember);
 
 		const meta = this.client._zerotwo.handy.getMeta(interaction.customId);
 
-		if (meta?.author !== "" && meta?.author !== interaction.user.id) return interaction.editReply({});
+		if (meta?.author !== "" && meta?.author !== interaction.user.id)
+			return interaction.editReply({});
 
 		switch (meta.button) {
 			case "guild":
@@ -38,16 +47,21 @@ export default class Avatar extends SubCommand {
 
 			case "default":
 				return this.defaultAvatar(interaction, interaction.user);
-
-			case "global":
 			default:
 				return this.globalAvatar(interaction, interaction.user);
 		}
 	}
 
-	private async guildAvatar(interaction: CommandInteraction | ButtonInteraction, member: GuildMember | null) {
+	private async guildAvatar(
+		interaction: CommandInteraction | ButtonInteraction,
+		member: GuildMember | null,
+	) {
 		const url = member?.avatarURL({ format: "png", size: 256, dynamic: true });
-		const link = member?.avatarURL({ format: "png", size: 4096, dynamic: true });
+		const link = member?.avatarURL({
+			format: "png",
+			size: 4096,
+			dynamic: true,
+		});
 
 		if (!url || !link) return this.globalAvatar(interaction, interaction.user);
 

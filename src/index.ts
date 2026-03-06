@@ -1,6 +1,6 @@
 import { ShardingManager } from "discord.js";
 import { DEV, DISCORD_TOKEN } from "./utils/config.js";
-import { logging as logging } from "./utils/log.js";
+import { logging } from "./utils/log.js";
 
 const logger = logging("SHARDING_MANAGER");
 

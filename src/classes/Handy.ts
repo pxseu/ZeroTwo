@@ -1,18 +1,18 @@
 import {
-	ButtonInteraction,
-	Client,
+	type ButtonInteraction,
+	type Client,
 	CommandInteraction,
-	CommandInteractionOption,
+	type CommandInteractionOption,
 	Guild,
-	GuildBasedChannel,
-	GuildMember,
-	Interaction,
-	MessageEmbed,
+	type GuildBasedChannel,
+	type GuildMember,
+	type Interaction,
+	type MessageEmbed,
 	Team,
 	User,
 	Util,
 } from "discord.js";
-import { Command, SubCommand } from "./Command";
+import type { Command, SubCommand } from "./Command";
 
 export class Handy {
 	constructor(client: Client) {
@@ -131,7 +131,10 @@ export class Handy {
 	/**
 	 * 	Get a channel by an id from all shards
 	 */
-	public async getChannel(guildId: string, channelId: string | null): Promise<GuildBasedChannel | null> {
+	public async getChannel(
+		guildId: string,
+		channelId: string | null,
+	): Promise<GuildBasedChannel | null> {
 		if (!guildId || !/\d+/.test(guildId)) return null;
 
 		const parseChannel = this.regexChannel(channelId);
@@ -158,7 +161,11 @@ export class Handy {
 
 		return {
 			tag: user.tag,
-			icon: (member ? member : user).displayAvatarURL({ dynamic: true, size: 256 }) ?? user.defaultAvatarURL,
+			icon:
+				(member ? member : user).displayAvatarURL({
+					dynamic: true,
+					size: 256,
+				}) ?? user.defaultAvatarURL,
 			username: member?.displayName ?? user.username,
 			discriminator: user.discriminator,
 		};
@@ -246,7 +253,11 @@ export class Handy {
 	): Promise<unknown> {
 		if (text.length < 4000) {
 			return interaction.editReply({
-				embeds: [embed.setDescription(code ? `\`\`\`${code}\n${Util.escapeCodeBlock(text)}\n\`\`\`` : text)],
+				embeds: [
+					embed.setDescription(
+						code ? `\`\`\`${code}\n${Util.escapeCodeBlock(text)}\n\`\`\`` : text,
+					),
+				],
 			});
 		}
 
@@ -260,9 +271,15 @@ export class Handy {
 			await interaction.editReply({
 				embeds: [embed.setDescription(`Content is here: <${response.link}>`)],
 			});
-		} catch (error: any) {
+		} catch (error: unknown) {
 			console.error(error);
-			await interaction.editReply({ embeds: [embed.setDescription(`Unkown error: ${String(error.message)}`)] });
+			await interaction.editReply({
+				embeds: [
+					embed.setDescription(
+						`Unkown error: ${String(error instanceof Error ? error.message : String(error))}`,
+					),
+				],
+			});
 		}
 	}
 

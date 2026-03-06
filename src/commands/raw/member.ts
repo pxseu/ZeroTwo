@@ -1,5 +1,5 @@
-import { CommandInteraction } from "discord.js";
-import { ArgumentDefinition, SubCommand, OptionTypes } from "../../classes/Command.js";
+import type { CommandInteraction } from "discord.js";
+import { type ArgumentDefinition, OptionTypes, SubCommand } from "../../classes/Command.js";
 
 export default class Member extends SubCommand {
 	public description = "Get member data";
@@ -9,7 +9,11 @@ export default class Member extends SubCommand {
 			description: "The id of the member you want to get data from",
 			type: OptionTypes.STRING,
 		},
-		{ name: "guild", description: "The id of the guild you want to get data from", type: OptionTypes.STRING },
+		{
+			name: "guild",
+			description: "The id of the guild you want to get data from",
+			type: OptionTypes.STRING,
+		},
 	];
 
 	public async execute(interaction: CommandInteraction) {

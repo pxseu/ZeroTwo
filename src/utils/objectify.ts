@@ -1,6 +1,9 @@
 const isObject = (object: unknown) => typeof object === "object" && object !== null;
 
-export const objectify = (object: Record<string, unknown>, ...props: Record<string, string | boolean>[]): any => {
+export const objectify = (
+	object: Record<string, unknown>,
+	...props: Record<string, string | boolean>[]
+): Record<string, unknown> => {
 	if (!isObject(object)) return object;
 
 	const objProps = Object.keys(object)
@@ -17,13 +20,17 @@ export const objectify = (object: Record<string, unknown>, ...props: Record<stri
 		if (newProp) {
 			const currProp = newProp === true ? prop : newProp;
 
-			const element = (object as any)[prop] as any;
+			const element = (object as Record<string, unknown>)[prop] as unknown;
 			const elemIsObj = isObject(element);
-			const valueOf = elemIsObj && typeof element.valueOf === "function" ? element.valueOf() : null;
-			const toJson = elemIsObj && typeof element.toJSON === "function" ? element.toJSON() : null;
+			// biome-ignore lint/suspicious/noExplicitAny: dynamic property access on unknown shaped objects
+			const elemAny = element as any;
+			const elemValueOf =
+				elemIsObj && typeof elemAny.valueOf === "function" ? elemAny.valueOf() : null;
+			const toJson = elemIsObj && typeof elemAny.toJSON === "function" ? elemAny.toJSON() : null;
 
-			if (Array.isArray(element)) out[currProp] = element.map((e) => objectify(e));
-			else if (typeof valueOf !== "object") out[currProp] = valueOf;
+			if (Array.isArray(element))
+				out[currProp] = element.map((e) => objectify(e as Record<string, unknown>));
+			else if (typeof elemValueOf !== "object") out[currProp] = elemValueOf;
 			else if (toJson !== null) out[currProp] = toJson;
 			else if (!elemIsObj) out[currProp] = element;
 		}

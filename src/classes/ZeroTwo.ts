@@ -1,22 +1,29 @@
+import axios from "axios";
 import {
-	ActivityOptions,
-	ButtonInteraction,
+	type ActivityOptions,
+	type ButtonInteraction,
 	Client,
 	Collection,
-	CommandInteraction,
-	Interaction,
+	type CommandInteraction,
+	type Interaction,
 	MessageEmbed,
-	MessageEmbedOptions,
+	type MessageEmbedOptions,
 	Options,
 } from "discord.js";
-import { ACTIVITIES, DEV, DISCORD_BOT_VERSION, DISCORD_TOKEN, IMPERIAL_TOKEN, INTENTS } from "../utils/config.js";
-import { Command } from "./Command.js";
+import { Imperial } from "imperial.js";
+import {
+	ACTIVITIES,
+	DEV,
+	DISCORD_BOT_VERSION,
+	DISCORD_TOKEN,
+	IMPERIAL_TOKEN,
+	INTENTS,
+} from "../utils/config.js";
 import { getCommands } from "../utils/loader.js";
 import { logging } from "../utils/log.js";
 import { Colors } from "./Colors.js";
+import type { Command } from "./Command.js";
 import { Handy } from "./Handy.js";
-import { Imperial } from "imperial.js";
-import axios from "axios";
 
 const LABEL = "ZERO_TWO";
 
@@ -123,7 +130,9 @@ export class ZeroTwo {
 		const [command, args] = metadata;
 
 		const ephemeral =
-			typeof command.ephermal === "function" ? command.ephermal(interaction, args) : command.ephermal;
+			typeof command.ephermal === "function"
+				? command.ephermal(interaction, args)
+				: command.ephermal;
 
 		// defer the reply
 		await interaction.deferReply({ ephemeral });
@@ -258,9 +267,9 @@ export class ZeroTwo {
 
 		// done
 		this.logger.log(
-			`Connected as '${this.client.user!.username}#${this.client.user!.discriminator}' in ${(time * 1000).toFixed(
-				2,
-			)}ms`,
+			`Connected as '${this.client.user?.username}#${this.client.user?.discriminator}' in ${(
+				time * 1000
+			).toFixed(2)}ms`,
 		);
 
 		return this;
@@ -290,8 +299,8 @@ export class ZeroTwo {
 			color: this.colors.pink,
 			timestamp: Date.now(),
 			footer: {
-				text: this.client.user!.tag,
-				icon_url: this.client.user!.avatarURL() ?? this.client.user!.defaultAvatarURL,
+				text: this.client.user?.tag,
+				icon_url: this.client.user?.avatarURL() ?? this.client.user?.defaultAvatarURL,
 			},
 			...data,
 		});

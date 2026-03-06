@@ -1,4 +1,4 @@
-import { Collection, CommandInteraction, MessageButton } from "discord.js";
+import { Collection, type CommandInteraction, MessageButton } from "discord.js";
 import { ButtonCommand, SubCommand } from "../../classes/Command.js";
 
 export default class Ping extends SubCommand {
@@ -33,7 +33,12 @@ export default class Ping extends SubCommand {
 
 		await interaction.editReply({
 			embeds: [embed],
-			components: [{ type: "ACTION_ROW", components: this.buttonsWithState(interaction.user.id, "") }],
+			components: [
+				{
+					type: "ACTION_ROW",
+					components: this.buttonsWithState(interaction.user.id, ""),
+				},
+			],
 		});
 	}
 }

@@ -1,5 +1,5 @@
-import { AxiosResponse } from "axios";
-import { Collection, CommandInteraction, MessageButton } from "discord.js";
+import type { AxiosResponse } from "axios";
+import { Collection, type CommandInteraction, MessageButton } from "discord.js";
 import { ButtonCommand, Command } from "../../classes/Command.js";
 
 const PIXIV_ILLUST_URL = "https://www.pixiv.net/en/artworks/";
@@ -36,7 +36,8 @@ export default class Ganyu extends Command {
 		if (interaction.isButton()) {
 			const meta = this.client._zerotwo.handy.getMeta(interaction.customId);
 
-			if (meta?.author !== "" && meta?.author !== interaction.user.id) return interaction.editReply({});
+			if (meta?.author !== "" && meta?.author !== interaction.user.id)
+				return interaction.editReply({});
 		}
 
 		const image = await this.getImage().catch((err) => err as Error);

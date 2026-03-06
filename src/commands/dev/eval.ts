@@ -1,13 +1,23 @@
-import { CommandInteraction, CommandInteractionOption } from "discord.js";
-import vm from "vm";
-import { inspect } from "util";
-import { SubCommand, OptionTypes } from "../../classes/Command.js";
+import { inspect } from "node:util";
+import vm from "node:vm";
+import type { CommandInteraction, CommandInteractionOption } from "discord.js";
+import { OptionTypes, SubCommand } from "../../classes/Command.js";
 
 export default class Eval extends SubCommand {
 	public description = "Evaluate code";
-	public options = [{ name: "code", description: "The code to execute", type: OptionTypes.STRING, required: true }];
+	public options = [
+		{
+			name: "code",
+			description: "The code to execute",
+			type: OptionTypes.STRING,
+			required: true,
+		},
+	];
 
-	public async execute(interaction: CommandInteraction, args?: readonly CommandInteractionOption[]) {
+	public async execute(
+		interaction: CommandInteraction,
+		args?: readonly CommandInteractionOption[],
+	) {
 		if (!this.client._zerotwo.handy.isOwner(interaction.user.id))
 			return interaction.editReply({
 				embeds: [
@@ -19,7 +29,8 @@ export default class Eval extends SubCommand {
 
 		const code = args?.find((arg) => arg.name === this.options[0].name)?.value as string;
 
-		let evaled, time;
+		let evaled: string | undefined;
+		let time: number | undefined;
 
 		try {
 			// capture stack
@@ -48,13 +59,13 @@ export default class Eval extends SubCommand {
 			time = process.uptime() - start;
 
 			if (typeof evaled !== "string") evaled = inspect(evaled);
-		} catch (err: any) {
+		} catch (err: unknown) {
 			return this.client._zerotwo.handy.embedTooLong(
 				interaction,
 				this.client._zerotwo.embed({
 					title: "Error",
 				}),
-				String(err.stack ? err.stack : err),
+				String(err instanceof Error && err.stack ? err.stack : err),
 				"js",
 			);
 		}

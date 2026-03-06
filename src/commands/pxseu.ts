@@ -1,17 +1,32 @@
-import { AxiosResponse } from "axios";
-import { CommandInteraction, CommandInteractionOption } from "discord.js";
-import { ArgumentDefinition, Command, OptionTypes } from "../classes/Command.js";
+import type { AxiosResponse } from "axios";
+import type { CommandInteraction, CommandInteractionOption } from "discord.js";
+import { type ArgumentDefinition, Command, OptionTypes } from "../classes/Command.js";
 import { PXSEU_API_URL } from "../utils/config.js";
 
 export default class Pxseu extends Command {
 	public description = "Send a message to the owners server";
 	public options: ArgumentDefinition[] = [
-		{ name: "name", description: "The name that will be show on the message", type: OptionTypes.STRING },
-		{ name: "message", description: "The message that will be sent", type: OptionTypes.STRING },
-		{ name: "attachment", description: "The attachment that will be sent", type: OptionTypes.ATTACHMENT },
+		{
+			name: "name",
+			description: "The name that will be show on the message",
+			type: OptionTypes.STRING,
+		},
+		{
+			name: "message",
+			description: "The message that will be sent",
+			type: OptionTypes.STRING,
+		},
+		{
+			name: "attachment",
+			description: "The attachment that will be sent",
+			type: OptionTypes.ATTACHMENT,
+		},
 	];
 
-	public async execute(interaction: CommandInteraction, args?: readonly CommandInteractionOption[]) {
+	public async execute(
+		interaction: CommandInteraction,
+		args?: readonly CommandInteractionOption[],
+	) {
 		const name = args?.find((arg) => arg.name === this.options[0].name)?.value as string;
 		const message = args?.find((arg) => arg.name === this.options[1].name)?.value as string;
 		const attachment = args?.find((arg) => arg.name === this.options[2].name)?.attachment?.url;

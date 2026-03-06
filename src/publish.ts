@@ -1,12 +1,18 @@
 import Axios from "axios";
-import { APPLICATION_ID, DEV_GUILD, DISCORD_BOT_VERSION, DISCORD_TOKEN } from "./utils/config.js";
-import { Command } from "./classes/Command.js";
-import { logging as logging } from "./utils/log.js";
+import type { Command } from "./classes/Command.js";
 import { ZeroTwo } from "./classes/ZeroTwo.js";
+import {
+	APPLICATION_ID,
+	DEV,
+	DEV_GUILD,
+	DISCORD_BOT_VERSION,
+	DISCORD_TOKEN,
+} from "./utils/config.js";
+import { logging } from "./utils/log.js";
 
 const logger = logging("PUBLISH");
 
-const API_VERSION = 9;
+const API_VERSION = 10;
 
 const axios = Axios.create({
 	headers: {
@@ -45,7 +51,13 @@ const publish = async (commands: Command[], guild?: string): Promise<void> => {
 const bot = await new ZeroTwo().loadCommands();
 
 try {
-	await publish(Array.from(bot.commands.values()), DEV_GUILD);
+	const commands = Array.from(bot.commands.values());
+
+	if (DEV && DEV_GUILD) {
+		await publish(commands, DEV_GUILD);
+	} else {
+		await publish(commands);
+	}
 } catch (e) {
 	logger.error(e);
 } finally {

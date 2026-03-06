@@ -8,8 +8,8 @@ export const logging = (label: string) => {
 
 	return {
 		label: parsed,
-		log: (...args: any[]) => console.log(`${BLUE}[${parsed}]${RESET}:`, ...args),
-		error: (...args: any[]) => console.error(`${RED}[${parsed}]${RESET}:`, ...args),
-		warn: (...args: any[]) => console.warn(`${YELLOW}[${parsed}]${RESET}:`, ...args),
+		log: (...args: unknown[]) => console.log(`${BLUE}[${parsed}]${RESET}:`, ...args),
+		error: (...args: unknown[]) => console.error(`${RED}[${parsed}]${RESET}:`, ...args),
+		warn: (...args: unknown[]) => console.warn(`${YELLOW}[${parsed}]${RESET}:`, ...args),
 	};
 };
