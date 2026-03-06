@@ -1,4 +1,3 @@
-import type { AxiosResponse } from "axios";
 import type { CommandInteraction, CommandInteractionOption } from "discord.js";
 import { type ArgumentDefinition, Command, OptionTypes } from "../classes/Command.js";
 import { PXSEU_API_URL } from "../utils/config.js";
@@ -41,23 +40,22 @@ export default class Pxseu extends Command {
 				],
 			});
 
-		const response = (await this.client._zerotwo.axios
-			.post(PXSEU_API_URL, {
-				name,
-				message,
-				attachment,
-			})
-			.catch((err) => err.response)) as AxiosResponse;
+		const response = await this.client._zerotwo.apiFetch(PXSEU_API_URL, {
+			method: "POST",
+			body: JSON.stringify({ name, message, attachment }),
+		});
 
-		if (response.status !== 200)
+		if (!response.ok) {
+			const data = await response.json().catch(() => null);
 			return interaction.editReply({
 				embeds: [
 					this.client._zerotwo.embed({
-						description: response.data.message ?? response.statusText,
+						description: data?.message ?? response.statusText,
 						color: this.client._zerotwo.colors.toNumber("red"),
 					}),
 				],
 			});
+		}
 
 		return interaction.editReply({
 			embeds: [

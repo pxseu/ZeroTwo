@@ -1,4 +1,3 @@
-import Axios from "axios";
 import type { Command } from "./classes/Command.js";
 import { ZeroTwo } from "./classes/ZeroTwo.js";
 import {
@@ -14,35 +13,45 @@ const logger = logging("PUBLISH");
 
 const API_VERSION = 10;
 
-const axios = Axios.create({
-	headers: {
-		Accept: "application/json",
-		"Content-Type": "application/json",
-		Authorization: `Bot ${DISCORD_TOKEN}`,
-		"user-agent": `DiscordBot (+https://github.com/pxseu/zerotwo, ${DISCORD_BOT_VERSION}) ZeroTwo`,
-	},
-});
+const headers: HeadersInit = {
+	Accept: "application/json",
+	"Content-Type": "application/json",
+	Authorization: `Bot ${DISCORD_TOKEN}`,
+	"User-Agent": `DiscordBot (+https://github.com/pxseu/zerotwo, ${DISCORD_BOT_VERSION}) ZeroTwo`,
+};
 
 const publish = async (commands: Command[], guild?: string): Promise<void> => {
 	const url = guild
-		? `https://discordapp.com/api/v${API_VERSION}/applications/${APPLICATION_ID}/guilds/${guild}/commands`
-		: `https://discordapp.com/api/v${API_VERSION}/applications/${APPLICATION_ID}/commands`;
+		? `https://discord.com/api/v${API_VERSION}/applications/${APPLICATION_ID}/guilds/${guild}/commands`
+		: `https://discord.com/api/v${API_VERSION}/applications/${APPLICATION_ID}/commands`;
 
-	const old = await axios.get<(Command & { id: string })[]>(url);
+	const oldRes = await fetch(url, { headers });
 
-	// check for commands that are not in the old list and add them
-	const toRemove = old.data.filter((o) => !commands.some((n) => n.name === o.name));
+	if (!oldRes.ok) {
+		throw new Error(`Failed to fetch existing commands: ${oldRes.status} ${oldRes.statusText}`);
+	}
 
-	// remove commands that are not in the new list
+	const old = (await oldRes.json()) as (Command & { id: string })[];
+
+	const toRemove = old.filter((o) => !commands.some((n) => n.name === o.name));
+
 	if (toRemove.length) {
-		await Promise.all(toRemove.map((c) => axios.delete(`${url}/${c.id}`)));
+		await Promise.all(toRemove.map((c) => fetch(`${url}/${c.id}`, { method: "DELETE", headers })));
 
 		logger.log("Removed", toRemove.length, "commands");
 	}
 
-	// publish all current commands
 	if (commands.length) {
-		await axios.put(url, commands);
+		const putRes = await fetch(url, {
+			method: "PUT",
+			headers,
+			body: JSON.stringify(commands),
+		});
+
+		if (!putRes.ok) {
+			const body = await putRes.text();
+			throw new Error(`Failed to publish commands: ${putRes.status} ${putRes.statusText}\n${body}`);
+		}
 	}
 
 	logger.log("Published", commands.length, "commands");

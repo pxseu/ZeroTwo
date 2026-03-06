@@ -1,4 +1,3 @@
-import type { AxiosResponse } from "axios";
 import { Collection, type CommandInteraction, MessageButton } from "discord.js";
 import { ButtonCommand, Command } from "../../classes/Command.js";
 
@@ -18,15 +17,14 @@ export default class Ganyu extends Command {
 	]);
 
 	private async getImage() {
-		const { status, statusText, data } = await this.client._zerotwo.axios
-			.get(GANYU_API_URL)
-			.catch((err) => err.response as AxiosResponse);
+		const response = await this.client._zerotwo.apiFetch(GANYU_API_URL);
 
-		if (status !== 200) {
-			throw new Error(statusText ?? "Unknown error");
+		if (!response.ok) {
+			throw new Error(response.statusText || "Unknown error");
 		}
 
-		const { url, id } = data.data;
+		const json = await response.json();
+		const { url, id } = json.data;
 		const illust = `${PIXIV_ILLUST_URL}${id}`;
 
 		return { url, illust };

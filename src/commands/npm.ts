@@ -1,4 +1,3 @@
-import type { AxiosResponse } from "axios";
 import type { CommandInteraction, CommandInteractionOption } from "discord.js";
 import { type ArgumentDefinition, Command, OptionTypes } from "../classes/Command.js";
 
@@ -42,19 +41,21 @@ export default class Npm extends Command {
 				],
 			});
 
-		const { status, statusText, data } = (await this.client._zerotwo.axios
-			.get(`${REGISTRY_URL}${encodeURIComponent(query)}`)
-			.catch((err) => err.response)) as AxiosResponse;
+		const response = await this.client._zerotwo.apiFetch(
+			`${REGISTRY_URL}${encodeURIComponent(query)}`,
+		);
 
-		if (status !== 200)
+		if (!response.ok)
 			return interaction.editReply({
 				embeds: [
 					this.client._zerotwo.embed({
 						color: this.client._zerotwo.colors.toNumber("red"),
-						description: `Error: ${statusText}`,
+						description: `Error: ${response.statusText}`,
 					}),
 				],
 			});
+
+		const data = await response.json();
 
 		const {
 			name,

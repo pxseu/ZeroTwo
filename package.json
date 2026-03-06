@@ -19,20 +19,19 @@
 		"start": "cross-env NODE_ENV=production bun run ."
 	},
 	"dependencies": {
-		"axios": "^0.24.0",
-		"bufferutil": "^4.0.6",
+		"bufferutil": "^4.1.0",
 		"cross-env": "^7.0.3",
-		"discord.js": "^13.8.0",
+		"discord.js": "^13.17.1",
 		"erlpack": "^0.1.4",
 		"imperial.js": "^2.1.6",
-		"mathjs": "^11.5.0",
-		"utf-8-validate": "^5.0.8",
-		"zlib-sync": "^0.1.7"
+		"mathjs": "^14.0.1",
+		"utf-8-validate": "^5.0.10",
+		"zlib-sync": "^0.1.9"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
-		"dotenv": "^12.0.3",
-		"rimraf": "^3.0.2",
-		"typescript": "^4.5.4"
+		"dotenv": "^16.5.0",
+		"rimraf": "^6.0.1",
+		"typescript": "^5.8.2"
 	}
 }

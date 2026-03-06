@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
 	type ActivityOptions,
 	type ButtonInteraction,
@@ -306,12 +305,16 @@ export class ZeroTwo {
 		});
 	}
 
-	public axios = axios.create({
-		headers: {
-			"Content-Type": "application/json",
-			"User-Agent": `ZeroTwo ${DISCORD_BOT_VERSION}`,
-		},
-	});
+	public async apiFetch(url: string, init?: RequestInit): Promise<Response> {
+		return fetch(url, {
+			...init,
+			headers: {
+				"Content-Type": "application/json",
+				"User-Agent": `ZeroTwo ${DISCORD_BOT_VERSION}`,
+				...init?.headers,
+			},
+		});
+	}
 }
 
 export interface ZeroTwo {
