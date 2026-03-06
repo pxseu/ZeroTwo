@@ -11,8 +11,8 @@ export default class Pxseu extends Command {
 			type: OptionTypes.STRING,
 		},
 		{
-			name: "message",
-			description: "The message that will be sent",
+			name: "content",
+			description: "The message content that will be sent",
 			type: OptionTypes.STRING,
 		},
 		{

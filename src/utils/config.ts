@@ -46,4 +46,4 @@ export const ACTIVITIES = [
 	// 		.then((arr) => arr.reduce((a, b) => a + b))} servers! 🎮`,
 	// }),
 ] as (((client: Client) => Promise<ActivitiesOptions> | ActivitiesOptions) | ActivitiesOptions)[];
-export const PXSEU_API_URL = process.env.PXSEU_API_URL || "https://api.pxseu.com/v2/sendMessage";
+export const PXSEU_API_URL = process.env.PXSEU_API_URL || "https://api.pxseu.com/v2/message";
