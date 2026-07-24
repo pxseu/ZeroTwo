@@ -16,5 +16,5 @@ const handleExit = async () => {
 	process.exit(0);
 };
 
-process.on("SIGINT", handleExit);
-process.on("SIGTERM", handleExit);
+process.once("SIGINT", handleExit);
+process.once("SIGTERM", handleExit);

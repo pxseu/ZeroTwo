@@ -14,6 +14,12 @@ Please check it out and contribute if you wish to do so!
 This project uses [Bun](https://bun.sh) as the runtime and package manager.
 Install Bun from [bun.sh](https://bun.sh).
 
+Music playback also requires [`yt-dlp`](https://github.com/yt-dlp/yt-dlp),
+[`ffmpeg`](https://ffmpeg.org/), and a
+[supported JavaScript runtime](https://github.com/yt-dlp/yt-dlp/wiki/EJS) to be
+available on `PATH`. The Docker image installs these automatically. Set
+`YT_DLP_PATH` if the executable has a custom location.
+
 ## Development
 
 ```sh

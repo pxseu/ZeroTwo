@@ -1,5 +1,6 @@
 import {
 	type ActivityOptions,
+	type AutocompleteInteraction,
 	type ButtonInteraction,
 	Client,
 	Collection,
@@ -23,6 +24,7 @@ import { logging } from "../utils/log.js";
 import { Colors } from "./Colors.js";
 import type { Command } from "./Command.js";
 import { Handy } from "./Handy.js";
+import { Music } from "./Music.js";
 
 const LABEL = "ZERO_TWO";
 
@@ -33,6 +35,8 @@ const LABEL = "ZERO_TWO";
  *  @class
  */
 export class ZeroTwo {
+	private destroyed = false;
+
 	constructor() {
 		// set up the logger
 		this.logger = logging(`${LABEL}-STARTING-SHARD`);
@@ -64,6 +68,7 @@ export class ZeroTwo {
 
 		// setupd utils
 		this.handy = new Handy(this.client);
+		this.music = new Music(this.client);
 
 		// setup imperial
 		this.imperial = new Imperial(IMPERIAL_TOKEN);
@@ -94,14 +99,36 @@ export class ZeroTwo {
 	 *  Handles interaction creation.
 	 */
 	private async _handleInteraction(interaction: Interaction): Promise<void> {
-		this.commandsExecuted += 1n;
-
 		switch (interaction.type) {
 			case "APPLICATION_COMMAND":
+				this.commandsExecuted += 1n;
 				return this._handleCommand(interaction as CommandInteraction);
 
+			case "APPLICATION_COMMAND_AUTOCOMPLETE":
+				return this._handleAutocomplete(interaction as AutocompleteInteraction);
+
 			case "MESSAGE_COMPONENT":
+				this.commandsExecuted += 1n;
 				return this._handleButton(interaction as ButtonInteraction);
+		}
+	}
+
+	private async _handleAutocomplete(interaction: AutocompleteInteraction): Promise<void> {
+		const root = this.commands.get(interaction.commandName);
+		const metadata = root ? this.handy.findLowestSubCommand(root, interaction.options.data) : null;
+
+		if (!metadata) {
+			await interaction.respond([]);
+			return;
+		}
+
+		const [command, args] = metadata;
+
+		try {
+			await command.autocomplete(interaction, args);
+		} catch (error) {
+			this.logger.error(`Autocomplete failed for command '${interaction.commandName}'`, error);
+			if (!interaction.responded) await interaction.respond([]);
 		}
 	}
 
@@ -279,14 +306,30 @@ export class ZeroTwo {
 	 *  @returns void
 	 */
 	public async destroy(): Promise<void> {
+		if (this.destroyed) return;
+		this.destroyed = true;
+
 		// clear the status interval
 		clearTimeout(this.statusTimeout);
 
 		// remove all listeners
 		this.client.removeAllListeners();
 
+		// leave voice channels and stop audio sources
+		this.music.destroy();
+
 		// destroy the client
-		this.client.destroy();
+		try {
+			this.client.destroy();
+		} catch (error) {
+			// Bun emits the socket close synchronously, while Discord.js v13 reads the
+			// connection again after close() and can find that it has already been cleared.
+			const isDiscordJsShutdownRace =
+				error instanceof TypeError && error.message.includes("this.connection.readyState");
+
+			if (!isDiscordJsShutdownRace) throw error;
+			this.logger.warn("Ignored a Discord.js v13 WebSocket shutdown race");
+		}
 
 		// done
 		this.logger.warn("Destroyed");
@@ -321,6 +364,7 @@ export interface ZeroTwo {
 	colors: Colors;
 	client: Client;
 	handy: Handy;
+	music: Music;
 	imperial: Imperial;
 	commands: Collection<string, Command>;
 	logger: ReturnType<typeof logging>;

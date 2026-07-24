@@ -22,6 +22,8 @@ FROM oven/bun:1-alpine
 
 WORKDIR /zerotwo
 
+RUN apk add --no-cache deno ffmpeg yt-dlp yt-dlp-ejs
+
 COPY --from=builder /app/dist dist
 COPY --from=builder /app/node_modules node_modules
 COPY --from=builder /app/package.json package.json

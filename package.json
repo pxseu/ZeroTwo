@@ -19,6 +19,7 @@
 		"start": "cross-env NODE_ENV=production bun run ."
 	},
 	"dependencies": {
+		"@discordjs/voice": "0.19.2",
 		"bufferutil": "^4.1.0",
 		"cross-env": "^7.0.3",
 		"discord.js": "^13.17.1",
@@ -26,6 +27,7 @@
 		"imperial.js": "^2.1.6",
 		"mathjs": "^14.0.1",
 		"utf-8-validate": "^5.0.10",
+		"youtubei.js": "17.2.0",
 		"zlib-sync": "^0.1.9"
 	},
 	"devDependencies": {

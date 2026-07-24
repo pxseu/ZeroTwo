@@ -1,4 +1,5 @@
 import {
+	type AutocompleteInteraction,
 	type ButtonInteraction,
 	type Client,
 	Collection,
@@ -21,6 +22,7 @@ export interface ArgumentDefinition extends Argument {
 	description: string;
 	type: OptionTypes;
 	required?: boolean;
+	autocomplete?: boolean;
 	options?: ArgumentDefinition[];
 	min_value?: number;
 	max_value?: number;
@@ -78,11 +80,17 @@ export abstract class BaseCommand {
 	}
 
 	public toJSON(): Record<string, unknown> {
-		return objectify({
+		const definition = {
 			name: this.name,
 			type: this.type,
 			description: this.description,
 			options: this.options,
+		};
+
+		if (this instanceof SubCommand) return objectify(definition);
+
+		return objectify({
+			...definition,
 			contexts: this.contexts || [Context.GUILD, Context.DM, Context.BOT],
 			integration_types: this.integrationTypes || [
 				IntegrationType.GUILD_INSTALL,
@@ -98,6 +106,13 @@ export abstract class BaseCommand {
 		return interaction.editReply({
 			embeds: [this.client._zerotwo.embed({ description: "Sub command not found" })],
 		});
+	}
+
+	public async autocomplete(
+		interaction: AutocompleteInteraction,
+		_args?: readonly CommandInteractionOption[],
+	): Promise<void> {
+		await interaction.respond([]);
 	}
 }
 

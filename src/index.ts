@@ -50,5 +50,5 @@ const handleExit = () => {
 	process.exit(0);
 };
 
-process.on("SIGTERM", handleExit);
-process.on("SIGINT", handleExit);
+process.once("SIGTERM", handleExit);
+process.once("SIGINT", handleExit);
