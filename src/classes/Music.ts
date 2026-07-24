@@ -215,7 +215,10 @@ class GuildMusicSession {
 
 		if (MUSIC_DEBUG) {
 			this.connection.on("debug", (message) => {
-				this.client._zerotwo.logger.log(`Voice debug in guild '${channel.guild.id}': ${message}`);
+				const summary = message
+					.split("\n", 1)[0]
+					.replace(/(<<|>>) \{.*$/, "$1 [JSON payload omitted]");
+				this.client._zerotwo.logger.log(`Voice debug in guild '${channel.guild.id}': ${summary}`);
 			});
 		}
 	}
