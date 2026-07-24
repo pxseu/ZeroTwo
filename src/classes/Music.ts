@@ -14,7 +14,7 @@ import {
 	joinVoiceChannel,
 } from "@discordjs/voice";
 import type { Client, VoiceBasedChannel } from "discord.js";
-import { YT_DLP_PATH } from "../utils/config.js";
+import { MUSIC_DEBUG, YT_DLP_PATH } from "../utils/config.js";
 import type { YouTubeTrack } from "../utils/youtube.js";
 
 const DISCONNECT_DELAY = 30_000;
@@ -42,6 +42,23 @@ export class Music {
 	private readonly sessions = new Map<string, GuildMusicSession>();
 
 	constructor(private readonly client: Client) {}
+
+	public async checkDependencies(): Promise<void> {
+		const checks = await Promise.all([
+			this.getVersion(YT_DLP_PATH, ["--version"]),
+			this.getVersion("ffmpeg", ["-version"]),
+		]);
+
+		for (const check of checks) {
+			if (check.error) {
+				this.client._zerotwo.logger.warn(
+					`Music dependency '${check.command}' is unavailable: ${check.error}`,
+				);
+			} else {
+				this.client._zerotwo.logger.log(`Music dependency '${check.command}': ${check.version}`);
+			}
+		}
+	}
 
 	public async enqueue(channel: VoiceBasedChannel, track: QueuedTrack): Promise<EnqueueResult> {
 		let session = this.sessions.get(channel.guild.id);
@@ -96,6 +113,42 @@ export class Music {
 
 		return session;
 	}
+
+	private getVersion(
+		command: string,
+		args: string[],
+	): Promise<{ command: string; version?: string; error?: string }> {
+		return new Promise((resolve) => {
+			const process = spawn(command, args, { stdio: ["ignore", "pipe", "pipe"] });
+			let output = "";
+			let error = "";
+
+			process.stdout.setEncoding("utf8");
+			process.stderr.setEncoding("utf8");
+			process.stdout.on("data", (chunk: string) => {
+				output += chunk;
+			});
+			process.stderr.on("data", (chunk: string) => {
+				error += chunk;
+			});
+			process.once("error", (spawnError) => {
+				resolve({ command, error: spawnError.message });
+			});
+			process.once("close", (code) => {
+				if (code === 0) {
+					resolve({
+						command,
+						version: output.trim().split("\n")[0] || "unknown",
+					});
+				} else {
+					resolve({
+						command,
+						error: error.trim().split("\n")[0] || `exited with status ${code}`,
+					});
+				}
+			});
+		});
+	}
 }
 
 class GuildMusicSession {
@@ -116,6 +169,9 @@ class GuildMusicSession {
 		private readonly onDestroy: () => void,
 	) {
 		this.channelId = channel.id;
+		this.client._zerotwo.logger.log(
+			`Creating music session for guild '${channel.guild.id}' in voice channel '${channel.id}'`,
+		);
 		this.player = createAudioPlayer({
 			behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
 		});
@@ -124,8 +180,15 @@ class GuildMusicSession {
 			guildId: channel.guild.id,
 			adapterCreator: channel.guild.voiceAdapterCreator as DiscordGatewayAdapterCreator,
 			selfDeaf: true,
+			debug: MUSIC_DEBUG,
 		});
 		this.connection.subscribe(this.player);
+
+		this.player.on("stateChange", (oldState, newState) => {
+			this.client._zerotwo.logger.log(
+				`Music player in guild '${channel.guild.id}': ${oldState.status} -> ${newState.status}`,
+			);
+		});
 
 		this.player.on(AudioPlayerStatus.Idle, () => {
 			this.stopSource();
@@ -138,8 +201,23 @@ class GuildMusicSession {
 		});
 
 		this.connection.on(VoiceConnectionStatus.Disconnected, () => {
+			this.client._zerotwo.logger.warn(
+				`Voice connection disconnected in guild '${channel.guild.id}', attempting recovery`,
+			);
 			void this.reconnect();
 		});
+
+		this.connection.on("stateChange", (oldState, newState) => {
+			this.client._zerotwo.logger.log(
+				`Voice connection in guild '${channel.guild.id}': ${oldState.status} -> ${newState.status}`,
+			);
+		});
+
+		if (MUSIC_DEBUG) {
+			this.connection.on("debug", (message) => {
+				this.client._zerotwo.logger.log(`Voice debug in guild '${channel.guild.id}': ${message}`);
+			});
+		}
 	}
 
 	public get empty(): boolean {
@@ -165,6 +243,9 @@ class GuildMusicSession {
 		const started = this.empty;
 		this.queue.push(track);
 		const position = this.queue.length;
+		this.client._zerotwo.logger.log(
+			`Queued YouTube video '${track.id}' in voice channel '${this.channelId}' at position ${position}`,
+		);
 
 		if (started) {
 			this.startNext();
@@ -213,6 +294,9 @@ class GuildMusicSession {
 
 		this.current = next;
 		const generation = ++this.generation;
+		this.client._zerotwo.logger.log(
+			`Starting YouTube video '${next.id}' in voice channel '${this.channelId}'`,
+		);
 		this.starting = this.play(next, generation)
 			.catch((error) => {
 				this.client._zerotwo.logger.error(
@@ -233,6 +317,9 @@ class GuildMusicSession {
 	private async play(track: QueuedTrack, generation: number): Promise<void> {
 		await entersState(this.connection, VoiceConnectionStatus.Ready, 20_000);
 		if (this.destroyed || generation !== this.generation) return;
+		this.client._zerotwo.logger.log(
+			`Voice connection ready for YouTube video '${track.id}' in channel '${this.channelId}'`,
+		);
 
 		const source = spawn(
 			YT_DLP_PATH,
@@ -250,11 +337,19 @@ class GuildMusicSession {
 			{ stdio: ["ignore", "pipe", "pipe"] },
 		);
 		this.source = source;
+		this.client._zerotwo.logger.log(
+			`Spawned yt-dlp for YouTube video '${track.id}' in voice channel '${this.channelId}'`,
+		);
 
 		let stderr = "";
 		source.stderr.setEncoding("utf8");
 		source.stderr.on("data", (chunk: string) => {
 			stderr = `${stderr}${chunk}`.slice(-2000);
+		});
+		source.once("close", (code, signal) => {
+			this.client._zerotwo.logger.log(
+				`yt-dlp closed for YouTube video '${track.id}' with code '${code}' and signal '${signal}'`,
+			);
 		});
 
 		const spawnError = new Promise<never>((_, reject) => {
@@ -267,6 +362,9 @@ class GuildMusicSession {
 		});
 
 		const probe = await Promise.race([demuxProbe(source.stdout), spawnError]);
+		this.client._zerotwo.logger.log(
+			`Detected '${probe.type}' audio for YouTube video '${track.id}'`,
+		);
 		if (this.destroyed || generation !== this.generation) {
 			source.kill("SIGKILL");
 			return;
@@ -291,7 +389,13 @@ class GuildMusicSession {
 				entersState(this.connection, VoiceConnectionStatus.Signalling, 5_000),
 				entersState(this.connection, VoiceConnectionStatus.Connecting, 5_000),
 			]);
+			this.client._zerotwo.logger.log(
+				`Voice connection recovery started in channel '${this.channelId}'`,
+			);
 		} catch {
+			this.client._zerotwo.logger.error(
+				`Voice connection recovery failed in channel '${this.channelId}'`,
+			);
 			this.destroy();
 		}
 	}

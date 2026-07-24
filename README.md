@@ -18,7 +18,8 @@ Music playback also requires [`yt-dlp`](https://github.com/yt-dlp/yt-dlp),
 [`ffmpeg`](https://ffmpeg.org/), and a
 [supported JavaScript runtime](https://github.com/yt-dlp/yt-dlp/wiki/EJS) to be
 available on `PATH`. The Docker image installs these automatically. Set
-`YT_DLP_PATH` if the executable has a custom location.
+`YT_DLP_PATH` if the executable has a custom location. Set `MUSIC_DEBUG=true`
+to include verbose Discord voice diagnostics in the logs.
 
 ## Development
 

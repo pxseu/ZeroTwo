@@ -19,6 +19,7 @@ export const DISCORD_TOKEN = process.env.DISCORD_TOKEN || "";
 export const APPLICATION_ID = process.env.APPLICATION_ID || "";
 export const IMPERIAL_TOKEN = process.env.IMPERIAL_TOKEN || "";
 export const YT_DLP_PATH = process.env.YT_DLP_PATH || "yt-dlp";
+export const MUSIC_DEBUG = true; // process.env.MUSIC_DEBUG === "true";
 export const DISCORD_BOT_VERSION = process.env.DISCORD_BOT_VERSION || "v1.0.0";
 export const DEV_GUILD = process.env.DEV_GUILD;
 export const DEV = process.env.NODE_ENV !== "production";

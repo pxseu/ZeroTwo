@@ -289,6 +289,9 @@ export class ZeroTwo {
 		// fetch application
 		await this.client.application?.fetch();
 
+		// verify music runtime dependencies
+		await this.music.checkDependencies();
+
 		const time = process.uptime() - start;
 
 		// done
